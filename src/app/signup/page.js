@@ -15,23 +15,23 @@ export default function SignupPage() {
             <div className="flex justify-between gap-2">
               <input
                 type="text"
-                className="border rounded-md p-1"
+                className="border rounded-md p-2 w-1/2"
                 placeholder="Firstname"
               />
               <input
                 type="text"
-                className="border rounded-md p-1"
+                className="border rounded-md p-2 w-1/2"
                 placeholder="Surname"
               />
             </div>
             <input
               type="text"
-              className="border rounded-md p-1 block w-full mt-3"
+              className="border rounded-md p-2 block w-full mt-3"
               placeholder="Email Address"
             />
             <input
               type="password"
-              className="border rounded-md p-1 block w-full mt-3"
+              className="border rounded-md p-2 block w-full mt-3"
               placeholder="New Password"
             />
             <p className="text-[12px] text-slate-500 mt-4 text-left mb-3">
@@ -43,11 +43,11 @@ export default function SignupPage() {
               Cookies Policy. You may receive SMS notifications from us and can
               opt out at any time.
             </p>
-            <button className="bg-[#00A400] text-white text-lg font-semibold rounded-md px-5 py-1 mt-6 mb-3">
+            <button className="bg-[#00A400] text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3">
               Signup
             </button>
           </form>
-          <Link href="" className="text-[#0866FF] font-semibold">
+          <Link href="/login" className="text-[#0866FF] font-semibold">
             Already have an account?
           </Link>
         </div>
