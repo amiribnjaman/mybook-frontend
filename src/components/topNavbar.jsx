@@ -6,22 +6,22 @@ export default function TopNavbar() {
   return (
     <div
       id="topbar"
-      className="w-full mb-2 sticky shadow-md h-[50px] top-0 z-50"
+      className="w-full mb-8 sticky shadow-md h-[50px] top-0 z-50"
     >
       <div className="navbar flex items-center justify-between bg-white shadow-md px-6 sticky top-0">
         {/*==========================NAVBAR LEFT SECTION==================== */}
         <div className="flex w-1/4 items-center justify-start gap-2">
-          {/*=============LOGO======== */}
+          {/*------------LOGO---------*/}
           <a className="cursor-pointer flex pt-2 justify-center text-center normal-case text-xl bg-[#0866FF] w-10 h-10 rounded-full text-[#5d596c]">
             <h3 className="text-3xl text-white font-semibold text-center ">
               M
             </h3>
           </a>
 
-          {/*===============Search Card=============== */}
+          {/*------------Search Card------------*/}
           <input
             type="text"
-            className="bg-slate-100 w-[70%] text-slate-400 rounded-full px-4 py-1.5"
+            className="bg-slate-100 w-[75%] text-gray-500 rounded-full px-4 py-1.5"
             placeholder="Search Mybook"
           />
           {/* <div
@@ -260,7 +260,7 @@ export default function TopNavbar() {
               <div className="indicator flex gap-[3px] p-3 bg-gray-200 rounded-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  height="1.3em"
+                  height="1.2em"
                   viewBox="0 0 320 512"
                 >
                   <path d="M40 352l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zm192 0l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 320c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 192l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 160c-22.1 0-40-17.9-40-40L0 72C0 49.9 17.9 32 40 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40z" />
@@ -268,7 +268,7 @@ export default function TopNavbar() {
                 <svg
                   className="ml-[-8px]"
                   xmlns="http://www.w3.org/2000/svg"
-                  height="1.3em"
+                  height="1.2em"
                   viewBox="0 0 320 512"
                 >
                   <path d="M40 352l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zm192 0l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 320c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 192l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 160c-22.1 0-40-17.9-40-40L0 72C0 49.9 17.9 32 40 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40z" />
