@@ -16,9 +16,10 @@ export default function RootLayout({ children }) {
       <body>
         <TopNavbar />
         {/*==========BODY============== */}
-        <div className="mt-4 w-[95%] mx-auto flex gap-2">
-          <LeftSidebar />
-          <div className="w-2/4">{children}</div>
+        <LeftSidebar />
+        <div className="mt-4 w-[95%]  mx-auto flex gap-6">
+          <div className=" w-1/4"></div>
+          {children}
           <div className="w-1/4"></div>
         </div>
       </body>

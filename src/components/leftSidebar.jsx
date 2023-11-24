@@ -1,6 +1,6 @@
 export default function Sidebar() {
   return (
-    <div className="sidebar w-1/4">
+    <div className="sidebar ml-6 overflow-y-auto w-1/4 fixed">
       <div className="">
         <ul className="flex flex-col gap-3">
           <li className="">
