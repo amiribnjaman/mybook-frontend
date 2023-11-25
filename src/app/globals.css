@@ -20,3 +20,18 @@ body {
   color: rgb(var(--foreground-rgb));
   background: var(--foreground-rgb)
 }
+
+
+:where(.css-dev-only-do-not-override-zcfrx9).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select, :where(.css-dev-only-do-not-override-zcfrx9).ant-upload-wrapper.ant-upload-picture-circle-wrapper .ant-upload.ant-upload-select, :where(.css-dev-only-do-not-override-zcfrx9).ant-upload-wrapper.ant-upload-picture-circle-wrapper .ant-upload-list.ant-upload-list-picture-circle .ant-upload-list-item-container {
+    width: 40px !important;
+    height: 40px !important;
+    margin-bottom: 10px;
+    text-align: center;
+    vertical-align: top;
+    padding-top: 1px;
+    background-color: rgba(0, 0, 0, 0.02);
+    border: 0 !important;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}

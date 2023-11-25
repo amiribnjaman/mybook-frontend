@@ -4,8 +4,10 @@ import Link from "next/link";
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card } from 'antd';
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function TopNavbar() {
+  const [showLogout, setShowLogout] = useState(false)
   const navigate = useRouter()
 
    // Check access token to logout and login
@@ -295,13 +297,17 @@ export default function TopNavbar() {
           <div className="dropdown dropdown-end md:block hidden">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="cursor-pointer relative">
-                <Avatar size={48} icon={<UserOutlined />} />
+                <Avatar
+                  onClick={() => setShowLogout(!showLogout)}
+                  size={48}
+                  icon={<UserOutlined />}
+                />
               </div>
             </label>
 
             {/*------------USER CARD (LOGOUT/LOGIN, PROFILE)----------- */}
             <Card
-              className="absolute flex flex-col gap-4 bg-white shadow-md top-[65px] right-[15px]"
+              className={`${showLogout ? 'block' : 'hidden'} absolute flex flex-col gap-4 bg-white shadow-md top-[65px] right-[15px]`}
               bordered
             >
               <Link href="" className="font-semibold mb-2">
