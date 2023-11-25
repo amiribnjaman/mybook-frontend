@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Card } from 'antd';
 
 export default function TopNavbar() {
   return (
@@ -317,10 +319,17 @@ export default function TopNavbar() {
           {/* Profile */}
           <div className="dropdown dropdown-end md:block hidden">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="w-12 rounded-full bg-[#ddd] h-12">
-                <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+              <div className="cursor-pointer relative">
+                <Avatar size={48} icon={<UserOutlined />} />
               </div>
             </label>
+            <Card
+              className="absolute flex flex-col gap-4 bg-white shadow-md top-[65px] right-[15px]"
+              bordered
+            >
+              <Link href="" className="font-semibold mb-2">Profile</Link>
+              <Button className="mt-3 font-semibold" block>Logout</Button>
+            </Card>
           </div>
 
           {/*--------------------HUMBER FOR MENU---------------- */}
