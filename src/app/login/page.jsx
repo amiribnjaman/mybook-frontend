@@ -27,7 +27,9 @@ export default function LoginPage() {
           },
         })
         .then((res) => {
+          console.log(res)
           if (res.data.status == 200) {
+            localStorage.setItem('Token', res.data.token)
             toast.success(res.data.message);
             // Redirect user to Home page
             navigate.push("/");
