@@ -22,7 +22,7 @@ export default function Feed() {
               </button>
 
               {/*----------------CREATE POST CARD------------------ */}
-              <div className="shadow-md border py-4 rounded-md w-[500px] fixed top-2/5 left-[2%] z-50 bg-white">
+              <div className="shadow-md border hidden py-4 rounded-md w-[500px]  top-2/5 left-[2%] z-50 bg-white">
                 <h2 className="text-center text-2xl font-semibold pb-2">
                   Create Post
                 </h2>
