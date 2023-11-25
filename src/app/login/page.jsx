@@ -1,6 +1,28 @@
+'use client'
+
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
+
+  // Login submit function
+  const loginSubmit = (data) => {
+    console.log(data);
+    
+
+    reset();
+  };
+
+  // Custom id for tostify
+  const customId = "custom-id-yes";
+
   return (
     <div className="text-center mt-8 w-full">
       <h1 className="text-[40px] text-center font-bold text-[#0866FF]">
@@ -10,19 +32,36 @@ export default function LoginPage() {
         <h3 className="text-xl"> Log in to Mybook </h3>
         <hr className="my-2" />
         <div className="mx-6">
-          <form className="mt-1">
+          <form onSubmit={handleSubmit(loginSubmit)} className="mt-1">
             <input
+              {...register("email", { required: true })}
               type="text"
               className="border rounded-md p-2 block w-full mt-3"
               placeholder="Email Address"
             />
+            <p className="hidden">
+              {errors?.email &&
+                toast.error("Email is required", {
+                  toastId: customId,
+                })}
+            </p>
             <input
+              {...register("password", { required: true })}
               type="password"
               className="border rounded-md p-2 block w-full mt-3"
               placeholder="Password"
             />
+            <p className="hidden">
+              {errors?.password &&
+                toast.error("Password is required", {
+                  toastId: customId,
+                })}
+            </p>
 
-            <button className="bg-[#0866FF] w-full text-white text-lg font-semibold rounded-md px-5 py-1 mt-6 mb-3">
+            <button
+              type="submit"
+              className="bg-[#0866FF] w-full text-white text-lg font-semibold rounded-md px-5 py-1 mt-6 mb-3"
+            >
               Login
             </button>
           </form>
@@ -31,7 +70,10 @@ export default function LoginPage() {
             <p>or</p>
             <div className="h-[1px] bg-slate-100 w-[45%]"></div>
           </div>
-          <Link href='/signup' className="bg-[#00A400] text-white text-lg font-semibold rounded-md px-8 inline-block py-2 mt-6 mb-3">
+          <Link
+            href="/signup"
+            className="bg-[#00A400] text-white text-lg font-semibold rounded-md px-8 inline-block py-2 mt-6 mb-3"
+          >
             Create a new account
           </Link>
         </div>

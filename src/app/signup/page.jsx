@@ -16,6 +16,7 @@ export default function SignupPage() {
   const signUpSubmit = (data) => {
     console.log(data)
 
+
     reset();
   };
 
