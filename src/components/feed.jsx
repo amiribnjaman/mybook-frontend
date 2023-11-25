@@ -7,6 +7,7 @@ import { Modal, Upload } from "antd";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { SERVER_URL } from "../../SERVER_URL";
+import { toast } from "react-toastify";
 
 // const getBase64 = (file) =>
 //   new Promise((resolve, reject) => {
@@ -59,7 +60,7 @@ export default function Feed() {
   const file = useRef(null)
   const imgbbKey = "aefb8bb9063d982e8940fd31a2d29f9d";
   const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
-  let imgbbUrl;
+  let imgUrl;
 
   // Handle post submit
   const postSubmit = async (d) => {
@@ -69,16 +70,39 @@ export default function Feed() {
     const img = d.image[0]
     let formData = new FormData()
     formData.append('image', img)
-    fetch(url, {
+    await fetch(url, {
       method: 'POST',
       body: formData
     })
     .then(res => res.json())
     .then(data => {
-      imgbbUrl = data.data.url
+      imgUrl = data.data.url;
     })
 
+    const data = {
+      post,
+      imgUrl,
+    };
 
+    // POST DATA INTO SERVER
+    await axios
+      .post(
+        `${SERVER_URL}/post/create`, data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.status == 201) {
+            toast.success("A post uploaded.");
+          }
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
+reset()
   }
 
   return (
