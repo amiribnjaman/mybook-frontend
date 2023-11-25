@@ -15,7 +15,27 @@ export default function SignupPage() {
   // Signup submit function
   const signUpSubmit = (data) => {
     console.log(data)
-
+    if (data.firstName && data.surName && data.email && data.password) {
+      fetch("", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status == "201") {
+            toast.success("Signup successfully! Login now.");
+            // Redirect user to Login page
+            navigate.push("/login");
+          } else if (data.status == "400") {
+            toast.warning("Already registered! Login please.");
+          } else {
+            toast.error(data.msg);
+          }
+        });
+    }
 
     reset();
   };
