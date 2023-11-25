@@ -1,10 +1,15 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { SERVER_URL } from "../../../SERVER_URL";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
+  const navigate = useRouter()
+
   const {
     register,
     formState: { errors },
@@ -13,30 +18,27 @@ export default function SignupPage() {
   } = useForm();
 
   // Signup submit function
-  const signUpSubmit = (data) => {
-    console.log(data)
+  const signUpSubmit = async (data) => {
+    console.log(data);
     if (data.firstName && data.surName && data.email && data.password) {
-      fetch("", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status == "201") {
+      await axios
+        .post(`${SERVER_URL}/user/signup`, data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.status == 201) {
             toast.success("Signup successfully! Login now.");
             // Redirect user to Login page
             navigate.push("/login");
-          } else if (data.status == "400") {
-            toast.warning("Already registered! Login please.");
-          } else {
-            toast.error(data.msg);
           }
+        })
+        .catch((err) => {
+          console.log(err);
         });
     }
-
     reset();
   };
 

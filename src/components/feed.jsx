@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function Feed() {
-  const [createPostCard, setCreatePostCard] = useState(true);
+  const [createPostCard, setCreatePostCard] = useState(false);
   return (
     <>
       {/*=============== CREATE POST SECTION================ */}
@@ -17,12 +17,17 @@ export default function Feed() {
           <div className="flex gap-2 justify-between mb-3">
             <div className="w-12 h-12 rounded-full bg-gray-100"></div>
             <div className="w-[87%]">
-              <button className="bg-[#F0F2F5] text-[17px] hover:bg-[#E4E6E9] text-[#606266] w-full text-left px-4 py-2 px-3 rounded-full">
+              <button
+                onClick={() => setCreatePostCard(!createPostCard)}
+                className="bg-[#F0F2F5] text-[17px] hover:bg-[#E4E6E9] text-[#606266] w-full text-left px-4 py-2 px-3 rounded-full"
+              >
                 What's on your mind? Mr. X
               </button>
 
               {/*----------------CREATE POST CARD------------------ */}
-              <div className="shadow-md border hidden py-4 rounded-md w-[500px]  top-2/5 left-[2%] z-50 bg-white">
+              <div
+                className={`${createPostCard ? 'block' : 'hidden'} shadow-md border py-4 rounded-md w-[500px] fixed top-2/5 left-[2%] z-50 bg-white`}
+              >
                 <h2 className="text-center text-2xl font-semibold pb-2">
                   Create Post
                 </h2>
@@ -31,7 +36,6 @@ export default function Feed() {
                 <div className="px-4 py-2 flex gap-2">
                   <div className="w-10 h-10 rounded-full bg-gray-100"></div>
                   <h4 className="font-semibold">Mr. X</h4>
-
                 </div>
               </div>
             </div>

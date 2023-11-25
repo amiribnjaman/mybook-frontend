@@ -1,5 +1,6 @@
-'use client'
+"use client";
 
+import axios from "axios";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -13,28 +14,43 @@ export default function LoginPage() {
   } = useForm();
 
   // Login submit function
-  const loginSubmit = (data) => {
+  const loginSubmit = async (data) => {
     console.log(data);
     if (data.email && data.password) {
-      fetch("", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status == "201") {
-            toast.success("Signup successfully! Login now.");
-            // Redirect user to Login page
-            navigate.push("/login");
-          } else if (data.status == "400") {
-            toast.warning("Already registered! Login please.");
-          } else {
-            toast.error(data.msg);
+      await axios.post(
+        "",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
           }
-        });
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+        }
+      );
+      // fetch("", {
+      //   method: "POST",
+      //   headers: {
+      //     "content-type": "application/json",
+      //   },
+      //   body: JSON.stringify(data),
+      // })
+      //   .then((res) => res.json())
+      //   .then((data) => {
+      //     if (data.status == "201") {
+      //       toast.success("Signup successfully! Login now.");
+      //       // Redirect user to Login page
+      //       navigate.push("/login");
+      //     } else if (data.status == "400") {
+      //       toast.warning("Already registered! Login please.");
+      //     } else {
+      //       toast.error(data.msg);
+      //     }
+      //   });
     }
 
     reset();

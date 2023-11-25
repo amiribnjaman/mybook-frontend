@@ -24,7 +24,7 @@ export default function LayoutComponent({ children }) {
   return (
     <>
       {show ? (
-        <div>
+        <div className="relative">
           {route.includes(getPath) ? (
             ""
           ) : (
@@ -34,7 +34,7 @@ export default function LayoutComponent({ children }) {
             </>
           )}
 
-          <div className="mt-4 w-[95%] relative mx-auto flex gap-6">
+          <div className="mt-4 w-[95%] mx-auto flex gap-6">
             <div className=" w-1/4"></div>
             <ToastContainer position="top-center" />
             {children}
