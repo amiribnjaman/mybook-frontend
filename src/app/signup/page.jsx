@@ -28,15 +28,16 @@ export default function SignupPage() {
           },
         })
         .then((res) => {
-          console.log(res);
           if (res.data.status == 201) {
             toast.success("Signup successfully! Login now.");
             // Redirect user to Login page
             navigate.push("/login");
+          } else if (res.data.status == 400) {
+            toast.alert("User already signup. Please login.");
           }
         })
         .catch((err) => {
-          console.log(err);
+          toast.error("Something wrong. Try again");
         });
     }
     reset();

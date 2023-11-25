@@ -2,10 +2,13 @@
 
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { SERVER_URL } from "../../../SERVER_URL";
 
 export default function LoginPage() {
+    const navigate = useRouter();
   const {
     register,
     formState: { errors },
@@ -17,40 +20,24 @@ export default function LoginPage() {
   const loginSubmit = async (data) => {
     console.log(data);
     if (data.email && data.password) {
-      await axios.post(
-        "",
-        data,
-        {
+      await axios
+        .post(`${SERVER_URL}/user/login`, data, {
           headers: {
             "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          if (res.data.status == 200) {
+            toast.success(res.data.message);
+            // Redirect user to Home page
+            navigate.push("/");
+          } else if (res.data.status == 401) {
+            toast.error("Email or password is Invalid");
           }
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            })
-        }
-      );
-      // fetch("", {
-      //   method: "POST",
-      //   headers: {
-      //     "content-type": "application/json",
-      //   },
-      //   body: JSON.stringify(data),
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     if (data.status == "201") {
-      //       toast.success("Signup successfully! Login now.");
-      //       // Redirect user to Login page
-      //       navigate.push("/login");
-      //     } else if (data.status == "400") {
-      //       toast.warning("Already registered! Login please.");
-      //     } else {
-      //       toast.error(data.msg);
-      //     }
-      //   });
+        })
+        .catch((err) => {
+          toast.error("Something wrong. Try again");
+        });
     }
 
     reset();
