@@ -3,8 +3,24 @@
 import Link from "next/link";
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card } from 'antd';
+import { useRouter } from "next/navigation";
 
 export default function TopNavbar() {
+  const navigate = useRouter()
+
+   // Check access token to logout and login
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("Token");
+  }
+
+  // Handle logout button
+  const handleLogout = () => {
+    localStorage.removeItem("Token");
+    navigate.push("/login");
+  };
+
+
   return (
     <div
       id="topbar"
@@ -26,47 +42,6 @@ export default function TopNavbar() {
             className="bg-slate-100 w-[75%] text-gray-500 rounded-full px-4 py-1.5"
             placeholder="Search Mybook"
           />
-          {/* <div
-            className={`shadow-lg rounded-md w-full md:w-[350px] h-[150px] text-center flex flex-col justify-center items-center absolute top-[60px] md:top-[50px] left-0 md:left-[20%] bg-white border px-2`}
-          >
-            <div className="flex items-center justify-center px-2 gap-1">
-              <input
-                type="text"
-                className="bg-slate-100 w-[75%] rounded px-4 py-1"
-                
-              />
-              <button
-                className="bg-blue-500 w-[13%] text-center py-1 px-1 rounded"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1"
-                  stroke="currentColor"
-                  className="w-6 h-6 text-white"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="flex gap-3 items-center mt-3">
-              <button
-                className="bg-slate-500 px-4 py-1 rounded text-white"
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-green-800 px-4 py-1 rounded text-white"
-              >
-                Refresh
-              </button>
-            </div>
-          </div> */}
         </div>
 
         {/*==========================NAVBAR MIDDLE SECTION==================== */}
@@ -323,12 +298,29 @@ export default function TopNavbar() {
                 <Avatar size={48} icon={<UserOutlined />} />
               </div>
             </label>
+
+            {/*------------USER CARD (LOGOUT/LOGIN, PROFILE)----------- */}
             <Card
               className="absolute flex flex-col gap-4 bg-white shadow-md top-[65px] right-[15px]"
               bordered
             >
-              <Link href="" className="font-semibold mb-2">Profile</Link>
-              <Button className="mt-3 font-semibold" block>Logout</Button>
+              <Link href="" className="font-semibold mb-2">
+                Profile
+              </Link>
+              {/*--------- LOGIN/LOGOUT TOGGLE------------ */}
+              {token ? (
+                <Button
+                  onClick={handleLogout}
+                  className="mt-3 font-semibold"
+                  block
+                >
+                  Logout
+                </Button>
+              ) : (
+                <Button className="mt-3 font-semibold" block>
+                  Login
+                </Button>
+              )}
             </Card>
           </div>
 
