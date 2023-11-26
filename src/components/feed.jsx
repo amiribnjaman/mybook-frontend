@@ -15,6 +15,7 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [showCommentBox, setShowCommentBox] = useState("");
   const [postId, setPostId] = useState("");
+  const [postIdForMoreAction, setPostIdForMoreAction] = useState("");
   const [reload, setReload] = useState(false)
   const [moreOption, setMoreOption] = useState(false)
 
@@ -68,7 +69,7 @@ export default function Feed() {
 
   // HANDLE MORE OPTION BUTTON
   const handleMoreOption = (id) => {
-    setPostId(id)
+    setPostIdForMoreAction(id);
     setMoreOption(!moreOption)
   }
 
@@ -158,13 +159,12 @@ export default function Feed() {
                 </Button>
 
                 {/*-------------------MORE OPTION CARD------------ */}
-                {post?.id == postId && (
+                {post?.id == postIdForMoreAction && (
                   <div
                     className={`${
                       moreOption ? "block" : "hidden"
                     } absolute border px-4 py-6 rounded-md shadow-md flex flex-col gap-3 z-50 bg-white top-[55px] right-[10px]`}
                   >
-
                     <button>Edit</button>
                     <button>Delete</button>
                   </div>

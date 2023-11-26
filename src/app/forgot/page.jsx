@@ -33,7 +33,7 @@ export default function LoginPage() {
             setShowPassField(false);
             toast.success(res.data.message);
             // Redirect user to Login page
-            navigate.push("/");
+            navigate.push("/login");
           } else if (res.data.status == 401) {
             toast.error("Email is invalid");
           }
@@ -53,8 +53,6 @@ export default function LoginPage() {
           if (res.data.status == 200) {
             setShowPassField(true);
             toast.success(res.data.message);
-            // Redirect user to Home page
-            // navigate.push("/");
           } else if (res.data.status == 401) {
             toast.error("Email is invalid");
           }
