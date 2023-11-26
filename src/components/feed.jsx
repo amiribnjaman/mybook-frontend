@@ -7,24 +7,64 @@ import Image from "next/image";
 import { UserOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { SERVER_URL } from "@/utilitis/SERVER_URL";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 export default function Feed() {
   const [createPostCard, setCreatePostCard] = useState(false);
-  const [posts, setPosts] = useState([])
-  console.log(posts)
+  const [posts, setPosts] = useState([]);
+  const [showCommentBox, setShowCommentBox] = useState("");
+  const [postId, setPostId] = useState("");
 
+  console.log(posts);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
 
   // POST DATA FETCHING
   useEffect(() => {
     fetch(`${SERVER_URL}/post/allpost`)
       .then((res) => res.json())
-      .then(data => {
+      .then((data) => {
         if (data.status == 200) {
-          setPosts(data.data)
+          setPosts(data.data);
         }
-      })
+      });
   }, []);
 
+  // HANLDE COMMENT SUBMIT
+  const commentSubmit = async (d) => {
+    console.log(postId)
+    const data = {
+      comment: d.comment,
+      postId: postId,
+      userId: "",
+    };
+
+    if (d.comment) {
+      await axios
+        .patch(`${SERVER_URL}/post/createComment`, data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      .then(res => {
+        console.log(res)
+      })
+    }
+
+    reset()
+  };
+
+  // HANDLE COMMENT BOX SHOWING
+  const handleCommentBox = (id) => {
+    setPostId(id);
+    setShowCommentBox(true)
+    console.log(id)
+  };
 
   return (
     <>
@@ -128,10 +168,44 @@ export default function Feed() {
             <hr />
             <div className="my-2 px-4 flex justify-between">
               <Button>Like</Button>
-              <Button>Comment</Button>
+              <Button onClick={() => handleCommentBox(post?.id)}>
+                Comment
+              </Button>
               <Button>Share</Button>
             </div>
             <hr />
+            {/*---------------COMMENT SECTION------------ */}
+            <div className="px-4 my-2">
+              <p className='font-semibold my-3'>
+                {post?.comments.length > 0 && post?.comments.length + ' Comments'}
+              </p>
+              {post.id == postId && (
+                <form
+                  className={`${showCommentBox ? "block" : "hidden"}`}
+                  onSubmit={handleSubmit(commentSubmit)}
+                >
+                  <input
+                    {...register("comment", { required: true })}
+                    className="w-full py-4 px-6 border rounded-md focus:outline-none focus:border"
+                    type="text"
+                    placeholder="write comment.."
+                  />
+                  <input
+                    {...register("postId")}
+                    className="hidden w-full py-4 px-6 rounded-md focus:outline-none focus:border"
+                    type="text"
+                    value={post?.id}
+                    placeholder="write comment.."
+                  />
+                  <button
+                    type="submit"
+                    className="bg-[#0866FF] px-4 py-1 mt-2 rounded-md text-white"
+                  >
+                    Comment
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         ))}
     </>
