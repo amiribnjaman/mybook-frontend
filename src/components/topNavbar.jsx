@@ -1,27 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Card } from 'antd';
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Button, Card } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import getToken from "@/utilitis/token";
 
 export default function TopNavbar() {
-  const [showLogout, setShowLogout] = useState(false)
-  const navigate = useRouter()
-
-   // Check access token to logout and login
-  let token;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("Token");
-  }
+  const [showLogout, setShowLogout] = useState(false);
+  const navigate = useRouter();
+  const { token } = getToken(); 
+  console.log(token)
 
   // Handle logout button
   const handleLogout = () => {
-    localStorage.removeItem("Token");
+    // localStorage.removeItem("Token");
     navigate.push("/login");
   };
-
 
   return (
     <div
@@ -307,7 +303,9 @@ export default function TopNavbar() {
 
             {/*------------USER CARD (LOGOUT/LOGIN, PROFILE)----------- */}
             <Card
-              className={`${showLogout ? 'block' : 'hidden'} absolute flex flex-col gap-4 bg-white shadow-md top-[65px] right-[15px]`}
+              className={`${
+                showLogout ? "block" : "hidden"
+              } absolute flex flex-col gap-4 bg-white shadow-md top-[65px] right-[15px]`}
               bordered
             >
               <Link href="" className="font-semibold mb-2">

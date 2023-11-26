@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { SERVER_URL } from "../../../SERVER_URL";
+import { SERVER_URL } from "../../utilitis/SERVER_URL";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
-  const navigate = useRouter()
+  const navigate = useRouter();
 
   const {
     register,

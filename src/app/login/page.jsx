@@ -5,10 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { SERVER_URL } from "../../../SERVER_URL";
+import { SERVER_URL } from "../../utilitis/SERVER_URL";
 
 export default function LoginPage() {
-    const navigate = useRouter();
+  const navigate = useRouter();
   const {
     register,
     formState: { errors },
@@ -22,14 +22,15 @@ export default function LoginPage() {
     if (data.email && data.password) {
       await axios
         .post(`${SERVER_URL}/user/login`, data, {
+          credentials: "include",
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
         })
         .then((res) => {
-          console.log(res)
           if (res.data.status == 200) {
-            localStorage.setItem('Token', res.data.token)
+            // localStorage.setItem('Token', res.data.token)
             toast.success(res.data.message);
             // Redirect user to Home page
             navigate.push("/");
@@ -38,7 +39,7 @@ export default function LoginPage() {
           }
         })
         .catch((err) => {
-          toast.error("Something wrong. Try again");
+          toast.error("Email or password is Invalid ");
         });
     }
 
