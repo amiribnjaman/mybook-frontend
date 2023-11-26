@@ -5,17 +5,19 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Card } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 // import getToken from "@/utilitis/token";
 
 export default function TopNavbar() {
   const [showLogout, setShowLogout] = useState(false);
   const navigate = useRouter();
-  // const { token } = getToken(); 
-  // console.log(token)
+  const [cookies, setCookie, removeCookie] = useCookies(['Token'])
 
+  
   // Handle logout button
   const handleLogout = () => {
-    // localStorage.removeItem("Token");
+    localStorage.removeItem("userId");
+    setCookie('Token','')
     navigate.push("/login");
   };
 
@@ -311,7 +313,14 @@ export default function TopNavbar() {
               <Link href="" className="font-semibold mb-2">
                 Profile
               </Link>
-              {/*--------- LOGIN/LOGOUT TOGGLE------------ */}
+              {/*--------- LOGOUT TOGGLE------------ */}
+              <Button
+                onClick={handleLogout}
+                className="mt-3 font-semibold"
+                block
+              >
+                Logout
+              </Button>
               {/* {token ? (
                 <Button
                   onClick={handleLogout}

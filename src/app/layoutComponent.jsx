@@ -6,6 +6,7 @@ import LeftSidebar from "@/components/leftSidebar";
 import { usePathname } from "next/navigation";
 import { ToastContainer } from "react-toastify";
 import RightSidebar from "@/components/rightSidebar";
+import { CookiesProvider } from 'react-cookie';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,19 +21,21 @@ export default function LayoutComponent({ children }) {
 
   return (
     <>
-      {!authPath && (
-        <>
-          <TopNavbar />
-          <LeftSidebar />
-        </>
-      )}
+      <CookiesProvider>
+        {!authPath && (
+          <>
+            <TopNavbar />
+            <LeftSidebar />
+          </>
+        )}
 
-      <div className="mt-4 w-[95%] mx-auto flex gap-6">
-        <div className=" w-1/4"></div>
-        <ToastContainer position="top-center" />
-        {children}
-        <div className="w-1/4"> {!authPath && <RightSidebar />} </div>
-      </div>
+        <div className="mt-4 w-[95%] mx-auto flex gap-6">
+          <div className=" w-1/4"></div>
+          <ToastContainer position="top-center" />
+          {children}
+          <div className="w-1/4"> {!authPath && <RightSidebar />} </div>
+        </div>
+      </CookiesProvider>
     </>
   );
 }
