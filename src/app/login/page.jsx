@@ -92,18 +92,21 @@ export default function LoginPage() {
               Login
             </button>
           </form>
-          <Link href='/forgot' className="text-[13px] text-blue-700">Forgot password?</Link>
+          
           <div className="flex gap-2 items-center">
             <div className="h-[1px] bg-slate-100 w-[45%]"></div>
             <p>or</p>
             <div className="h-[1px] bg-slate-100 w-[45%]"></div>
           </div>
+          <div className='flex flex-col mt-2'>
+          <Link href='/forgot' className="text-[13px] text-blue-700">Forgot password?</Link>
           <Link
             href="/signup"
-            className="bg-[#00A400] text-white text-lg font-semibold rounded-md px-8 inline-block py-2 mt-6 mb-3"
+            className="bg-[#00A400] text-white text-lg font-semibold rounded-md px-8 inline-block py-2 mt-4 mb-3"
           >
             Create a new account
           </Link>
+          </div>
         </div>
       </div>
     </div>

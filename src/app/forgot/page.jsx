@@ -6,8 +6,10 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { SERVER_URL } from "../../utilitis/SERVER_URL";
+import { useState } from "react";
 
 export default function LoginPage() {
+  const [showPassField, setShowPassField] = useState(false);
   const navigate = useRouter();
   const {
     register,
@@ -16,14 +18,32 @@ export default function LoginPage() {
     reset,
   } = useForm();
 
-  // Login submit function
-  const loginSubmit = async (data) => {
+  // Forgot password mail check submit function
+  const forgotPassSubmit = async (data) => {
     if (data.email && data.password) {
-      console.log(data);
       await axios
-        .post(`${SERVER_URL}/user/login`, data, {
-          credentials: "include",
-          withCredentials: true,
+        .patch(`${SERVER_URL}/user/password-reset`, data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.status == 201) {
+            setShowPassField(false);
+            toast.success(res.data.message);
+            // Redirect user to Login page
+            navigate.push("/");
+          } else if (res.data.status == 401) {
+            toast.error("Email is invalid");
+          }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong. Try again.");
+        });
+    } else if (data.email){
+      await axios
+        .post(`${SERVER_URL}/user/forgot-pass-check`, data, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -31,20 +51,18 @@ export default function LoginPage() {
         .then((res) => {
           console.log(res);
           if (res.data.status == 200) {
-            localStorage.setItem('userId', res.data.userId)
+            setShowPassField(true);
             toast.success(res.data.message);
             // Redirect user to Home page
-            navigate.push("/");
+            // navigate.push("/");
           } else if (res.data.status == 401) {
-            toast.error("Email or password is Invalid");
+            toast.error("Email is invalid");
           }
         })
         .catch((err) => {
           toast.error("Something went wrong");
         });
     }
-
-    reset();
   };
 
   // Custom id for tostify
@@ -56,9 +74,11 @@ export default function LoginPage() {
         Mybook
       </h1> */}
       <div className="w-[60%] mx-auto my-6 py-3 border rounded-md">
-        <h3 className="text-[18px] font-semibold"> Submit your email </h3>
+        <h3 className="text-[18px] font-semibold">
+          {showPassField ? "Reset your password" : "Submit your email"}
+        </h3>
         <div className="mx-6">
-          <form onSubmit={handleSubmit(loginSubmit)} className="mt-1">
+          <form onSubmit={handleSubmit(forgotPassSubmit)} className="mt-1">
             <input
               {...register("email", { required: true })}
               type="text"
@@ -71,18 +91,22 @@ export default function LoginPage() {
                   toastId: customId,
                 })}
             </p>
-            {/* <input
-              {...register("password", { required: true })}
-              type="password"
-              className="border rounded-md p-2 block w-full mt-3"
-              placeholder="Password"
-            />
-            <p className="hidden">
-              {errors?.password &&
-                toast.error("Password is required", {
-                  toastId: customId,
-                })}
-            </p> */}
+            {showPassField && (
+              <>
+                <input
+                  {...register("password", { required: true })}
+                  type="password"
+                  className="border rounded-md p-2 block w-full mt-3"
+                  placeholder="Set new Password"
+                />
+                <p className="hidden">
+                  {errors?.password &&
+                    toast.error("Password is required", {
+                      toastId: customId,
+                    })}
+                </p>
+              </>
+            )}
 
             <button
               type="submit"
