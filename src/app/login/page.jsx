@@ -18,8 +18,8 @@ export default function LoginPage() {
 
   // Login submit function
   const loginSubmit = async (data) => {
-    console.log(data);
     if (data.email && data.password) {
+      console.log(data);
       await axios
         .post(`${SERVER_URL}/user/login`, data, {
           credentials: "include",
@@ -29,6 +29,7 @@ export default function LoginPage() {
           },
         })
         .then((res) => {
+          console.log(res);
           if (res.data.status == 200) {
             localStorage.setItem('userId', res.data.userId)
             toast.success(res.data.message);
@@ -39,7 +40,7 @@ export default function LoginPage() {
           }
         })
         .catch((err) => {
-          toast.error("Email or password is Invalid ");
+          toast.error("Something went wrong");
         });
     }
 

@@ -123,7 +123,7 @@ export default function Feed() {
       {/*========================NEWS FEED========================*/}
       {posts.length > 0 &&
         posts.map((post) => (
-          <div className="mt-6 w-[90%] relative py-6 mr-auto rounded-md border shadow">
+          <div className="mt-6 mb-8 w-[90%] relative py-6 mr-auto rounded-md border shadow">
             {/*---------POST HEADEING------------*/}
             {/*----------USER------------ */}
             <div className="flex justify-between px-4">
@@ -164,7 +164,7 @@ export default function Feed() {
                       moreOption ? "block" : "hidden"
                     } absolute border px-4 py-6 rounded-md shadow-md flex flex-col gap-3 z-50 bg-white top-[55px] right-[10px]`}
                   >
-                    
+
                     <button>Edit</button>
                     <button>Delete</button>
                   </div>
