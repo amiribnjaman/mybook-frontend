@@ -15,7 +15,7 @@ export default function LayoutComponent({ children }) {
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
 
 
-  const route = ["login", "signup"];
+  const route = ["login", "signup", "forgot"];
   // Check if LOGIN/SIGNUP PATH MATCHED OR NOT
   const authPath = route.includes(getPath);
 

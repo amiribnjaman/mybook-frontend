@@ -52,12 +52,11 @@ export default function LoginPage() {
 
   return (
     <div className="text-center mt-8 w-full">
-      <h1 className="text-[40px] text-center font-bold text-[#0866FF]">
+      {/* <h1 className="text-[40px] text-center font-bold text-[#0866FF]">
         Mybook
-      </h1>
-      <div className="w-[60%] mx-auto my-6 py-3 border shadow-md rounded-md">
-        <h3 className="text-xl"> Log in to Mybook </h3>
-        <hr className="my-2" />
+      </h1> */}
+      <div className="w-[60%] mx-auto my-6 py-3 border rounded-md">
+        <h3 className="text-[18px] font-semibold"> Submit your email </h3>
         <div className="mx-6">
           <form onSubmit={handleSubmit(loginSubmit)} className="mt-1">
             <input
@@ -72,7 +71,7 @@ export default function LoginPage() {
                   toastId: customId,
                 })}
             </p>
-            <input
+            {/* <input
               {...register("password", { required: true })}
               type="password"
               className="border rounded-md p-2 block w-full mt-3"
@@ -83,26 +82,20 @@ export default function LoginPage() {
                 toast.error("Password is required", {
                   toastId: customId,
                 })}
-            </p>
+            </p> */}
 
             <button
               type="submit"
               className="bg-[#0866FF] w-full text-white text-lg font-semibold rounded-md px-5 py-1 mt-6 mb-3"
             >
-              Login
+              Submit
             </button>
           </form>
-          <Link href='/forgot' className="text-[13px] text-blue-700">Forgot password?</Link>
-          <div className="flex gap-2 items-center">
-            <div className="h-[1px] bg-slate-100 w-[45%]"></div>
-            <p>or</p>
-            <div className="h-[1px] bg-slate-100 w-[45%]"></div>
-          </div>
           <Link
-            href="/signup"
-            className="bg-[#00A400] text-white text-lg font-semibold rounded-md px-8 inline-block py-2 mt-6 mb-3"
+            href="/login"
+            className="hover:underline text-black text-md font-semibold rounded-md px-4 inline-block py-1 mt-6 mb-3"
           >
-            Create a new account
+            Back to login
           </Link>
         </div>
       </div>
