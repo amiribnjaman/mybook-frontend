@@ -30,7 +30,7 @@ export default function LoginPage() {
         })
         .then((res) => {
           if (res.data.status == 200) {
-            // localStorage.setItem('Token', res.data.token)
+            localStorage.setItem('userId', res.data.userId)
             toast.success(res.data.message);
             // Redirect user to Home page
             navigate.push("/");

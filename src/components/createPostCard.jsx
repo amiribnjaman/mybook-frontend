@@ -3,7 +3,7 @@ import { SERVER_URL } from "../utilitis/SERVER_URL";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-export default function CreatePostCard({ createPostCard, setCreatePostCard }) {
+export default function CreatePostCard({ createPostCard, setCreatePostCard, reload, setReload }) {
   const imgbbKey = "aefb8bb9063d982e8940fd31a2d29f9d";
   const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
   let imgUrl;
@@ -46,6 +46,7 @@ export default function CreatePostCard({ createPostCard, setCreatePostCard }) {
       })
       .then((res) => {
         if (res.data.status == 201) {
+          setReload(!reload)
           toast.success("A post uploaded.");
         }
       })

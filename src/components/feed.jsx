@@ -15,8 +15,9 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [showCommentBox, setShowCommentBox] = useState("");
   const [postId, setPostId] = useState("");
+  const [reload, setReload] = useState(false)
+  const [moreOption, setMoreOption] = useState(false)
 
-  console.log(posts);
   const {
     register,
     formState: { errors },
@@ -33,11 +34,10 @@ export default function Feed() {
           setPosts(data.data);
         }
       });
-  }, []);
+  }, [reload]);
 
   // HANLDE COMMENT SUBMIT
   const commentSubmit = async (d) => {
-    console.log(postId)
     const data = {
       comment: d.comment,
       postId: postId,
@@ -52,6 +52,7 @@ export default function Feed() {
           },
         })
       .then(res => {
+        setReload(!reload);
         console.log(res)
       })
     }
@@ -63,8 +64,13 @@ export default function Feed() {
   const handleCommentBox = (id) => {
     setPostId(id);
     setShowCommentBox(true)
-    console.log(id)
   };
+
+  // HANDLE MORE OPTION BUTTON
+  const handleMoreOption = (id) => {
+    setPostId(id)
+    setMoreOption(!moreOption)
+  }
 
   return (
     <>
@@ -93,6 +99,8 @@ export default function Feed() {
                 } shadow-md border py-4 rounded-md w-[500px] fixed top-[10%] left-[3px] z-50 bg-white`}
               >
                 <CreatePostCard
+                  reload={reload}
+                  setReload={setReload}
                   createPostCard={createPostCard}
                   setCreatePostCard={setCreatePostCard}
                 />
@@ -115,7 +123,7 @@ export default function Feed() {
       {/*========================NEWS FEED========================*/}
       {posts.length > 0 &&
         posts.map((post) => (
-          <div className="mt-6 w-[90%] py-6 mr-auto rounded-md border shadow">
+          <div className="mt-6 w-[90%] relative py-6 mr-auto rounded-md border shadow">
             {/*---------POST HEADEING------------*/}
             {/*----------USER------------ */}
             <div className="flex justify-between px-4">
@@ -143,11 +151,24 @@ export default function Feed() {
                 </div>
               </div>
               <div>
-                <Button type="text">
+                <Button onClick={() => handleMoreOption(post?.id)} type="text">
                   <EllipsisOutlined
                     style={{ fontSize: "22px", fontWeight: "semi-bold" }}
                   />
                 </Button>
+
+                {/*-------------------MORE OPTION CARD------------ */}
+                {post?.id == postId && (
+                  <div
+                    className={`${
+                      moreOption ? "block" : "hidden"
+                    } absolute border px-4 py-6 rounded-md shadow-md flex flex-col gap-3 z-50 bg-white top-[55px] right-[10px]`}
+                  >
+                    
+                    <button>Edit</button>
+                    <button>Delete</button>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -176,9 +197,25 @@ export default function Feed() {
             <hr />
             {/*---------------COMMENT SECTION------------ */}
             <div className="px-4 my-2">
-              <p className='font-semibold my-3'>
-                {post?.comments.length > 0 && post?.comments.length + ' Comments'}
+              <p className="font-semibold my-3">
+                {post?.comments.length > 0 &&
+                  post?.comments.length + " Comments"}
               </p>
+              {post?.comments.length > 0 && (
+                <div>
+                  {post?.comments.map((com) => (
+                    <div className="px-4 my-4 flex gap-2">
+                      <div className="w-[35px] h-[35px] rounded-full bg-gray-200"></div>
+                      <div>
+                        <h4 className="font-semibold">Mr. X</h4>
+                        <p className="font-normal text-[14px]">
+                          {com?.comment}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
               {post.id == postId && (
                 <form
                   className={`${showCommentBox ? "block" : "hidden"}`}
