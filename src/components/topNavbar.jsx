@@ -5,13 +5,13 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Card } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import getToken from "@/utilitis/token";
+// import getToken from "@/utilitis/token";
 
 export default function TopNavbar() {
   const [showLogout, setShowLogout] = useState(false);
   const navigate = useRouter();
-  const { token } = getToken(); 
-  console.log(token)
+  // const { token } = getToken(); 
+  // console.log(token)
 
   // Handle logout button
   const handleLogout = () => {
@@ -312,7 +312,7 @@ export default function TopNavbar() {
                 Profile
               </Link>
               {/*--------- LOGIN/LOGOUT TOGGLE------------ */}
-              {token ? (
+              {/* {token ? (
                 <Button
                   onClick={handleLogout}
                   className="mt-3 font-semibold"
@@ -324,7 +324,7 @@ export default function TopNavbar() {
                 <Button className="mt-3 font-semibold" block>
                   Login
                 </Button>
-              )}
+              )} */}
             </Card>
           </div>
 

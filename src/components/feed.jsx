@@ -1,21 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
-import { PlusOutlined, PictureOutlined } from "@ant-design/icons";
-import { Modal, Upload } from "antd";
-import CreatePostCard from '@/components/createPostCard'
-
-// const getBase64 = (file) =>
-//   new Promise((resolve, reject) => {
-//     const reader = new FileReader();
-//     reader.readAsDataURL(file);
-//     reader.onload = () => resolve(reader.result);
-//     reader.onerror = (error) => reject(error);
-//   });
+import { useEffect, useState } from "react";
+import CreatePostCard from "@/components/createPostCard";
+import Image from "next/image";
+import { UserOutlined, EllipsisOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import { SERVER_URL } from "@/utilitis/SERVER_URL";
 
 export default function Feed() {
   const [createPostCard, setCreatePostCard] = useState(false);
+  const [posts, setPosts] = useState([])
+  console.log(posts)
+
+
+  // POST DATA FETCHING
+  useEffect(() => {
+    fetch(`${SERVER_URL}/post/allpost`)
+      .then((res) => res.json())
+      .then(data => {
+        if (data.status == 200) {
+          setPosts(data.data)
+        }
+      })
+  }, []);
 
 
   return (
@@ -24,7 +32,7 @@ export default function Feed() {
       <div
         className={`${
           createPostCard ? "backdrop-blur-md" : ""
-        } bg-white w-[90%] mx-auto px-2 py-3 shadow border rounded-md`}
+        } bg-white w-[90%] mr-auto px-2 py-3 shadow border rounded-md`}
       >
         <div className="mx-3 ">
           <div className="flex gap-2 justify-between mb-3">
@@ -32,13 +40,13 @@ export default function Feed() {
             <div className="w-[87%]">
               <button
                 onClick={() => setCreatePostCard(!createPostCard)}
-                className="bg-[#F0F2F5] text-[17px] hover:bg-[#E4E6E9] text-[#606266] w-full text-left px-4 py-2 px-3 rounded-full"
+                className="bg-[#F0F2F5] text-[18px] hover:bg-[#E4E6E9] text-[#606266] w-full text-left px-4 py-2 px-3 rounded-full"
               >
                 What's on your mind? Mr. X
               </button>
 
               {/* =========================== */}
-              {/*----------------CREATE POST CARD------------------ */}
+              {/*--------------CREATE POST CARD-------------- */}
               <div
                 className={`${
                   createPostCard ? "block" : "hidden"
@@ -63,65 +71,69 @@ export default function Feed() {
           </div>
         </div>
       </div>
-      <div className="mt-6 w-[90%] px-4 py-6 mx-auto rounded-md border shadow">
-        <div className="postWrapper">
-          <div className="postTop">
-            <div className="postTopLeft">
-              <Link href="">
-                <img
-                  className="postProfileImg"
-                  src=""
-                  // {
-                  //   user.profilePicture
-                  //     ? PF + user.profilePicture
-                  //     : PF + "person/noAvatar.png"
-                  // }
-                  alt=""
-                />
-              </Link>
-              <span className="postUsername">{/* {user.username} */}</span>
-              <span className="postDate">{/* {format(post.createdAt)} */}</span>
+
+      {/*========================NEWS FEED========================*/}
+      {posts.length > 0 &&
+        posts.map((post) => (
+          <div className="mt-6 w-[90%] py-6 mr-auto rounded-md border shadow">
+            {/*---------POST HEADEING------------*/}
+            {/*----------USER------------ */}
+            <div className="flex justify-between px-4">
+              <div className="flex gap-3">
+                {/* <Image
+              src={''}
+              alt=""
+              width={30}
+              height={30}
+              className="rounded-full"
+            /> */}
+                <div className="w-[40px] cursor-pointer h-[40px] rounded-full bg-gray-200 flex items-center justify-center">
+                  <UserOutlined size={50} />
+                </div>
+                <div>
+                  <h3 className="font-semibold m-0">
+                    <Link href="">
+                      {post?.userName ? post?.userName : "Mr. X"}
+                    </Link>
+                  </h3>
+                  <span className="text-[12px] text-gray-500 -mt-4 inline-block font-normal">
+                    At {post?.createOn.split("T")[1].split(".")[0]},{" "}
+                    {post?.createOn.split("T")[0]}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <Button type="text">
+                  <EllipsisOutlined
+                    style={{ fontSize: "22px", fontWeight: "semi-bold" }}
+                  />
+                </Button>
+              </div>
             </div>
-            <div className="postTopRight">{/* <MoreVert /> */}</div>
-          </div>
-          <div className="postCenter">
-            <span className="postText">{/* {post?.desc} */}</span>
-            <img
-              className="postImg"
-              src=""
-              //   {PF + post.img} alt=""
-            />
-          </div>
-          <div className="postBottom">
-            <div className="postBottomLeft">
-              <img
-                className="likeIcon"
-                src=""
-                // {`${PF}like.png`}
-                onClick=""
-                // {likeHandler}
-                alt=""
-              />
-              <img
-                className="likeIcon"
-                //   src={`${PF}heart.png`}
-                //   onClick={likeHandler}
-                alt=""
-              />
-              <span className="postLikeCounter">
-                {/* {like} */}
-                people like it
-              </span>
+
+            {/*---------POST CONTENT----------- */}
+            <div>
+              <p className="my-3 px-4">{post?.post && post?.post}</p>
+              <div className="mb-4">
+                <img src={post?.imgUrl && post?.imgUrl} alt="" />
+                {/* <Image height={500} width={500} alt="" src={post.imgUrl} /> */}
+              </div>
             </div>
-            <div className="postBottomRight">
-              <span className="postCommentText">
-                {/* {post.comment} */}
-                comments
-              </span>
+
+            {/*------------SHOWING INTERECTION COUNT----------- */}
+            <p className="px-4">
+              {post?.likes?.length && post?.likes?.length + "Likes"}{" "}
+            </p>
+            {/*------------USER INTERECTION INTO POST---------- */}
+            <hr />
+            <div className="my-2 px-4 flex justify-between">
+              <Button>Like</Button>
+              <Button>Comment</Button>
+              <Button>Share</Button>
             </div>
+            <hr />
           </div>
-        </div>
-      </div>
+        ))}
     </>
   );
 }
