@@ -28,7 +28,7 @@ export default function Feed() {
   } = useForm();
 
   const userId = localStorage.getItem("userId")
-  console.log(userId, posts);
+  console.log(posts);
 
   // POST DATA FETCHING
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function Feed() {
     const data = {
       comment: d.comment,
       postId: postId,
-      userId: "",
+      userId: userId,
     };
 
     if (d.comment) {
@@ -58,7 +58,6 @@ export default function Feed() {
         })
       .then(res => {
         setReload(!reload);
-        console.log(res)
       })
     }
 
@@ -79,6 +78,7 @@ export default function Feed() {
 
   // DELETE A POST
   const handleDeletePost = async () => {
+    // If userid and post id is available then hit the api
     if (userId && postIdForMoreAction) {
       await axios
         .delete(
@@ -92,6 +92,23 @@ export default function Feed() {
         .then((res) => {
           setReload(!reload);
         });
+    }
+  }
+
+  // HANDLE COMMENT A COMMENT
+  const handleCommentDelete= async (postid, commentId) => {
+    console.log(postid)
+    if (userId) {
+      await axios
+        .delete(`${SERVER_URL}/post/deleteComment/${userId}/${commentId}/${postid}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      .then(res => {
+        setReload(!reload);
+        console.log(res)
+      })
     }
   }
 
@@ -254,12 +271,45 @@ export default function Feed() {
                 <div>
                   {post?.comments.map((com) => (
                     <div className="px-4 my-4 flex gap-2">
-                      <div className="w-[35px] h-[35px] rounded-full bg-gray-200"></div>
+                      <div className="w-[30px] h-[30px] flex items-center justify-center rounded-full bg-gray-200">
+                        <UserOutlined size={25} />
+                      </div>
                       <div>
                         <h4 className="font-semibold">Mr. X</h4>
-                        <p className="font-normal text-[14px]">
+                        <p className="font-normal text-gray-600 text-[14px]">
                           {com?.comment}
                         </p>
+                        <div className="flex gap-3 mt-1">
+                          {userId == com?.userId ? (
+                            <>
+                              <button className="text-[12px] font-semibold hover:underline">
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => handleCommentDelete(post.id, com?.id)}
+                                className="text-[12px] font-semibold hover:underline"
+                              >
+                                Delete
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                className="text-[12px] cursor-not-allowed text-gray-400 font-semibold"
+                                disabled
+                              >
+                                Edit
+                              </button>
+                              <button
+                                disabled
+                                onClick={() => handleCommentDelete(com?.id)}
+                                className="text-[12px] cursor-not-allowed text-gray-400 font-semibold"
+                              >
+                                Delete
+                              </button>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                   ))}
