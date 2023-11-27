@@ -41,6 +41,8 @@ export default function LoginPage() {
         .catch((err) => {
           toast.error("Something went wrong. Try again.");
         });
+
+      reset()
     } else if (data.email){
       await axios
         .post(`${SERVER_URL}/user/forgot-pass-check`, data, {

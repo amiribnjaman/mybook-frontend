@@ -19,40 +19,47 @@ export default function CreatePostCard({ createPostCard, setCreatePostCard, relo
   const postSubmit = async (d) => {
     const post = d.post;
 
+    const userId = localStorage.getItem("userId")
+
     // Upload image into imgbb
     const img = d.image[0];
-    let formData = new FormData();
-    formData.append("image", img);
-    await fetch(url, {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        imgUrl = data.data.url;
-      });
+    if (img) {
+      let formData = new FormData();
+      formData.append("image", img);
+      await fetch(url, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          imgUrl = data.data.url;
+        });
+    }
 
     const data = {
       post,
       imgUrl,
+      userId
     };
 
     // POST DATA INTO SERVER
-    await axios
-      .post(`${SERVER_URL}/post/create`, data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        if (res.data.status == 201) {
-          setReload(!reload)
-          toast.success("A post uploaded.");
-        }
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    if (img || post) {
+      await axios
+        .post(`${SERVER_URL}/post/create`, data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          if (res.data.status == 201) {
+            setReload(!reload);
+            toast.success("A post uploaded.");
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }
 
     reset();
     setCreatePostCard(!createPostCard);

@@ -26,6 +26,9 @@ export default function Feed() {
     reset,
   } = useForm();
 
+  const userId = localStorage.getItem("userId")
+  console.log(userId, posts);
+
   // POST DATA FETCHING
   useEffect(() => {
     fetch(`${SERVER_URL}/post/allpost`)
@@ -71,6 +74,24 @@ export default function Feed() {
   const handleMoreOption = (id) => {
     setPostIdForMoreAction(id);
     setMoreOption(!moreOption)
+  }
+
+  // DELETE A POST
+  const handleDeletePost = async () => {
+    if (userId && postIdForMoreAction) {
+      await axios
+        .delete(
+          `${SERVER_URL}/post/deletePost/${userId}/${postIdForMoreAction}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          setReload(!reload);
+        });
+    }
   }
 
   return (
@@ -124,7 +145,11 @@ export default function Feed() {
       {/*========================NEWS FEED========================*/}
       {posts.length > 0 &&
         posts.map((post) => (
-          <div className="mt-6 mb-8 w-[90%] relative py-6 mr-auto rounded-md border shadow">
+          <div
+            className={`${
+              createPostCard ? "-z-50" : ""
+            } mt-6 mb-8 w-[90%] relative py-6 mr-auto rounded-md border shadow bg-white`}
+          >
             {/*---------POST HEADEING------------*/}
             {/*----------USER------------ */}
             <div className="flex justify-between px-4">
@@ -163,10 +188,29 @@ export default function Feed() {
                   <div
                     className={`${
                       moreOption ? "block" : "hidden"
-                    } absolute border px-4 py-6 rounded-md shadow-md flex flex-col gap-3 z-50 bg-white top-[55px] right-[10px]`}
+                    } absolute border px-4 py-6 rounded-md shadow-md flex flex-col gap-3 bg-white top-[55px] right-[10px]`}
                   >
-                    <button>Edit</button>
-                    <button>Delete</button>
+                    {userId == post?.userId ? (
+                      <>
+                        <button>Edit</button>
+                        <button onClick={handleDeletePost}>Delete</button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          disabled
+                          className="cursor-not-allowed text-gray-300"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          disabled
+                          className="cursor-not-allowed text-gray-300"
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
                   </div>
                 )}
               </div>
