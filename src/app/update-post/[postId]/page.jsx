@@ -5,10 +5,12 @@ import { SERVER_URL } from "@/utilitis/SERVER_URL";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function UpdatePost() {
   const { postId } = useParams();
-
+  const [post, setPost] = useState({})
+console.log(post.data?.post);
   const imgbbKey = "aefb8bb9063d982e8940fd31a2d29f9d";
   const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
   let imgUrl;
@@ -26,11 +28,11 @@ export default function UpdatePost() {
       .then((res) => res.json())
       .then((data) => {
         if (data.status == 200) {
-          setPosts(data.data);
+          setPost(data)
         }
       });
-  }, [reload]);
-  
+  }, []);
+
 
   // Handle post submit
   const postSubmit = async (d) => {
@@ -94,30 +96,34 @@ export default function UpdatePost() {
       </div>
       <div className="w-full px-4">
         {/*------------- POST FORM------------ */}
-        <form onSubmit={handleSubmit(postSubmit)}>
-          <textarea
-            {...register("post")}
-            name="post"
-            id=""
-            cols="52"
-            rows="5"
-            className="focus:outline-none focus:border text-lg rounded-md p-2"
-            placeholder="Whats on your mind? Mr.X"
-          ></textarea>
+        {post?.data && post?.data && (
+          <form onSubmit={handleSubmit(postSubmit)}>
+            <textarea
+              {...register("post")}
+              name="post"
+              id=""
+              cols="52"
+              rows="5"
+              className="focus:outline-none focus:border text-lg rounded-md p-2"
+              placeholder="Whats on your mind? Mr.X"
+            >
+              {post.data?.post && post.data?.post}
+            </textarea>
 
-          <div className="my-2 flex justify-between items-center px-4 py-2 rounded-md border">
-            <p>Add to your post</p>
-            <div>
-              <input type="file" {...register("image")} />
+            <div className="my-2 flex justify-between items-center px-4 py-2 rounded-md border">
+              <p>Add to your post</p>
+              <div>
+                <input type="file" {...register("image")} />
+              </div>
             </div>
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-[#0866FF] py-[4px] text-xl mt-2 text-white rounded-md"
-          >
-            Update Post
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="w-full bg-[#0866FF] py-[4px] text-xl mt-2 text-white rounded-md"
+            >
+              Update Post
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );
