@@ -17,8 +17,10 @@ export default function Feed() {
   const [showCommentBox, setShowCommentBox] = useState("");
   const [postId, setPostId] = useState("");
   const [postIdForMoreAction, setPostIdForMoreAction] = useState("");
-  const [reload, setReload] = useState(false)
-  const [moreOption, setMoreOption] = useState(false)
+  const [reload, setReload] = useState(false);
+  const [moreOption, setMoreOption] = useState(false);
+  const [showEditComField, setShowEditComField] = useState(false);
+  const [commentId, setCommentId] = useState("");
 
   const {
     register,
@@ -27,10 +29,13 @@ export default function Feed() {
     reset,
   } = useForm();
 
-  const userId = localStorage.getItem("userId")
-  console.log(posts);
+  const userId = localStorage.getItem("userId");
 
-  // POST DATA FETCHING
+  /*
+   **
+   ** FETCHING ALL POST
+   **
+   */
   useEffect(() => {
     fetch(`${SERVER_URL}/post/allpost`)
       .then((res) => res.json())
@@ -41,7 +46,11 @@ export default function Feed() {
       });
   }, [reload]);
 
-  // HANLDE COMMENT SUBMIT
+  /*
+   **
+   ** CREATE A NEW COMMENT
+   **
+   */
   const commentSubmit = async (d) => {
     const data = {
       comment: d.comment,
@@ -56,27 +65,42 @@ export default function Feed() {
             "Content-Type": "application/json",
           },
         })
-      .then(res => {
-        setReload(!reload);
-      })
+        .then((res) => {
+          setReload(!reload);
+        });
     }
 
-    reset()
+    reset();
   };
 
-  // HANDLE COMMENT BOX SHOWING
+  /*
+   **
+   ** HANDLE/SHOW COMMENT BOX SHOWING
+   ** Here set post id for place comment
+   **
+   */
   const handleCommentBox = (id) => {
     setPostId(id);
-    setShowCommentBox(true)
+    setShowCommentBox(true);
   };
 
-  // HANDLE MORE OPTION BUTTON
+  /*
+   **
+   ** HANDLE MORE OPTION BUTON
+   ** AND SET POST ID
+   ** Using MORE OPTION BUTON, user operate other options like- EDIT POST, DELETE POST
+   **
+   */
   const handleMoreOption = (id) => {
     setPostIdForMoreAction(id);
-    setMoreOption(!moreOption)
-  }
+    setMoreOption(!moreOption);
+  };
 
-  // DELETE A POST
+  /*
+   **
+   ** DELETE A SINGLE POST
+   **
+   */
   const handleDeletePost = async () => {
     // If userid and post id is available then hit the api
     if (userId && postIdForMoreAction) {
@@ -93,24 +117,41 @@ export default function Feed() {
           setReload(!reload);
         });
     }
-  }
+  };
 
-  // HANDLE COMMENT A COMMENT
-  const handleCommentDelete= async (postid, commentId) => {
-    console.log(postid)
+  /*
+   **
+   ** BUTTON FOR SHOWING EDIT COMMENT POST
+   **
+   */
+  const handleCommentEditCard = (postId, commentId) => {
+    setCommentId(commentId);
+    setShowEditComField(!showEditComField)
+  };
+
+  /*
+   **
+   ** DELETE A SINGLE COMENT
+   **
+   */
+  const handleCommentDelete = async (postid, commentId) => {
+    console.log(postid);
     if (userId) {
       await axios
-        .delete(`${SERVER_URL}/post/deleteComment/${userId}/${commentId}/${postid}`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-      .then(res => {
-        setReload(!reload);
-        console.log(res)
-      })
+        .delete(
+          `${SERVER_URL}/post/deleteComment/${userId}/${commentId}/${postid}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          setReload(!reload);
+          console.log(res);
+        });
     }
-  }
+  };
 
   return (
     <>
@@ -172,13 +213,6 @@ export default function Feed() {
             {/*----------------USER------------ */}
             <div className="flex justify-between px-4">
               <div className="flex gap-3">
-                {/* <Image
-              src={''}
-              alt=""
-              width={30}
-              height={30}
-              className="rounded-full"
-            /> */}
                 <div className="w-[40px] cursor-pointer h-[40px] rounded-full bg-gray-200 flex items-center justify-center">
                   <UserOutlined size={50} />
                 </div>
@@ -279,21 +313,53 @@ export default function Feed() {
                         <p className="font-normal text-gray-600 text-[14px]">
                           {com?.comment}
                         </p>
-                        <div className="flex gap-3 mt-1">
+                        <div className="flex flex-col gap-3 mt-1">
                           {userId == com?.userId ? (
                             <>
-                              <button className="text-[12px] font-semibold hover:underline">
-                                Edit
-                              </button>
-                              <button
-                                onClick={() => handleCommentDelete(post.id, com?.id)}
-                                className="text-[12px] font-semibold hover:underline"
-                              >
-                                Delete
-                              </button>
+                              <div className="flex gap-3 order-last">
+                                <button
+                                  onClick={() => {
+                                    handleCommentEditCard(post.id, com?.id);
+                                  }}
+                                  className="text-[12px] font-semibold hover:underline"
+                                >
+                                  {/* onClick={() =>
+                                  handleCommentUpdate(post.id, com?.id)
+                                } */}
+                                  Edit
+                                </button>
+                                <button
+                                  onClick={() =>
+                                    handleCommentDelete(post.id, com?.id)
+                                  }
+                                  className="text-[12px] font-semibold hover:underline"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+
+                              {/* ---------------------COMMENT EDIT CARD------------ */}
+                              {commentId == com.id && (
+                                <div
+                                  className={`${
+                                    showEditComField ? "block" : "hidden"
+                                  } order-1`}
+                                >
+                                  <form action="">
+                                    <input
+                                      className="border px-4 py-[2px] rounded"
+                                      type="text"
+                                      name=""
+                                      id=""
+                                      placeholder="Write comment"
+                                    />
+                                    <button className="ml-2 inline-block text-white bg-green-600 px-6 py-1 rounded-md">Edit</button>
+                                  </form>
+                                </div>
+                              )}
                             </>
                           ) : (
-                            <>
+                            <div className="flex gap-3">
                               <button
                                 className="text-[12px] cursor-not-allowed text-gray-400 font-semibold"
                                 disabled
@@ -307,7 +373,7 @@ export default function Feed() {
                               >
                                 Delete
                               </button>
-                            </>
+                            </div>
                           )}
                         </div>
                       </div>
