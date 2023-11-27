@@ -9,6 +9,7 @@ import { Button } from "antd";
 import { SERVER_URL } from "@/utilitis/SERVER_URL";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import UpdatePostCard from "./updatePostCard";
 
 export default function Feed() {
   const [createPostCard, setCreatePostCard] = useState(false);
@@ -100,7 +101,7 @@ export default function Feed() {
       <div
         className={`${
           createPostCard ? "backdrop-blur-md" : ""
-        } bg-white w-[90%] mr-auto px-2 py-3 shadow border rounded-md`}
+        } bg-white relative w-[90%] mr-auto px-2 py-3 shadow border rounded-md`}
       >
         <div className="mx-3 ">
           <div className="flex gap-2 justify-between mb-3">
@@ -150,8 +151,8 @@ export default function Feed() {
               createPostCard ? "-z-50" : ""
             } mt-6 mb-8 w-[90%] relative py-6 mr-auto rounded-md border shadow bg-white`}
           >
-            {/*---------POST HEADEING------------*/}
-            {/*----------USER------------ */}
+            {/*----------------POST HEADEING------------*/}
+            {/*----------------USER------------ */}
             <div className="flex justify-between px-4">
               <div className="flex gap-3">
                 {/* <Image
@@ -192,7 +193,11 @@ export default function Feed() {
                   >
                     {userId == post?.userId ? (
                       <>
-                        <button>Edit</button>
+                        <button>
+                          <Link href={`/update-post/${postIdForMoreAction}`}>
+                            Edit
+                          </Link>
+                        </button>
                         <button onClick={handleDeletePost}>Delete</button>
                       </>
                     ) : (
