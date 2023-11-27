@@ -9,7 +9,7 @@ import { Button } from "antd";
 import { SERVER_URL } from "@/utilitis/SERVER_URL";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import UpdatePostCard from "./updatePostCard";
+import UpdateCommentCard from "./updateCommentCard";
 
 export default function Feed() {
   const [createPostCard, setCreatePostCard] = useState(false);
@@ -21,6 +21,7 @@ export default function Feed() {
   const [moreOption, setMoreOption] = useState(false);
   const [showEditComField, setShowEditComField] = useState(false);
   const [commentId, setCommentId] = useState("");
+  const [commentPostId, setCommentPostId] = useState('')
 
   const {
     register,
@@ -29,7 +30,15 @@ export default function Feed() {
     reset,
   } = useForm();
 
-  const userId = localStorage.getItem("userId");
+  /*
+   **
+   ** GETTING LOGEDIN USER-ID FROM LOCALSTORAGE
+   **
+   */
+  let userId;
+  if (typeof window !== 'undefined') {
+    userId = localStorage.getItem("userId");
+  }
 
   /*
    **
@@ -119,15 +128,20 @@ export default function Feed() {
     }
   };
 
+
   /*
    **
-   ** BUTTON FOR SHOWING EDIT COMMENT POST
+   ** BUTTON FOR SHOWING/TOGGLE COMMENT UPDATE/EDIT BOX
    **
    */
-  const handleCommentEditCard = (postId, commentId) => {
-    setCommentId(commentId);
-    setShowEditComField(!showEditComField)
+  const handleCommentEditCard = (postId, commentid) => {
+    setCommentId(commentid);
+    setCommentPostId(postId);
+    console.log(postId)
+    setShowEditComField(!showEditComField);
   };
+
+
 
   /*
    **
@@ -319,13 +333,10 @@ export default function Feed() {
                               <div className="flex gap-3 order-last">
                                 <button
                                   onClick={() => {
-                                    handleCommentEditCard(post.id, com?.id);
+                                    handleCommentEditCard(post?.id, com?.id);
                                   }}
                                   className="text-[12px] font-semibold hover:underline"
                                 >
-                                  {/* onClick={() =>
-                                  handleCommentUpdate(post.id, com?.id)
-                                } */}
                                   Edit
                                 </button>
                                 <button
@@ -340,21 +351,24 @@ export default function Feed() {
 
                               {/* ---------------------COMMENT EDIT CARD------------ */}
                               {commentId == com.id && (
+                                // -----------------------------------------------
+                                //--------------EDIT COMMENT FORM------------------
+                                // -------------------------------------------------
                                 <div
                                   className={`${
                                     showEditComField ? "block" : "hidden"
                                   } order-1`}
                                 >
-                                  <form action="">
-                                    <input
-                                      className="border px-4 py-[2px] rounded"
-                                      type="text"
-                                      name=""
-                                      id=""
-                                      placeholder="Write comment"
-                                    />
-                                    <button className="ml-2 inline-block text-white bg-green-600 px-6 py-1 rounded-md">Edit</button>
-                                  </form>
+                                  {/*--------UPDATE COMMENT FORM------ */}
+                                  <UpdateCommentCard
+                                    userId={userId}
+                                    commentId={commentId}
+                                    postId={commentPostId}
+                                    reload={reload}
+                                    setReload={setReload}
+                                    setShowEditComField={setShowEditComField}
+                                    showEditComField={showEditComField}
+                                  />
                                 </div>
                               )}
                             </>
@@ -382,6 +396,9 @@ export default function Feed() {
                 </div>
               )}
               {post.id == postId && (
+                // -----------------------------------------------
+                //--------------WRITE COMMENT FORM------------------
+                // -------------------------------------------------
                 <form
                   className={`${showCommentBox ? "block" : "hidden"}`}
                   onSubmit={handleSubmit(commentSubmit)}
