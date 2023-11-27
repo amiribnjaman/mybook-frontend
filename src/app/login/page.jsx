@@ -19,7 +19,6 @@ export default function LoginPage() {
   // Login submit function
   const loginSubmit = async (data) => {
     if (data.email && data.password) {
-      console.log(data);
       await axios
         .post(`${SERVER_URL}/user/login`, data, {
           credentials: "include",

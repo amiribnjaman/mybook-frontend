@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
 import axios from "axios";
 import { SERVER_URL } from "@/utilitis/SERVER_URL";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function UpdatePost() {
   const { postId } = useParams();
-  const [post, setPost] = useState({})
-console.log(post.data?.post);
+  const navigate = useRouter();
+  const [post, setPost] = useState({});
   const imgbbKey = "aefb8bb9063d982e8940fd31a2d29f9d";
   const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
   let imgUrl;
@@ -28,20 +28,25 @@ console.log(post.data?.post);
       .then((res) => res.json())
       .then((data) => {
         if (data.status == 200) {
-          setPost(data)
+          setPost(data);
         }
       });
   }, []);
 
-
   // Handle post submit
-  const postSubmit = async (d) => {
-    const post = d.post;
-
+  const postUpdate = async (d) => {
+    const postText = d.post;
+    const img = d.image[0];
     const userId = localStorage.getItem("userId");
 
+    // Return/ternimate other operation if there are nothing to update
+    if (!img && (!postText || postText == post.data.post )) {
+      toast.info("Nothing to update.");
+      return;
+    }
+    
+
     // Upload image into imgbb
-    const img = d.image[0];
     if (img) {
       let formData = new FormData();
       formData.append("image", img);
@@ -55,24 +60,28 @@ console.log(post.data?.post);
         });
     }
 
+    imgUrl = imgUrl || post?.data.imgUrl;
+
     const data = {
-      post,
+      postId,
+      post: postText,
       imgUrl,
       userId,
     };
 
     // POST DATA INTO SERVER
-    if (img || post) {
+    if (img || postText) {
       await axios
-        .post(`${SERVER_URL}/post/create`, data, {
+        .patch(`${SERVER_URL}/post/update-post`, data, {
           headers: {
             "Content-Type": "application/json",
           },
         })
         .then((res) => {
-          if (res.data.status == 201) {
-            setReload(!reload);
-            toast.success("A post uploaded.");
+          if (res.data.status == 200) {
+            toast.success(res.data.message);
+            // Navigate to Home page
+            navigate.push("/");
           }
         })
         .catch((err) => {
@@ -81,7 +90,6 @@ console.log(post.data?.post);
     }
 
     reset();
-    setCreatePostCard(!createPostCard);
   };
   return (
     <div className="border flex flex-col py-2 rounded-md">
@@ -97,7 +105,7 @@ console.log(post.data?.post);
       <div className="w-full px-4">
         {/*------------- POST FORM------------ */}
         {post?.data && post?.data && (
-          <form onSubmit={handleSubmit(postSubmit)}>
+          <form onSubmit={handleSubmit(postUpdate)}>
             <textarea
               {...register("post")}
               name="post"
@@ -109,7 +117,13 @@ console.log(post.data?.post);
             >
               {post.data?.post && post.data?.post}
             </textarea>
-
+            <div>
+              <img
+                src={post.data.imgUrl}
+                alt=""
+                className="w-[80px] h-[80px] rounded-md"
+              />
+            </div>
             <div className="my-2 flex justify-between items-center px-4 py-2 rounded-md border">
               <p>Add to your post</p>
               <div>
