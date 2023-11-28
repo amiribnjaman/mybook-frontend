@@ -27,6 +27,7 @@ export default function Feed() {
   const [commentPostId, setCommentPostId] = useState("");
   const [showReplies, setShowReplies] = useState(false);
   const [showIntercectionCard, setShowIntercectionCard] = useState(false);
+  const [showComments, setShowComments] = useState(false);
 
   const {
     register,
@@ -184,6 +185,18 @@ export default function Feed() {
           console.log(res);
         });
     }
+  };
+
+  /*
+   **
+   ** SHOW COMMENTS
+   ** WHEN USER CLICK THE COMMENTS WILL BE SHOWN
+   **
+   */
+  const handleCommentShow = (postId) => {
+    console.log(postId);
+    setPostId(postId);
+    setShowComments(!showComments);
   };
 
   /*
@@ -388,17 +401,27 @@ export default function Feed() {
             <hr />
             {/*---------------COMMENT SECTION------------ */}
             <div className="px-4 my-2">
-              <p className="font-semibold my-3">
-                {/*
-                 **
-                 **IF COMMENT HAS LENGHT THEN SHOW COMMENT AMOUNT & CONTENT
-                 **
-                 */}
-                {post?.comments.length > 0 &&
-                  post?.comments.length + " Comments"}
-              </p>
+              {/*
+               **
+               **IF COMMENT HAS LENGHT THEN SHOW COMMENT AMOUNT & CONTENT
+               **
+               */}
               {post?.comments.length > 0 && (
-                <div>
+                <button
+                  onClick={() => handleCommentShow(post?.id)}
+                  className="font-semibold my-3 hover:underline"
+                >
+                  {post?.comments.length + " Comments"}
+                </button>
+              )}
+
+              {/*
+               **
+               **IF CLICKED POST.ID AND LOOPING POST.ID IS EQUIED THEN SHOW THE COMMENTS FOR THE SPECIFIC POST
+               **
+               */}
+              {post?.id == postId && post?.comments.length > 0 && (
+                <div className={`${showComments ? "block" : "hidden"}`}>
                   {/*
                    **
                    ** LOOPING POST COMMENTS
