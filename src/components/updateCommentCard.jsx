@@ -56,9 +56,9 @@ export default function UpdateCommentCard({
   };
   return (
     <>
-      <form onSubmit={handleCommentUpdate}>
+      <form className="flex gap-1 w-full" onSubmit={handleCommentUpdate}>
         <input
-          className="border focus:outline-none focus:border px-4 py-[2px] rounded"
+          className="border w-[75%] focus:outline-none focus:border px-4 py-[2px] rounded"
           type="text"
           {...register("commentUpdate", {
             required: true,
@@ -70,7 +70,7 @@ export default function UpdateCommentCard({
         />
         <button
           type="submit"
-          className="ml-2 inline-block text-white bg-green-600 px-6 py-1 rounded-md"
+          className="ml-2 w-[25%] inline-block text-white bg-blue-700 px-3 py-1 rounded-md"
         >
           Edit
         </button>

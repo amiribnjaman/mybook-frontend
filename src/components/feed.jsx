@@ -11,11 +11,12 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import UpdateCommentCard from "./updateCommentCard";
 import CreateReplyCard from "./createReplyCard";
+import InterectionCard from "./interectionCard";
 
 export default function Feed() {
   const [createPostCard, setCreatePostCard] = useState(false);
   const [posts, setPosts] = useState([]);
-  const [showCommentBox, setShowCommentBox] = useState("");
+  const [showCommentBox, setShowCommentBox] = useState(false);
   const [postId, setPostId] = useState("");
   const [postIdForMoreAction, setPostIdForMoreAction] = useState("");
   const [reload, setReload] = useState(false);
@@ -25,8 +26,7 @@ export default function Feed() {
   const [commentId, setCommentId] = useState("");
   const [commentPostId, setCommentPostId] = useState("");
   const [showReplies, setShowReplies] = useState(false);
-
-  console.log(posts);
+  const [showIntercectionCard, setShowIntercectionCard] = useState(false);
 
   const {
     register,
@@ -88,7 +88,6 @@ export default function Feed() {
           setReload(!reload);
         });
     }
-
     reset();
   };
 
@@ -100,7 +99,7 @@ export default function Feed() {
    */
   const handleCommentBox = (id) => {
     setPostId(id);
-    setShowCommentBox(true);
+    setShowCommentBox(!showCommentBox);
   };
 
   /*
@@ -194,9 +193,21 @@ export default function Feed() {
    **
    */
   const handleReplyShow = (commentId) => {
-    console.log(commentId)
+    console.log(commentId);
     setCommentId(commentId);
     setShowReplies(!showReplies);
+  };
+
+  /*
+   **
+   ** SHOW INTERECTION
+   ** WHEN USER CLICK THE INTERECTION CARD SHOWN
+   **
+   */
+  const handleInterectionCard = (postId) => {
+    console.log(postId);
+    setPostId(postId);
+    setShowIntercectionCard(!showIntercectionCard);
   };
 
   return (
@@ -349,9 +360,26 @@ export default function Feed() {
               {post?.likes?.length && post?.likes?.length + "Likes"}
             </p>
             {/*------------USER INTERECTION INTO POST---------- */}
+
             <hr />
-            <div className="my-2 px-4 flex justify-between">
-              <Button>Like</Button>
+
+            <div className="my-2 px-4 flex justify-between relative">
+              {/*
+               **
+               ** INTERECTION CARD
+               **
+               */}
+              {postId == post?.id && (
+                <InterectionCard
+                  userId={userId}
+                  postId={postId}
+                  showIntercectionCard={showIntercectionCard}
+                  setShowInterectionCard={setShowIntercectionCard}
+                />
+              )}
+              <Button onClick={() => handleInterectionCard(post?.id)}>
+                Like
+              </Button>
               <Button onClick={() => handleCommentBox(post?.id)}>
                 Comment
               </Button>
@@ -423,32 +451,6 @@ export default function Feed() {
                                     Delete
                                   </button>
                                 </div>
-
-                                {/* ---------------------COMMENT EDIT CARD------------ */}
-                                {/*
-                                 **
-                                 **IF CLICK TIME COMMENT ID AND LOOPING COMMENT ID IS EQUELD THEN SHOW COMMNET EDIT FORM THE SPECIFIC COMMENT
-                                 **
-                                 */}
-                                {commentId == com.id && (
-                                  //--------------EDIT/UPDATE COMMENT FORM------------------
-                                  <div
-                                    className={`${
-                                      showEditComField ? "block" : "hidden"
-                                    } order-1`}
-                                  >
-                                    {/*--------EDIT/UPDATE COMMENT FORM------ */}
-                                    <UpdateCommentCard
-                                      userId={userId}
-                                      commentId={commentId}
-                                      postId={commentPostId}
-                                      reload={reload}
-                                      setReload={setReload}
-                                      setShowEditComField={setShowEditComField}
-                                      showEditComField={showEditComField}
-                                    />
-                                  </div>
-                                )}
                               </div>
                             ) : (
                               <div className="flex gap-x-3 mt-1">
@@ -484,6 +486,32 @@ export default function Feed() {
                           </div>
                         </div>
                       </div>
+
+                      {/* ---------------------COMMENT EDIT CARD------------ */}
+                      {/*
+                       **
+                       **IF CLICK TIME COMMENT ID AND LOOPING COMMENT ID IS EQUELD THEN SHOW COMMNET EDIT FORM THE SPECIFIC COMMENT
+                       **
+                       */}
+                      {commentId == com.id && (
+                        //--------------EDIT/UPDATE COMMENT FORM------------------
+                        <div
+                          className={`${
+                            showEditComField ? "block" : "hidden"
+                          } order-1 w-[87%] ml-auto`}
+                        >
+                          {/*--------EDIT/UPDATE COMMENT FORM------ */}
+                          <UpdateCommentCard
+                            userId={userId}
+                            commentId={commentId}
+                            postId={commentPostId}
+                            reload={reload}
+                            setReload={setReload}
+                            setShowEditComField={setShowEditComField}
+                            showEditComField={showEditComField}
+                          />
+                        </div>
+                      )}
 
                       {/*
                        **
@@ -540,13 +568,15 @@ export default function Feed() {
                               <div
                                 className={`${
                                   showReplies ? "block" : "hidden"
-                                } ml-12 mt-1`}
+                                } ml-12 mt-1 flex gap-2`}
                               >
-                                <div className="w-[20px] h-[20px] flex items-center justify-center rounded-full bg-gray-200">
+                                <div className="w-[25px] h-[25px] flex items-center justify-center rounded-full bg-gray-200 mt-1">
                                   <UserOutlined size={15} />
                                 </div>
                                 <div className="">
-                                  <h4 className="font-semibold">Mr. X</h4>
+                                  <h4 className="font-semibold text-[14px]">
+                                    Mr. X
+                                  </h4>
                                   <p className="font-normal text-gray-600 text-[14px]">
                                     {reply?.reply}
                                   </p>
