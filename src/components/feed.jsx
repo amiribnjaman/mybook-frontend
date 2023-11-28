@@ -373,9 +373,9 @@ export default function Feed() {
              ** SHOWING USER INTERACTION/LIKES
              **
              */}{" "}
-            <p className="px-4 text-[13px] font-semibold">
+            <p className="px-4 text-[13px] font-semibold mb-1">
               {post?.Likes?.length > 0
-                ? post?.Likes.length + " people Likes"
+                ? post?.Likes.length + " people Likes this"
                 : " No Like"}
             </p>
             {/*------------USER INTERECTION INTO POST---------- */}
@@ -397,7 +397,12 @@ export default function Feed() {
                 />
               )}
               <Button onClick={() => handleInterectionCard(post?.id)}>
-                Like
+                {/*
+               **
+               **CHECKING IS USER LIKED THIS OR NOT
+               **
+               */}
+                { post?.Likes?.map(like => like.userId == userId ? like.likeType.toUpperCase(): 'Like') }
               </Button>
               <Button onClick={() => handleCommentBox(post?.id)}>
                 Comment
