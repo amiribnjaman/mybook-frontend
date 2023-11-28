@@ -28,7 +28,6 @@ export default function LoginPage() {
           },
         })
         .then((res) => {
-          console.log(res);
           if (res.data.status == 200) {
             localStorage.setItem('userId', res.data.userId)
             toast.success(res.data.message);
