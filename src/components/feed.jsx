@@ -24,9 +24,10 @@ export default function Feed() {
   const [showReplyField, setShowReplyField] = useState(false);
   const [commentId, setCommentId] = useState("");
   const [commentPostId, setCommentPostId] = useState("");
+  const [showReplies, setShowReplies] = useState(false);
 
-  console.log(posts)
-  
+  console.log(posts);
+
   const {
     register,
     formState: { errors },
@@ -184,6 +185,18 @@ export default function Feed() {
           console.log(res);
         });
     }
+  };
+
+  /*
+   **
+   ** SHOW REPLIES BUTTON
+   ** WHEN USER CLICK THE REPLIES WILL BE SHOWN
+   **
+   */
+  const handleReplyShow = (commentId) => {
+    console.log(commentId)
+    setCommentId(commentId);
+    setShowReplies(!showReplies);
   };
 
   return (
@@ -460,7 +473,7 @@ export default function Feed() {
                              **REPLY BUTTON
                              **
                              */}
-                            <div className="flex">
+                            <div className="flex mt-1">
                               <button
                                 onClick={() => handleReplyBox(post.id, com?.id)}
                                 className="text-[12px] font-semibold hover:underline"
@@ -499,6 +512,48 @@ export default function Feed() {
                             showReplyField={showReplyField}
                           />
                         </div>
+                      )}
+
+                      {/*
+                       **
+                       **SHOW REPLIES
+                       **SHOWING REPLIES AMOUNT BUTTON FOR REPLIES SHOW
+                       **
+                       */}
+                      {com?.replies?.length > 0 && (
+                        <>
+                          <button
+                            onClick={() => handleReplyShow(com?.id)}
+                            className="font-semibold text-[12px] mt-[-6px] block ml-9 text-left hover:underline"
+                          >
+                            {com?.replies?.length} replies.
+                          </button>
+
+                          {/*
+                           **
+                           **SHOW REPLIES CARD
+                           **IF CLICKED COMMENT.ID & LOOPING COMMENT.ID IS EQUELD THEN SHOW THE REPLIES FOR THE SPECIFIC COMMENT
+                           **
+                           */}
+                          {commentId == com?.id &&
+                            com?.replies.map((reply) => (
+                              <div
+                                className={`${
+                                  showReplies ? "block" : "hidden"
+                                } ml-12 mt-1`}
+                              >
+                                <div className="w-[20px] h-[20px] flex items-center justify-center rounded-full bg-gray-200">
+                                  <UserOutlined size={15} />
+                                </div>
+                                <div className="">
+                                  <h4 className="font-semibold">Mr. X</h4>
+                                  <p className="font-normal text-gray-600 text-[14px]">
+                                    {reply?.reply}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                        </>
                       )}
                     </div>
                   ))}
