@@ -1,3 +1,5 @@
+import { SERVER_URL } from "@/utilitis/SERVER_URL";
+import axios from "axios";
 import { useState } from "react";
 
 export default function InterectionCard({
@@ -5,6 +7,8 @@ export default function InterectionCard({
   postId,
   showIntercectionCard,
   setShowInterectionCard,
+  setReload,
+  reload
 }) {
   const [interectionValue, setInterectionValue] = useState(false);
 
@@ -13,9 +17,27 @@ export default function InterectionCard({
    ** HANDLE CREATE A REPLY
    **
    */
-  const handleInterectionSubmit = async (value) => {
+  const handleInteractionSubmit = async (value) => {
       setInterectionValue(value)
-      console.log(interectionValue,value);
+
+    const data = {
+      likeType: value,
+      postId: postId,
+      userId: userId,
+    };
+
+    if (value) {
+      await axios
+        .patch(`${SERVER_URL}/post/post-likes`, data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          setReload(!reload);
+          setShowInterectionCard(!showIntercectionCard)
+        });
+    }
       
 
     // const replayText = replyValue?.current.value;
@@ -47,19 +69,19 @@ export default function InterectionCard({
       } absolute bottom-8 left-1  shadow-md rounded bg-white flex gap-4 w-1/2 px-3 py-2 ml-1 mb-2 justify-center`}
     >
       <button
-        onClick={() => handleInterectionSubmit("like")}
+        onClick={() => handleInteractionSubmit("like")}
         className="text-blue-500 hover:underline"
       >
         Like
       </button>
       <button
-        onClick={() => handleInterectionSubmit("love")}
+        onClick={() => handleInteractionSubmit("love")}
         className="text-red-500 hover:underline"
       >
         Love
       </button>
       <button
-        onClick={() => handleInterectionSubmit("angry")}
+        onClick={() => handleInteractionSubmit("angry")}
         className="text-yellow-500 hover:underline"
       >
         Angry

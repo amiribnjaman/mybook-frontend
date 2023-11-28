@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import UpdateCommentCard from "./updateCommentCard";
 import CreateReplyCard from "./createReplyCard";
-import InterectionCard from "./interectionCard";
+import InterectionCard from "./interactionCard";
 
 export default function Feed() {
   const [createPostCard, setCreatePostCard] = useState(false);
@@ -28,6 +28,8 @@ export default function Feed() {
   const [showReplies, setShowReplies] = useState(false);
   const [showIntercectionCard, setShowIntercectionCard] = useState(false);
   const [showComments, setShowComments] = useState(false);
+
+  console.log(posts);
 
   const {
     register,
@@ -353,7 +355,6 @@ export default function Feed() {
                 )}
               </div>
             </div>
-
             {/*----------------POST CONTENT----------- */}
             {/*
              **
@@ -367,15 +368,18 @@ export default function Feed() {
                 {/* <Image height={500} width={500} alt="" src={post.imgUrl} /> */}
               </div>
             </div>
-
-            {/*---------------SHOWING INTERECTION COUNT----------- */}
-            <p className="px-4">
-              {post?.likes?.length && post?.likes?.length + "Likes"}
+            {/*
+             **
+             ** SHOWING USER INTERACTION/LIKES
+             **
+             */}{" "}
+            <p className="px-4 text-[13px] font-semibold">
+              {post?.Likes?.length > 0
+                ? post?.Likes.length + " people Likes"
+                : " No Like"}
             </p>
             {/*------------USER INTERECTION INTO POST---------- */}
-
             <hr />
-
             <div className="my-2 px-4 flex justify-between relative">
               {/*
                **
@@ -386,6 +390,8 @@ export default function Feed() {
                 <InterectionCard
                   userId={userId}
                   postId={postId}
+                  setReload={setReload}
+                  reload={reload}
                   showIntercectionCard={showIntercectionCard}
                   setShowInterectionCard={setShowIntercectionCard}
                 />
