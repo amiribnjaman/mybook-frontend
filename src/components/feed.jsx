@@ -25,6 +25,8 @@ export default function Feed() {
   const [commentId, setCommentId] = useState("");
   const [commentPostId, setCommentPostId] = useState("");
 
+  console.log(posts)
+  
   const {
     register,
     formState: { errors },

@@ -39,10 +39,8 @@ export default function CreateReplyCard({
           },
         })
         .then((res) => {
-          console.log(res, reload);
           setReload(!reload);
           setShowReplyField(!showReplyField);
-          console.log(reload);
         });
     }
   };
