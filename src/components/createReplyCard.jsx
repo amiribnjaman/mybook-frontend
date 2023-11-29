@@ -47,7 +47,7 @@ export default function CreateReplyCard({
 
   return (
     <>
-      <form className="flex gap-1 w-full" onSubmit={handleReplyCreate}>
+      <form className="flex gap-1 w-[80%]" onSubmit={handleReplyCreate}>
         <input
           className="border w-[75%] focus:outline-none focus:border px-4 py-[2px] rounded"
           ref={replyValue}

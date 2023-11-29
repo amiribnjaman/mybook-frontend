@@ -14,7 +14,7 @@ export default function InterectionCard({
 
   /*
    **
-   ** HANDLE CREATE A REPLY
+   ** HANDLE POST INTERACTION SUBMIT
    **
    */
   const handleInteractionSubmit = async (value) => {
