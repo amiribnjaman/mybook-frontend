@@ -28,8 +28,8 @@ export default function Feed() {
   const [showReplies, setShowReplies] = useState(false);
   const [showIntercectionCard, setShowIntercectionCard] = useState(false);
   const [showComments, setShowComments] = useState(false);
-
-  console.log(posts);
+  const [totalLikes, setTotalLikes] = useState(null);
+  const [likes, setLikes] = useState([]);
 
   const {
     register,
@@ -161,7 +161,6 @@ export default function Feed() {
   const handleReplyBox = (postId, commentid) => {
     setCommentId(commentid);
     setCommentPostId(postId);
-    console.log(postId, commentid);
     setShowReplyField(!showReplyField);
   };
 
@@ -171,7 +170,6 @@ export default function Feed() {
    **
    */
   const handleCommentDelete = async (postid, commentId) => {
-    console.log(postid);
     if (userId) {
       await axios
         .delete(
@@ -208,21 +206,57 @@ export default function Feed() {
    **
    */
   const handleReplyShow = (commentId) => {
-    console.log(commentId);
     setCommentId(commentId);
     setShowReplies(!showReplies);
   };
 
   /*
    **
-   ** SHOW INTERECTION
-   ** WHEN USER CLICK THE INTERECTION CARD SHOWN
+   ** SHOW INTERECTION CARD
+   ** WHEN USER CLICK THE INTERECTION CARD WILL BE SHOWN
    **
    */
   const handleInterectionCard = (postId) => {
-    console.log(postId);
     setPostId(postId);
     setShowIntercectionCard(!showIntercectionCard);
+  };
+
+
+  /*
+   **
+   ** SHOW LOGEDIN USER INTERECTION
+  ** INTO POST
+   **
+   */
+  const handleUserInteraction = (type, post, length = null) => {
+    const findLike = post.Likes.find(like => like.userId == userId)
+    if (type == "like") {
+      if (findLike?.userId == userId) {
+        if (findLike?.likeType == "Love") {
+          return (
+            <p className="font-semibold text-red-500">{findLike?.likeType}</p>
+          );
+        } else if (findLike?.likeType == "Angry") {
+          return (
+            <p className="font-semibold text-yellow-500">{findLike?.likeType}</p>
+          );
+        } else {
+          return (
+            <p className="font-semibold text-green-500">{findLike?.likeType}</p>
+          );
+        }
+      } else {
+        return <p className="font-normal text-black">Like</p>;
+      }
+    } else if (type == "count") {
+      if (findLike?.userId == userId && length > 1) {
+        return "You and " + (length - 1) + " other people like this";
+      } else if (findLike?.userId == userId && length == 1) {
+        return "You like this";
+      } else if (findLike?.userId != userId && length > 0) {
+        return length + " people like this";
+      }
+    }
   };
 
   return (
@@ -275,8 +309,8 @@ export default function Feed() {
       </div>
 
       {/*================================NEWS FEED========================*/}
-      {posts.length > 0 &&
-        posts.map((post) => (
+      {posts?.length > 0 &&
+        posts?.map((post) => (
           <div
             className={`${
               createPostCard ? "-z-50" : ""
@@ -368,22 +402,30 @@ export default function Feed() {
                 {/* <Image height={500} width={500} alt="" src={post.imgUrl} /> */}
               </div>
             </div>
+
+            {/*------------USER INTERECTION INTO POST---------- */}
             {/*
              **
              ** SHOWING USER INTERACTION/LIKES
              **
-             */}{" "}
+             */}
             <p className="px-4 text-[13px] font-semibold mb-1">
-              {post?.Likes?.length > 0
-                ? post?.Likes.length + " people Likes this"
-                : " No Like"}
+              {/* {post?.Likes?.length > 0
+                ? post?.Likes.map((like) => (
+                    <span>
+                      {handleUserInteraction("count", like, post?.Likes.length)}
+                    </span>
+                  ))
+                : "No Like"} */}
+              {post?.Likes.length > 0
+                ? handleUserInteraction("count", post, post?.Likes.length)
+                : "No Like"}
             </p>
-            {/*------------USER INTERECTION INTO POST---------- */}
             <hr />
             <div className="my-2 px-4 flex justify-between relative">
               {/*
                **
-               ** INTERECTION CARD
+               ** USER INTERACTION CARD
                **
                */}
               {postId == post?.id && (
@@ -398,11 +440,31 @@ export default function Feed() {
               )}
               <Button onClick={() => handleInterectionCard(post?.id)}>
                 {/*
-               **
-               **CHECKING IS USER LIKED THIS OR NOT
-               **
-               */}
-                { post?.Likes?.map(like => like.userId == userId ? like.likeType.toUpperCase(): 'Like') }
+                 **
+                 **CHECKING IS USER LIKED THIS OR NOT
+                 **
+                 */}
+                {/* {post.Likes.length > 0
+                  ? post?.Likes?.map((like) =>
+                      like.userId === userId && <p className='font-bold'>Liked</p>
+                    )
+                  : "Like"} */}
+                {post?.Likes.length > 0
+                  ? handleUserInteraction("like", post)
+                  : "Like"}
+                {/* ? post?.Likes.map((like) => (
+                      <p className="">
+                        {/* {`${
+                          handleUserInteraction("like", like) == "Angry"
+                            ? "text-yellow-500"
+                            : handleUserInteraction("like", like) == "Love"
+                            ? "text-red-500"
+                            : "text-green-500"
+                        } font-semibold`} 
+                        {handleUserInteraction("like", like)}
+                      </p>
+                    ))
+                  : "Like" */}
               </Button>
               <Button onClick={() => handleCommentBox(post?.id)}>
                 Comment
