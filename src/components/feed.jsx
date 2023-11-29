@@ -28,8 +28,6 @@ export default function Feed() {
   const [showReplies, setShowReplies] = useState(false);
   const [showIntercectionCard, setShowIntercectionCard] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  const [totalLikes, setTotalLikes] = useState(null);
-  const [likes, setLikes] = useState([]);
 
   const {
     register,
@@ -119,29 +117,6 @@ export default function Feed() {
 
   /*
    **
-   ** BUTTON FOR SHOWING/TOGGLE COMMENT UPDATE/EDIT BOX
-   **
-   */
-  // const handleCommentEditCard = (postId, commentid) => {
-  //   setCommentId(commentid);
-  //   setCommentPostId(postId);
-  //   setShowEditComField(!showEditComField);
-  // };
-
-  /*
-   **
-   ** HANDLE/SHOW REPLY BOX SHOWING
-   ** Here set post id for place REPLY
-   **
-   */
-  // const handleReplyBox = (postId, commentid) => {
-  //   setCommentId(commentid);
-  //   setCommentPostId(postId);
-  //   setShowReplyField(!showReplyField);
-  // };
-
-  /*
-   **
    ** DELETE A SINGLE COMENT
    **
    */
@@ -165,51 +140,6 @@ export default function Feed() {
 
   /*
    **
-   ** HANDLE/SHOW COMMENT BOX SHOWING
-   ** Here set post id for place comment
-   **
-   */
-  // const handleCommentBox = (id) => {
-  //   setPostId(id);
-  //   setShowCommentBox(!showCommentBox);
-  // };
-
-  /*
-   **
-   ** HANDLE MORE OPTION BUTON
-   ** AND SET POST ID
-   ** Using MORE OPTION BUTON, user operate other options like- EDIT POST, DELETE POST
-   **
-   */
-  // const handleMoreOption = (id) => {
-  //   setPostIdForMoreAction(id);
-  //   setMoreOption(!moreOption);
-  // };
-
-  /*
-   **
-   ** SHOW COMMENTS
-   ** WHEN USER CLICK THE COMMENTS WILL BE SHOWN
-   **
-   */
-  // const handleCommentShow = (postId) => {
-  //   setPostId(postId);
-  //   setShowComments(!showComments);
-  // };
-
-  /*
-   **
-   ** SHOW REPLIES BUTTON
-   ** WHEN USER CLICK THE REPLIES WILL BE SHOWN
-   **
-   */
-  // const handleReplyShow = (commentId) => {
-  //   setCommentId(commentId);
-  //   setShowReplies(!showReplies);
-  // };
-
-  /*
-   **
    ** A COMMON FUNCTION FOR ALL THE EVENT HANDLER
    ** OR TOGGLE SHOW HIDE ALL INTERACTION CARD
    ** FOLLOWING DRY PRINCIPLE
@@ -228,17 +158,6 @@ export default function Feed() {
     stateSetter(!state);
   };
 
-
-  /*
-   **
-   ** SHOW INTERECTION CARD
-   ** WHEN USER CLICK THE INTERECTION CARD WILL BE SHOWN
-   **
-   */
-  // const handleInterectionCard = (postId) => {
-  //   setPostId(postId);
-  //   setShowIntercectionCard(!showIntercectionCard);
-  // };
 
   /*
    **
