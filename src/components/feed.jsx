@@ -39,14 +39,7 @@ export default function Feed() {
   } = useForm();
 
   let userId;
-
   /*
-   **
-   ** FETCHING ALL POST
-   **
-   */
-  useEffect(() => {
-    /*
      **
      ** GETTING LOGEDIN USER-ID FROM LOCALSTORAGE
      **
@@ -55,6 +48,14 @@ export default function Feed() {
       userId = localStorage.getItem("userId");
     }
 
+
+  /*
+   **
+   ** FETCHING ALL POST
+   **
+   */
+  useEffect(() => {
+    
     fetch(`${SERVER_URL}/post/allpost`)
       .then((res) => res.json())
       .then((data) => {
