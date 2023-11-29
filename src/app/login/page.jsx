@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { SERVER_URL } from "../../utilitis/SERVER_URL";
+import { useCookies } from "react-cookie";
 
 export default function LoginPage() {
   const navigate = useRouter();
+    const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
   const {
     register,
     formState: { errors },
@@ -30,6 +32,7 @@ export default function LoginPage() {
         .then((res) => {
           if (res.data.status == 200) {
             localStorage.setItem('userId', res.data.userId)
+            setCookie("Token", res.data.token);
             toast.success(res.data.message);
             // Redirect user to Home page
             navigate.push("/");
