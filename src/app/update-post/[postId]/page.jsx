@@ -31,7 +31,7 @@ export default function UpdatePost() {
           setPost(data);
         }
       });
-  }, []);
+  }, [postId]);
 
   // Handle post submit
   const postUpdate = async (d) => {

@@ -38,15 +38,7 @@ export default function Feed() {
     reset,
   } = useForm();
 
-  /*
-   **
-   ** GETTING LOGEDIN USER-ID FROM LOCALSTORAGE
-   **
-   */
   let userId;
-  if (typeof window !== "undefined") {
-    userId = localStorage.getItem("userId");
-  }
 
   /*
    **
@@ -54,6 +46,15 @@ export default function Feed() {
    **
    */
   useEffect(() => {
+    /*
+     **
+     ** GETTING LOGEDIN USER-ID FROM LOCALSTORAGE
+     **
+     */
+    if (typeof window !== "undefined") {
+      userId = localStorage.getItem("userId");
+    }
+
     fetch(`${SERVER_URL}/post/allpost`)
       .then((res) => res.json())
       .then((data) => {
@@ -96,29 +97,6 @@ export default function Feed() {
 
   /*
    **
-   ** HANDLE/SHOW COMMENT BOX SHOWING
-   ** Here set post id for place comment
-   **
-   */
-  const handleCommentBox = (id) => {
-    setPostId(id);
-    setShowCommentBox(!showCommentBox);
-  };
-
-  /*
-   **
-   ** HANDLE MORE OPTION BUTON
-   ** AND SET POST ID
-   ** Using MORE OPTION BUTON, user operate other options like- EDIT POST, DELETE POST
-   **
-   */
-  const handleMoreOption = (id) => {
-    setPostIdForMoreAction(id);
-    setMoreOption(!moreOption);
-  };
-
-  /*
-   **
    ** DELETE A SINGLE POST
    **
    */
@@ -148,7 +126,6 @@ export default function Feed() {
   const handleCommentEditCard = (postId, commentid) => {
     setCommentId(commentid);
     setCommentPostId(postId);
-    console.log(postId);
     setShowEditComField(!showEditComField);
   };
 
@@ -189,12 +166,34 @@ export default function Feed() {
 
   /*
    **
+   ** HANDLE/SHOW COMMENT BOX SHOWING
+   ** Here set post id for place comment
+   **
+   */
+  const handleCommentBox = (id) => {
+    setPostId(id);
+    setShowCommentBox(!showCommentBox);
+  };
+
+  /*
+   **
+   ** HANDLE MORE OPTION BUTON
+   ** AND SET POST ID
+   ** Using MORE OPTION BUTON, user operate other options like- EDIT POST, DELETE POST
+   **
+   */
+  const handleMoreOption = (id) => {
+    setPostIdForMoreAction(id);
+    setMoreOption(!moreOption);
+  };
+
+  /*
+   **
    ** SHOW COMMENTS
    ** WHEN USER CLICK THE COMMENTS WILL BE SHOWN
    **
    */
   const handleCommentShow = (postId) => {
-    console.log(postId);
     setPostId(postId);
     setShowComments(!showComments);
   };
@@ -210,6 +209,19 @@ export default function Feed() {
     setShowReplies(!showReplies);
   };
 
+  const handlerCommonFunction = (
+    id,
+    idSetter,
+    anotherId = "",
+    anotherIdSetter,
+    state,
+    stateSetter
+  ) => {
+    anotherIdSetter != "" && anotherIdSetter(anotherId);
+    idSetter(id);
+    stateSetter(!state);
+  };
+
   /*
    **
    ** SHOW INTERECTION CARD
@@ -221,15 +233,15 @@ export default function Feed() {
     setShowIntercectionCard(!showIntercectionCard);
   };
 
-
   /*
    **
-   ** SHOW LOGEDIN USER INTERECTION
-  ** INTO POST
+   ** LOGEDIN USER INTERECTION FUNCTION INTO POST
+   ** IF USERID AND LIKE.USERID EQUELD IMPROVE THE UX
+   **
    **
    */
   const handleUserInteraction = (type, post, length = null) => {
-    const findLike = post.Likes.find(like => like.userId == userId)
+    const findLike = post.Likes.find((like) => like.userId == userId);
     if (type == "like") {
       if (findLike?.userId == userId) {
         if (findLike?.likeType == "Love") {
@@ -238,7 +250,9 @@ export default function Feed() {
           );
         } else if (findLike?.likeType == "Angry") {
           return (
-            <p className="font-semibold text-yellow-500">{findLike?.likeType}</p>
+            <p className="font-semibold text-yellow-500">
+              {findLike?.likeType}
+            </p>
           );
         } else {
           return (
@@ -310,8 +324,9 @@ export default function Feed() {
 
       {/*================================NEWS FEED========================*/}
       {posts?.length > 0 &&
-        posts?.map((post) => (
+        posts?.map((post, index) => (
           <div
+            key={index}
             className={`${
               createPostCard ? "-z-50" : ""
             } mt-6 mb-8 w-[90%] relative py-6 mr-auto rounded-md border shadow bg-white`}
@@ -410,13 +425,6 @@ export default function Feed() {
              **
              */}
             <p className="px-4 text-[13px] font-semibold mb-1">
-              {/* {post?.Likes?.length > 0
-                ? post?.Likes.map((like) => (
-                    <span>
-                      {handleUserInteraction("count", like, post?.Likes.length)}
-                    </span>
-                  ))
-                : "No Like"} */}
               {post?.Likes.length > 0
                 ? handleUserInteraction("count", post, post?.Likes.length)
                 : "No Like"}
@@ -444,27 +452,9 @@ export default function Feed() {
                  **CHECKING IS USER LIKED THIS OR NOT
                  **
                  */}
-                {/* {post.Likes.length > 0
-                  ? post?.Likes?.map((like) =>
-                      like.userId === userId && <p className='font-bold'>Liked</p>
-                    )
-                  : "Like"} */}
                 {post?.Likes.length > 0
                   ? handleUserInteraction("like", post)
                   : "Like"}
-                {/* ? post?.Likes.map((like) => (
-                      <p className="">
-                        {/* {`${
-                          handleUserInteraction("like", like) == "Angry"
-                            ? "text-yellow-500"
-                            : handleUserInteraction("like", like) == "Love"
-                            ? "text-red-500"
-                            : "text-green-500"
-                        } font-semibold`} 
-                        {handleUserInteraction("like", like)}
-                      </p>
-                    ))
-                  : "Like" */}
               </Button>
               <Button onClick={() => handleCommentBox(post?.id)}>
                 Comment
@@ -500,8 +490,8 @@ export default function Feed() {
                    ** LOOPING POST COMMENTS
                    **
                    */}
-                  {post?.comments.map((com) => (
-                    <div className="px-4 my-4 flex flex-col gap-2">
+                  {post?.comments.map((com, index) => (
+                    <div key={index} className="px-4 my-4 flex flex-col gap-2">
                       <div className="flex gap-2">
                         <div className="w-[30px] h-[30px] flex items-center justify-center rounded-full bg-gray-200">
                           <UserOutlined size={25} />
@@ -660,8 +650,9 @@ export default function Feed() {
                            **
                            */}
                           {commentId == com?.id &&
-                            com?.replies.map((reply) => (
+                            com?.replies.map((reply, index) => (
                               <div
+                                key={index}
                                 className={`${
                                   showReplies ? "block" : "hidden"
                                 } ml-12 mt-1 flex gap-2`}
