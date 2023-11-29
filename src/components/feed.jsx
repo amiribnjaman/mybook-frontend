@@ -275,7 +275,7 @@ export default function Feed() {
                 onClick={() => setCreatePostCard(!createPostCard)}
                 className="bg-[#F0F2F5] text-[18px] hover:bg-[#E4E6E9] text-[#606266] w-full text-left px-4 py-2 px-3 rounded-full"
               >
-                What's on your mind? Mr. X
+                What&#39;s on your mind? Mr. X
               </button>
 
               {/* ====================================================== */}

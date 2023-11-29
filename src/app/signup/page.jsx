@@ -53,7 +53,7 @@ export default function SignupPage() {
       </h1>
       <div className="w-[60%] mx-auto my-6 py-3 border shadow-md rounded-md">
         <h3 className="text-2xl font-semibold"> Create a new account </h3>
-        <h5> It's quick and easy.</h5>
+        <h5> It&#39;s quick and easy.</h5>
         <hr className="my-2" />
         <div className="mx-6">
           <form onSubmit={handleSubmit(signUpSubmit)} className="mt-1">
