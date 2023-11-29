@@ -40,14 +40,13 @@ export default function Feed() {
 
   let userId;
   /*
-     **
-     ** GETTING LOGEDIN USER-ID FROM LOCALSTORAGE
-     **
-     */
-    if (typeof window !== "undefined") {
-      userId = localStorage.getItem("userId");
-    }
-
+   **
+   ** GETTING LOGEDIN USER-ID FROM LOCALSTORAGE
+   **
+   */
+  if (typeof window !== "undefined") {
+    userId = localStorage.getItem("userId");
+  }
 
   /*
    **
@@ -55,7 +54,6 @@ export default function Feed() {
    **
    */
   useEffect(() => {
-    
     fetch(`${SERVER_URL}/post/allpost`)
       .then((res) => res.json())
       .then((data) => {
@@ -124,11 +122,11 @@ export default function Feed() {
    ** BUTTON FOR SHOWING/TOGGLE COMMENT UPDATE/EDIT BOX
    **
    */
-  const handleCommentEditCard = (postId, commentid) => {
-    setCommentId(commentid);
-    setCommentPostId(postId);
-    setShowEditComField(!showEditComField);
-  };
+  // const handleCommentEditCard = (postId, commentid) => {
+  //   setCommentId(commentid);
+  //   setCommentPostId(postId);
+  //   setShowEditComField(!showEditComField);
+  // };
 
   /*
    **
@@ -136,11 +134,11 @@ export default function Feed() {
    ** Here set post id for place REPLY
    **
    */
-  const handleReplyBox = (postId, commentid) => {
-    setCommentId(commentid);
-    setCommentPostId(postId);
-    setShowReplyField(!showReplyField);
-  };
+  // const handleReplyBox = (postId, commentid) => {
+  //   setCommentId(commentid);
+  //   setCommentPostId(postId);
+  //   setShowReplyField(!showReplyField);
+  // };
 
   /*
    **
@@ -171,10 +169,10 @@ export default function Feed() {
    ** Here set post id for place comment
    **
    */
-  const handleCommentBox = (id) => {
-    setPostId(id);
-    setShowCommentBox(!showCommentBox);
-  };
+  // const handleCommentBox = (id) => {
+  //   setPostId(id);
+  //   setShowCommentBox(!showCommentBox);
+  // };
 
   /*
    **
@@ -183,10 +181,10 @@ export default function Feed() {
    ** Using MORE OPTION BUTON, user operate other options like- EDIT POST, DELETE POST
    **
    */
-  const handleMoreOption = (id) => {
-    setPostIdForMoreAction(id);
-    setMoreOption(!moreOption);
-  };
+  // const handleMoreOption = (id) => {
+  //   setPostIdForMoreAction(id);
+  //   setMoreOption(!moreOption);
+  // };
 
   /*
    **
@@ -194,10 +192,10 @@ export default function Feed() {
    ** WHEN USER CLICK THE COMMENTS WILL BE SHOWN
    **
    */
-  const handleCommentShow = (postId) => {
-    setPostId(postId);
-    setShowComments(!showComments);
-  };
+  // const handleCommentShow = (postId) => {
+  //   setPostId(postId);
+  //   setShowComments(!showComments);
+  // };
 
   /*
    **
@@ -205,11 +203,18 @@ export default function Feed() {
    ** WHEN USER CLICK THE REPLIES WILL BE SHOWN
    **
    */
-  const handleReplyShow = (commentId) => {
-    setCommentId(commentId);
-    setShowReplies(!showReplies);
-  };
+  // const handleReplyShow = (commentId) => {
+  //   setCommentId(commentId);
+  //   setShowReplies(!showReplies);
+  // };
 
+  /*
+   **
+   ** A COMMON FUNCTION FOR ALL THE EVENT HANDLER
+   ** OR TOGGLE SHOW HIDE ALL INTERACTION CARD
+   ** FOLLOWING DRY PRINCIPLE
+   **
+   */
   const handlerCommonFunction = (
     id,
     idSetter,
@@ -223,16 +228,17 @@ export default function Feed() {
     stateSetter(!state);
   };
 
+
   /*
    **
    ** SHOW INTERECTION CARD
    ** WHEN USER CLICK THE INTERECTION CARD WILL BE SHOWN
    **
    */
-  const handleInterectionCard = (postId) => {
-    setPostId(postId);
-    setShowIntercectionCard(!showIntercectionCard);
-  };
+  // const handleInterectionCard = (postId) => {
+  //   setPostId(postId);
+  //   setShowIntercectionCard(!showIntercectionCard);
+  // };
 
   /*
    **
@@ -353,12 +359,23 @@ export default function Feed() {
               </div>
               {/*-----------------POST HEADING RIGHT SIDE ELLIPSIS/DOTTED BAR------------------ */}
               <div>
-                <Button onClick={() => handleMoreOption(post?.id)} type="text">
+                <Button
+                  onClick={() =>
+                    handlerCommonFunction(
+                      post?.id,
+                      setPostIdForMoreAction,
+                      "",
+                      "",
+                      moreOption,
+                      setMoreOption
+                    )
+                  }
+                  type="text"
+                >
                   <EllipsisOutlined
                     style={{ fontSize: "22px", fontWeight: "semi-bold" }}
                   />
                 </Button>
-
                 {/*-------------------MORE OPTION CARD------------ */}
                 {/*
                  **
@@ -447,7 +464,18 @@ export default function Feed() {
                   setShowInterectionCard={setShowIntercectionCard}
                 />
               )}
-              <Button onClick={() => handleInterectionCard(post?.id)}>
+              <Button
+                onClick={() =>
+                  handlerCommonFunction(
+                    post?.id,
+                    setPostId,
+                    "",
+                    "",
+                    showIntercectionCard,
+                    setShowIntercectionCard
+                  )
+                }
+              >
                 {/*
                  **
                  **CHECKING IS USER LIKED THIS OR NOT
@@ -457,7 +485,18 @@ export default function Feed() {
                   ? handleUserInteraction("like", post)
                   : "Like"}
               </Button>
-              <Button onClick={() => handleCommentBox(post?.id)}>
+              <Button
+                onClick={() =>
+                  handlerCommonFunction(
+                    post?.id,
+                    setPostId,
+                    "",
+                    "",
+                    showCommentBox,
+                    setShowCommentBox
+                  )
+                }
+              >
                 Comment
               </Button>
               <Button>Share</Button>
@@ -472,7 +511,16 @@ export default function Feed() {
                */}
               {post?.comments.length > 0 && (
                 <button
-                  onClick={() => handleCommentShow(post?.id)}
+                  onClick={() =>
+                    handlerCommonFunction(
+                      post?.id,
+                      setPostId,
+                      "",
+                      "",
+                      showComments,
+                      setShowComments
+                    )
+                  }
                   className="font-semibold my-3 hover:underline"
                 >
                   {post?.comments.length + " Comments"}
@@ -522,9 +570,16 @@ export default function Feed() {
                               <div className="flex flex-col mt-1 ">
                                 <div className="flex gap-x-3 order-last">
                                   <button
-                                    onClick={() => {
-                                      handleCommentEditCard(post?.id, com?.id);
-                                    }}
+                                    onClick={() =>
+                                      handlerCommonFunction(
+                                        post?.id,
+                                        setCommentPostId,
+                                        com?.id,
+                                        setCommentId,
+                                        showEditComField,
+                                        setShowEditComField
+                                      )
+                                    }
                                     className="text-[12px] font-semibold hover:underline"
                                   >
                                     Edit
@@ -564,7 +619,16 @@ export default function Feed() {
                              */}
                             <div className="flex mt-1">
                               <button
-                                onClick={() => handleReplyBox(post.id, com?.id)}
+                                onClick={() =>
+                                  handlerCommonFunction(
+                                    post?.id,
+                                    setCommentPostId,
+                                    com?.id,
+                                    setCommentId,
+                                    showReplyField,
+                                    setShowReplyField
+                                  )
+                                }
                                 className="text-[12px] font-semibold hover:underline"
                               >
                                 Reply
@@ -638,7 +702,16 @@ export default function Feed() {
                       {com?.replies?.length > 0 && (
                         <>
                           <button
-                            onClick={() => handleReplyShow(com?.id)}
+                            onClick={() =>
+                              handlerCommonFunction(
+                                com?.id,
+                                setCommentId,
+                                "",
+                                "",
+                                showReplies,
+                                setShowReplies
+                              )
+                            }
                             className="font-semibold text-[12px] mt-[-6px] block ml-9 text-left hover:underline"
                           >
                             {com?.replies?.length} replies.
