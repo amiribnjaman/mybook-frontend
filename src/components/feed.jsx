@@ -158,7 +158,6 @@ export default function Feed() {
     stateSetter(!state);
   };
 
-
   /*
    **
    ** LOGEDIN USER INTERECTION FUNCTION INTO POST
@@ -166,7 +165,7 @@ export default function Feed() {
    **
    **
    */
-  const handleUserInteraction = (type, post, length = null) => {
+  const handleUserPostInteraction = (type, post, length = null) => {
     const findLike = post.Likes.find((like) => like.userId == userId);
     if (type == "like") {
       if (findLike?.userId == userId) {
@@ -196,6 +195,32 @@ export default function Feed() {
       } else if (findLike?.userId != userId && length > 0) {
         return length + " people like this";
       }
+    }
+  };
+
+  /*
+   **
+   ** HANDLE CREATE A REPLY
+   **
+   */
+  const handleCommentLikeSubmit = async (postId, commentId) => {
+    const data = {
+      likeType: "Like",
+      postId: postId,
+      userId: userId,
+      commentId: commentId,
+    };
+
+    if (commentId) {
+      await axios
+        .patch(`${SERVER_URL}/post/comment-likes`, data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          setReload(!reload);
+        });
     }
   };
 
@@ -363,7 +388,7 @@ export default function Feed() {
              */}
             <p className="px-4 text-[13px] font-semibold mb-1">
               {post?.Likes.length > 0
-                ? handleUserInteraction("count", post, post?.Likes.length)
+                ? handleUserPostInteraction("count", post, post?.Likes.length)
                 : "No Like"}
             </p>
             <hr />
@@ -401,7 +426,7 @@ export default function Feed() {
                  **
                  */}
                 {post?.Likes.length > 0
-                  ? handleUserInteraction("like", post)
+                  ? handleUserPostInteraction("like", post)
                   : "Like"}
               </Button>
               <Button
@@ -460,7 +485,7 @@ export default function Feed() {
                    */}
                   {post?.comments.map((com, index) => (
                     <div key={index} className="px-4 my-4 flex flex-col gap-2">
-                      <div className="flex gap-2">
+                      <div className="flex  gap-2">
                         <div className="w-[30px] h-[30px] flex items-center justify-center rounded-full bg-gray-200">
                           <UserOutlined size={25} />
                         </div>
@@ -469,91 +494,110 @@ export default function Feed() {
                           <p className="font-normal text-gray-600 text-[14px]">
                             {com?.comment}
                           </p>
-                          <div className="flex gap-3 mt-1 items-center">
-                            {/*
-                             **
-                             **IF LOOPING LOGEDIN USERID AND CLICK COMMENT USER.ID IS EQUELD THEN EDIT/DELETE BUTTONS WILLBE CLICKABLE
-                             **
-                             */}
-                            {/*
-                             **
-                             **LIKE BUTTON
-                             **
-                             */}
-                            <div className="">
-                              <button className="text-[12px] font-semibold hover:underline">
-                                Like
-                              </button>
-                            </div>
-                            {userId == com?.userId ? (
-                              <div className="flex flex-col mt-1 ">
-                                <div className="flex gap-x-3 order-last">
+                          <div className="flex justify-between gap-3 mt-1 items-center">
+                            <div className="flex gap-3 mt-1 items-center">
+                              {/*
+                               **
+                               **IF LOOPING LOGEDIN USERID AND CLICK COMMENT USER.ID IS EQUELD THEN EDIT/DELETE BUTTONS WILLBE CLICKABLE
+                               **
+                               */}
+                              {/*
+                               **
+                               **LIKE BUTTON
+                               **
+                               */}
+                              <div className="flex items-center gap-2 justify-center mt-1 ">
+                                <button
+                                  onClick={() =>
+                                    handleCommentLikeSubmit(post?.id, com?.id)
+                                  }
+                                  className="text-[12px] font-semibold hover:underline"
+                                >
+                                  Like
+                                </button>
+                              </div>
+                              {userId == com?.userId ? (
+                                <div className="flex flex-col mt-1 ">
+                                  <div className="flex gap-x-3 order-last">
+                                    <button
+                                      onClick={() =>
+                                        handlerCommonFunction(
+                                          post?.id,
+                                          setCommentPostId,
+                                          com?.id,
+                                          setCommentId,
+                                          showEditComField,
+                                          setShowEditComField
+                                        )
+                                      }
+                                      className="text-[12px] font-semibold hover:underline"
+                                    >
+                                      Edit
+                                    </button>
+                                    <button
+                                      onClick={() =>
+                                        handleCommentDelete(post.id, com?.id)
+                                      }
+                                      className="text-[12px] font-semibold hover:underline"
+                                    >
+                                      Delete
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="flex gap-x-3 mt-1">
                                   <button
-                                    onClick={() =>
-                                      handlerCommonFunction(
-                                        post?.id,
-                                        setCommentPostId,
-                                        com?.id,
-                                        setCommentId,
-                                        showEditComField,
-                                        setShowEditComField
-                                      )
-                                    }
-                                    className="text-[12px] font-semibold hover:underline"
+                                    className="text-[12px] cursor-not-allowed text-gray-400 font-semibold"
+                                    disabled
                                   >
                                     Edit
                                   </button>
                                   <button
-                                    onClick={() =>
-                                      handleCommentDelete(post.id, com?.id)
-                                    }
-                                    className="text-[12px] font-semibold hover:underline"
+                                    disabled
+                                    onClick={() => handleCommentDelete(com?.id)}
+                                    className="text-[12px] cursor-not-allowed text-gray-400 font-semibold"
                                   >
                                     Delete
                                   </button>
                                 </div>
-                              </div>
-                            ) : (
-                              <div className="flex gap-x-3 mt-1">
-                                <button
-                                  className="text-[12px] cursor-not-allowed text-gray-400 font-semibold"
-                                  disabled
-                                >
-                                  Edit
-                                </button>
-                                <button
-                                  disabled
-                                  onClick={() => handleCommentDelete(com?.id)}
-                                  className="text-[12px] cursor-not-allowed text-gray-400 font-semibold"
-                                >
-                                  Delete
-                                </button>
-                              </div>
-                            )}
+                              )}
 
-                            {/*
-                             **
-                             **REPLY BUTTON
-                             **
-                             */}
-                            <div className="flex mt-1">
-                              <button
-                                onClick={() =>
-                                  handlerCommonFunction(
-                                    post?.id,
-                                    setCommentPostId,
-                                    com?.id,
-                                    setCommentId,
-                                    showReplyField,
-                                    setShowReplyField
-                                  )
-                                }
-                                className="text-[12px] font-semibold hover:underline"
-                              >
-                                Reply
-                              </button>
+                              {/*
+                               **
+                               **REPLY BUTTON
+                               **
+                               */}
+                              <div className="flex mt-1 ml-0">
+                                <button
+                                  onClick={() =>
+                                    handlerCommonFunction(
+                                      post?.id,
+                                      setCommentPostId,
+                                      com?.id,
+                                      setCommentId,
+                                      showReplyField,
+                                      setShowReplyField
+                                    )
+                                  }
+                                  className="text-[12px] font-semibold hover:underline"
+                                >
+                                  Reply
+                                </button>
+                              </div>
                             </div>
                           </div>
+                        </div>
+                        {/*
+                         **
+                         **COMMENTS LIKE COUNTER
+                         **
+                         */}
+                        <div className="ml-auto mt-auto">
+                          {com?.Likes?.length > 0 && (
+                            <p className="text-[12px] font-bold text-blue-600">
+                              {com?.Likes?.length} Like
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -593,8 +637,9 @@ export default function Feed() {
                         <div
                           className={`${
                             showReplyField ? "block" : "hidden"
-                          } w-[87%] ml-auto`}
+                          } w-[87%] ml-9`}
                         >
+
                           {/*
                            **
                            **CREATE REPLY CARD COMPONENT
