@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <LayoutComponent children={children} />
+        <LayoutComponent>{children}</LayoutComponent>
       </body>
     </html>
   );
