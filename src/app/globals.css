@@ -35,3 +35,25 @@ body {
     cursor: pointer;
     transition: border-color 0.3s;
 }
+
+    /*
+       **
+           ** SKELETON OVERRIDE CUSTOM DESIGN
+           **
+           */
+
+.post-create :where(.css-dev-only-do-not-override-zcfrx9).ant-skeleton.ant-skeleton-element .ant-skeleton-input{
+  min-width: 350px !important;
+}
+
+.skeleton-group :where(.css-dev-only-do-not-override-zcfrx9).ant-skeleton.ant-skeleton-element .ant-skeleton-input {
+  min-width: 120px !important;
+}
+
+.post-user :where(.css-dev-only-do-not-override-zcfrx9).ant-skeleton.ant-skeleton-element .ant-skeleton-input {
+  min-width: 220px !important;
+}
+.ant-skeleton-image{
+  width: 475px !important;
+  height: 180px !important;
+}
