@@ -36,27 +36,34 @@ export default function InterectionCard({
         .then((res) => {
           setReload(!reload);
           setShowInterectionCard(!showIntercectionCard);
-        });
 
-      // PUSH A NEW NOTIFICATION
-      await axios
-        .patch(
-          `${SERVER_URL}/user/notification`,
-          {
-            userId,
-            postId,
-            type: "like",
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          console.log('ok')
-          // setReload(!reload);
-          // setShowInterectionCard(!showIntercectionCard);
+          /*
+           **
+           ** THIS IIFE FUNCTION PUSH A NEW NOTIFICATION
+           **
+           */
+          (async () => {
+            if (res.data.status == "200") {
+              // PUSH A NEW NOTIFICATION
+              await axios
+                .patch(
+                  `${SERVER_URL}/user/notification`,
+                  {
+                    userId,
+                    postId,
+                    type: "like",
+                  },
+                  {
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                )
+                .then((res) => {
+                  console.log("ok");
+                });
+            }
+          })();
         });
     }
   };
