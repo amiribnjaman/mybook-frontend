@@ -4,21 +4,63 @@ import Link from "next/link";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Card } from "antd";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-
+import { SERVER_URL } from "@/utilitis/SERVER_URL";
 
 export default function TopNavbar() {
   const [showLogout, setShowLogout] = useState(false);
   const navigate = useRouter();
-  const [cookies, setCookie, removeCookie] = useCookies(['Token'])
+  const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
+  const [notification, setNotification] = useState([]);
+  const [reload, setReload] = useState(false);
+  const [showNotificationCard, setShowNotificationCard] = useState(false);
 
-  
+  /*
+   **
+   ** FETCHING ALL POST
+   **
+   */
+  useEffect(() => {
+    let userId;
+    /*
+     **
+     ** GETTING LOGEDIN USER-ID FROM LOCALSTORAGE
+     **
+     */
+    if (typeof window !== "undefined") {
+      userId = localStorage.getItem("userId");
+    }
+    fetch(`${SERVER_URL}/user/get-notification/${userId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "200") {
+          // console.log(data)
+          setNotification(data.data[0].notification);
+        }
+        // if (data.status == 200) {
+        // setPosts(data.data);
+        // }
+      });
+  }, []);
+
   // Handle logout button
   const handleLogout = () => {
     localStorage.removeItem("userId");
-    setCookie('Token','')
+    setCookie("Token", "");
     navigate.push("/login");
+  };
+
+  /*
+   **
+   ** SHOW NOTIFICATION BUSINESS LOGIC HANDLER FUNCTION
+   **
+   */
+  const showNotification = () => {
+    const likeUnread = notification.filter(
+      (not) => not.like == true && not.read == false
+    );
+    return likeUnread;
   };
 
   return (
@@ -148,7 +190,14 @@ export default function TopNavbar() {
           </div>
 
           {/* Notification */}
-          <div className="dropdown dropdown-end md:block hidden">
+          <div
+            onClick={() => setShowNotificationCard(!showNotificationCard)}
+            className="dropdown relative dropdown-end md:block hidden flex"
+          >
+            {/*  */}
+            <sup className="absolute top-[0px] right-[0px] bg-red rounded-full px-2 py-3 bg-red-600 text-white font-bold">
+              {showNotification()?.length > 0 ? showNotification()?.length : 0}
+            </sup>
             <label tabIndex={0} className="cursor-pointer">
               <div className="indicator p-3 bg-gray-200 rounded-full">
                 <svg
@@ -168,6 +217,19 @@ export default function TopNavbar() {
                 </svg>
               </div>
             </label>
+
+            {/*
+             *
+             * NOTIFICATION SHOWING CARD
+             *
+             */}
+            <div
+              className={`${
+                showNotificationCard ? "block" : "hidden"
+              } absolute bottom-[-110px] py-4  border right-[-50px] bg-white shadow-md w-[250px] rounded-md`}
+            >
+              <p className="text-[15px] font-bold cursor-pointer px-6 py-4 bg-blue-50 text-blue-600">{showNotification()?.length > 0 && showNotification()?.length + ' people like your post'}</p>
+            </div>
           </div>
 
           {/* Profile */}
