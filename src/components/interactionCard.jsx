@@ -77,11 +77,11 @@ export default function InterectionCard({
     <div
       className={`${
         showIntercectionCard ? "flex" : "hidden"
-      } absolute bottom-9 left-1 rounded-md bg-white bg-[#F9F9F9] flex gap-8 w-[200px] px-3 py-2 ml-1 mb-2 justify-center`}
+      } absolute bottom-9 left-1 rounded-full bg-white shadow-sm flex gap-6 items-center w-[165px] px-3 py-2 ml-1 mb-2 justify-center`}
     >
       <button
         onClick={() => handleInteractionSubmit("Like")}
-        className="text-blue-500 hover:underline"
+        className="text-blue-500 hover:text-[#F9F9F9]"
       >
         <LikeOutlined style={{ fontSize: "23px", color: "#0866FF" }} />
       </button>
