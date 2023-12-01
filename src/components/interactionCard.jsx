@@ -1,6 +1,11 @@
 import { SERVER_URL } from "@/utilitis/SERVER_URL";
 import axios from "axios";
 import { useState } from "react";
+import {
+  LikeOutlined,
+  FrownOutlined,
+  HeartOutlined
+} from "@ant-design/icons";
 
 export default function InterectionCard({
   userId,
@@ -72,25 +77,25 @@ export default function InterectionCard({
     <div
       className={`${
         showIntercectionCard ? "flex" : "hidden"
-      } absolute bottom-8 left-1  shadow-md rounded bg-white flex gap-4 w-1/2 px-3 py-2 ml-1 mb-2 justify-center`}
+      } absolute bottom-9 left-1 rounded-md bg-white bg-[#F9F9F9] flex gap-8 w-[200px] px-3 py-2 ml-1 mb-2 justify-center`}
     >
       <button
         onClick={() => handleInteractionSubmit("Like")}
         className="text-blue-500 hover:underline"
       >
-        Like
+        <LikeOutlined style={{ fontSize: "23px", color: "#0866FF" }} />
       </button>
       <button
         onClick={() => handleInteractionSubmit("Love")}
         className="text-red-500 hover:underline"
       >
-        Love
+        <HeartOutlined style={{ fontSize: "26px", color: "#D61355" }} />
       </button>
       <button
         onClick={() => handleInteractionSubmit("Angry")}
         className="text-yellow-500 hover:underline"
       >
-        Angry
+        <FrownOutlined style={{ fontSize: "23px", color: "#FF9551" }} />
       </button>
     </div>
   );

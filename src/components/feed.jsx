@@ -4,7 +4,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import CreatePostCard from "@/components/createPostCard";
 import Image from "next/image";
-import { UserOutlined, EllipsisOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  EllipsisOutlined,
+  LikeOutlined,
+  LikeFilled,
+  HeartFilled,
+  FrownFilled,
+} from "@ant-design/icons";
 import { Avatar, Button } from "antd";
 import { SERVER_URL } from "@/utilitis/SERVER_URL";
 import { useForm } from "react-hook-form";
@@ -88,7 +95,6 @@ export default function Feed() {
     }
   };
 
-
   /*
    **
    ** CREATE A NEW COMMENT
@@ -146,11 +152,20 @@ export default function Feed() {
 
   /*
    **
-   ** A COMMON FUNCTION FOR ALL THE EVENT HANDLER
-   ** OR TOGGLE SHOW HIDE ALL INTERACTION CARD
+   ** A COMMON FUNCTION FOR ALL GENERAL EVENT HANDLER
+   ** OR TOGGLE SHOW HIDE ALL INTERACTION CARD/BUTTONS
    ** FOLLOWING DRY PRINCIPLE
+   ** THIS FUNCTION EXPECT 6 PARAMETER
+   ** 1. ID- THIS MAYBE A POSTID OR COMMENT ID.
+   ** 2. IDSETTER- THIS IS A SETTER FUNCTION OR REACT STATE SETTER FUNCITON. THIS SETTER FUNCTION SET THE ID WHICH THE 1. PARAMETER ID RECIEVED.
+   ** 3. THIS IS ANOTHER ID- (OPTIONAL), FOR THOSE EVENT WHICH NEED TWO ID. FOR EXAMPLE, COMMENT OPERATION WE NEED 2 ID'S ONE ID FOR SPECIFIC POST AND ANOTHER ONE FOR COMMENT.
+   ** 4. ANOTHER ID SETTER- (OPTIONAL), IF 3. OR ANOTHER ID IS PRESENT THEN SET THE ID INTO THIS STATE SETTER FUNCTION
+   ** 5. STATE- THIS IS FOR GETTING THE CURRENT STATE OF THE CLICKED OR SELECTED CARD/BUTTON ETC.
+   ** 6. STATE SETTER FUNCTION- THIS TOGGLE (SET TRUE/FALSE) THE STATE WHICH ONE HAD CLICKED CARD/BUTTON
+   **
    **
    */
+
   const handlerCommonFunction = (
     id,
     idSetter,
@@ -168,6 +183,10 @@ export default function Feed() {
    **
    ** LOGEDIN USER INTERECTION FUNCTION INTO POST
    ** IF USERID AND LIKE.USERID EQUELD IMPROVE THE UX
+   ** THIS FUCTION EXPECT 3 PARAMETER
+   ** 1. TYPE- THIS TYPE INDICATE MAY COUNT OR LIKE. IF 'LIKE' THEN RETURN THE USER INTERECTION TYPE OR IF COUNT THEN RETURN THE ALL/TOTAL USER INTERECTION INTO A POST
+   ** 2. POST- THIS POST MEANS CURRENT POST
+   ** 3. LENGTH- THIS INDICATE THE POST TOTAL USER INTERECTION OR LIKES
    **
    **
    */
@@ -176,22 +195,18 @@ export default function Feed() {
     if (type == "like") {
       if (findLike?.userId == userId) {
         if (findLike?.likeType == "Love") {
-          return (
-            <p className="font-semibold text-red-500">{findLike?.likeType}</p>
-          );
+          return <HeartFilled style={{ fontSize: "26px", color: "#D61355" }} />;
         } else if (findLike?.likeType == "Angry") {
-          return (
-            <p className="font-semibold text-yellow-500">
-              {findLike?.likeType}
-            </p>
-          );
+          return <FrownFilled style={{ fontSize: "26px", color: "#FF9551" }} />;
         } else {
-          return (
-            <p className="font-semibold text-green-500">{findLike?.likeType}</p>
-          );
+          return <LikeFilled style={{ fontSize: "26px", color: "#0866FF" }} />;
         }
       } else {
-        return <p className="font-normal text-black">Like</p>;
+        return (
+          <p className="font-normal text-black">
+            <LikeOutlined style={{ fontSize: "24px", color: "#0866FF" }} />
+          </p>
+        );
       }
     } else if (type == "count") {
       if (findLike?.userId == userId && length > 1) {
@@ -206,7 +221,7 @@ export default function Feed() {
 
   /*
    **
-   ** HANDLE COMMETN LIKE
+   ** HANDLE COMMENT LIKE
    **
    */
   const handleCommentLikeSubmit = async (postId, commentId) => {
@@ -425,6 +440,7 @@ export default function Feed() {
                     />
                   )}
                   <Button
+                    type="text"
                     onClick={() =>
                       handlerCommonFunction(
                         post?.id,
@@ -619,10 +635,11 @@ export default function Feed() {
                              **COMMENTS LIKE COUNTER
                              **
                              */}
-                            <div className="ml-auto mt-auto">
+                            <div className="ml-auto mt-auto flex items-center">
                               {com?.Likes?.length > 0 && (
                                 <p className="text-[12px] font-bold text-blue-600">
-                                  {com?.Likes?.length} Like
+                                  {com?.Likes?.length}{" "}
+                                  <LikeFilled style={{ fontSize: "13px" }} />
                                 </p>
                               )}
                             </div>
