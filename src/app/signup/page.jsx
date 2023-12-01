@@ -58,24 +58,28 @@ export default function SignupPage() {
         <div className="mx-6">
           <form onSubmit={handleSubmit(signUpSubmit)} className="mt-1">
             <div className="flex justify-between gap-2">
+              {/* Firstname field */}
               <input
                 {...register("firstName", { required: true })}
                 type="text"
                 className="border rounded-md p-2 w-1/2"
                 placeholder="Firstname"
               />
+              {/* Firstname error */}
               <p className="hidden">
                 {errors?.firstName &&
                   toast.error("First Name field is required", {
                     toastId: customId,
                   })}
               </p>
+              {/* Surname field */}
               <input
                 {...register("surName", { required: true })}
                 type="text"
                 className="border rounded-md p-2 w-1/2"
                 placeholder="Surname"
               />
+              {/* Emial Error */}
               <p className="hidden">
                 {errors?.surName &&
                   toast.error("Surname Name field is required", {
@@ -83,30 +87,58 @@ export default function SignupPage() {
                   })}
               </p>
             </div>
+            {/* Emial field */}
             <input
-              {...register("email", { required: true })}
+              {...register("email", {
+                required: true,
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                },
+              })}
               type="text"
               className="border rounded-md p-2 block w-full mt-3"
               placeholder="Email Address"
             />
+            {/* Email errors */}
+            <p className="hidden">
+              {errors.email?.type === "pattern" &&
+                toast.error(
+                  `Invalid email. Please provide a valid email address.`,
+                  {
+                    toastId: customId,
+                  }
+                )}
+            </p>
             <p className="hidden">
               {errors?.email &&
-                toast.error("Email field is required", {
-                  toastId: customId,
-                })}
+                toast.error("Email field is required", { toastId: customId })}
             </p>
+
+            {/* Password field */}
             <input
-              {...register("password", { required: true })}
+              {...register("password", { required: true, minLength: 6 })}
               type="password"
               className="border rounded-md p-2 block w-full mt-3"
               placeholder="New Password"
             />
+            {/* Password errors */}
+            <p className="hidden">
+              {errors.password?.type === "minLength" &&
+                toast.error(
+                  `Password is too short. 
+                Please provide atleast 6 characters.`,
+                  {
+                    toastId: customId,
+                  }
+                )}
+            </p>
             <p className="hidden">
               {errors?.password &&
-                toast.error("Password Name field is required", {
+                toast.error("Password field is required", {
                   toastId: customId,
                 })}
             </p>
+
             <p className="text-[12px] text-slate-500 mt-4 text-left mb-3">
               People who use our service may have uploaded your contact
               information to Facebook. Learn more.

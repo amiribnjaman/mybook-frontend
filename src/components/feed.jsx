@@ -198,7 +198,7 @@ export default function Feed() {
       if (findLike?.userId == userId && length > 1) {
         return "You and " + (length - 1) + " other people like this";
       } else if (findLike?.userId == userId && length == 1) {
-        return `You ${findLike.likeType} this`;
+        return `You ${findLike?.likeType} this`;
       } else if (findLike?.userId != userId && length > 0) {
         return length + " people like this";
       }

@@ -23,7 +23,6 @@ export default function LoginPage() {
     if (data.email && data.password) {
       await axios
         .post(`${SERVER_URL}/user/login`, data, {
-          credentials: "include",
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
