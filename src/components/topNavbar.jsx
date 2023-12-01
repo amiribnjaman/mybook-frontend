@@ -35,12 +35,8 @@ export default function TopNavbar() {
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "200") {
-          // console.log(data)
           setNotification(data.data[0].notification);
         }
-        // if (data.status == 200) {
-        // setPosts(data.data);
-        // }
       });
   }, []);
 

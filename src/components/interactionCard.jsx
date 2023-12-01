@@ -60,7 +60,7 @@ export default function InterectionCard({
                   }
                 )
                 .then((res) => {
-                  console.log("ok");
+                  console.log(res);
                 });
             }
           })();

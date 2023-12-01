@@ -51,10 +51,8 @@ export default function UpdateCommentCard({
           },
         })
         .then((res) => {
-          console.log(res, reload);
           setReload(!reload);
           setShowEditComField(!showEditComField);
-          console.log(reload);
         });
     }
   };

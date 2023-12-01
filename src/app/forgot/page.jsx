@@ -28,7 +28,6 @@ export default function LoginPage() {
           },
         })
         .then((res) => {
-          console.log(res);
           if (res.data.status == 201) {
             setShowPassField(false);
             toast.success(res.data.message);
@@ -51,7 +50,6 @@ export default function LoginPage() {
           },
         })
         .then((res) => {
-          console.log(res);
           if (res.data.status == 200) {
             setShowPassField(true);
             toast.success(res.data.message);

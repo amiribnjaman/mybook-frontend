@@ -19,7 +19,6 @@ export default function SignupPage() {
 
   // Signup submit function
   const signUpSubmit = async (data) => {
-    console.log(data);
     if (data.firstName && data.surName && data.email && data.password) {
       await axios
         .post(`${SERVER_URL}/user/signup`, data, {

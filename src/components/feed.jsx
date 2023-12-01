@@ -140,7 +140,6 @@ export default function Feed() {
         )
         .then((res) => {
           setReload(!reload);
-          console.log(res);
         });
     }
   };
