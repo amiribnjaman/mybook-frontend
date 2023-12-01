@@ -1,9 +1,10 @@
-'use client'
+"use client";
 
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { SERVER_URL } from "@/utilitis/SERVER_URL";
 import { useRef } from "react";
+import { useCookies } from "react-cookie";
 
 
 export default function UpdateCommentCard({
@@ -21,6 +22,8 @@ export default function UpdateCommentCard({
     handleSubmit,
     reset,
   } = useForm();
+    const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
+
 
   const updateComment = useRef("");
 
@@ -43,6 +46,7 @@ export default function UpdateCommentCard({
       await axios
         .patch(`${SERVER_URL}/post/update-comment`, data, {
           headers: {
+            authorization: "Bearer " + cookies.Token,
             "Content-Type": "application/json",
           },
         })
@@ -54,9 +58,13 @@ export default function UpdateCommentCard({
         });
     }
   };
+
+
+
+
   return (
     <>
-      <form className="flex gap-1 w-full" onSubmit={handleCommentUpdate}>
+      <form className="flex gap-1 w-[80%]" onSubmit={handleCommentUpdate}>
         <input
           className="border w-[75%] focus:outline-none focus:border px-4 py-[2px] rounded"
           type="text"

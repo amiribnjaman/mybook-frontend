@@ -28,12 +28,12 @@ export default function SignupPage() {
           },
         })
         .then((res) => {
-          if (res.data.status == 201) {
+          if (res.data.status == '201') {
             toast.success("Signup successfully! Login now.");
             // Redirect user to Login page
             navigate.push("/login");
-          } else if (res.data.status == 400) {
-            toast.alert("User already signup. Please login.");
+          } else if (res.data.status == '400') {
+            toast.warn(res.data.message);
           }
         })
         .catch((err) => {

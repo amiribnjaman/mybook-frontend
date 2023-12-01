@@ -30,14 +30,14 @@ export default function LoginPage() {
           },
         })
         .then((res) => {
-          if (res.data.status == 200) {
+          if (res.data.status == '200') {
             localStorage.setItem('userId', res.data.userId)
             setCookie("Token", res.data.token);
             toast.success(res.data.message);
             // Redirect user to Home page
             navigate.push("/");
-          } else if (res.data.status == 401) {
-            toast.error("Email or password is Invalid");
+          } else if (res.data.status == '401') {
+            toast.error(res.data.message);
           }
         })
         .catch((err) => {

@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 export default function UpdatePost() {
   const { postId } = useParams();
@@ -14,6 +15,7 @@ export default function UpdatePost() {
   const imgbbKey = "aefb8bb9063d982e8940fd31a2d29f9d";
   const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
   let imgUrl;
+  const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
 
   const {
     register,
@@ -24,7 +26,14 @@ export default function UpdatePost() {
 
   // DATA FETCHING FOR SPECIFIC POST
   useEffect(() => {
-    fetch(`${SERVER_URL}/post/get-one/${postId}`)
+    fetch(`${SERVER_URL}/post/get-one/${postId}`, 
+      {
+      method: 'GET',
+        headers: {
+            authorization: "Bearer " + cookies.Token,
+            "Content-Type": "application/json",
+          },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.status == 200) {
@@ -40,11 +49,10 @@ export default function UpdatePost() {
     const userId = localStorage.getItem("userId");
 
     // Return/ternimate other operation if there are nothing to update
-    if (!img && (!postText || postText == post.data.post )) {
+    if (!img && (!postText || postText == post.data.post)) {
       toast.info("Nothing to update.");
       return;
     }
-    
 
     // Upload image into imgbb
     if (img) {
@@ -74,11 +82,12 @@ export default function UpdatePost() {
       await axios
         .patch(`${SERVER_URL}/post/update-post`, data, {
           headers: {
+            authorization: "Bearer " + cookies.Token,
             "Content-Type": "application/json",
           },
         })
         .then((res) => {
-          if (res.data.status == 200) {
+          if (res.data.status == '200') {
             toast.success(res.data.message);
             // Navigate to Home page
             navigate.push("/");
