@@ -149,7 +149,7 @@ export default function TopNavbar() {
 
         {/*=======================NAVBAR RIGHT SECTION================== */}
         <div className="flex w-1/4 items-center justify-end gap-3">
-          {/* Theme */}
+          {/* Grid */}
           <div className="dropdown dropdown-end md:block hidden">
             <label tabIndex={0} className="cursor-pointer">
               <div className="indicator flex gap-[3px] p-3 bg-gray-200 rounded-full">
@@ -171,7 +171,7 @@ export default function TopNavbar() {
               </div>
             </label>
           </div>
-          {/* Theme */}
+          {/* Message */}
           <div className="dropdown dropdown-end md:block hidden">
             <label tabIndex={0} className="cursor-pointer">
               <div className="indicator p-3 bg-gray-200 rounded-full">
@@ -227,7 +227,7 @@ export default function TopNavbar() {
             >
               {showNotification()?.length > 0 &&
                 showNotification().map((notification) => (
-                  <p className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] bg-slate-50 text-black">
+                  <p className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-black">
                     <span className="font-semibold pr-1">{notification?.count}</span>
                     people reacted to your post
                   </p>
