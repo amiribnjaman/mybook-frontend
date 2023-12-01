@@ -411,6 +411,7 @@ export default function Feed() {
                 {/*
                  **
                  ** SHOWING USER INTERACTION/LIKES
+                 ** SENDING TYPE- COUNT, THE POST AND POST TOTAL LIKES/INTERACTION LENGTH AS ARGUMENTS
                  **
                  */}
                 <p className="px-4 text-[13px] font-semibold mb-1">
@@ -454,12 +455,17 @@ export default function Feed() {
                   >
                     {/*
                      **
-                     **CHECKING IS USER LIKED THIS OR NOT
+                     **CHECKING IS USER LIKED THIS POST OR NOT
+                     ** SEND TYPE- LIKE AND THE POST AS ARGUMENTS
                      **
                      */}
-                    {post?.Likes.length > 0
-                      ? handleUserPostInteraction("like", post)
-                      : "Like"}
+                    {post?.Likes.length > 0 ? (
+                      handleUserPostInteraction("like", post)
+                    ) : (
+                      <LikeOutlined
+                        style={{ fontSize: "24px", color: "#0866FF" }}
+                      />
+                    )}
                   </Button>
                   <Button
                     onClick={() =>
