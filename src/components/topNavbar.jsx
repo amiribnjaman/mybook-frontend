@@ -60,13 +60,14 @@ export default function TopNavbar() {
     const likeUnread = notification.filter(
       (not) => not.like == true && not.read == false
     );
+
     return likeUnread;
   };
 
   return (
     <div
       id="topbar"
-      className="w-full mb-8 sticky shadow-md h-[50px] top-0 z-50"
+      className="w-full mb-8 sticky relative shadow-md h-[50px] top-0 z-50"
     >
       <div className="navbar flex items-center justify-between bg-white shadow-md px-6 sticky top-0">
         {/*==========================NAVBAR LEFT SECTION==================== */}
@@ -226,9 +227,15 @@ export default function TopNavbar() {
             <div
               className={`${
                 showNotificationCard ? "block" : "hidden"
-              } absolute bottom-[-110px] py-4  border right-[-50px] bg-white shadow-md w-[250px] rounded-md`}
+              } absolute top-[60px] py-4 px-1 border right-[-50px] bg-white shadow-md w-[250px] rounded-md`}
             >
-              <p className="text-[15px] font-bold cursor-pointer px-6 py-4 bg-blue-50 text-blue-600">{showNotification()?.length > 0 && showNotification()?.length + ' people like your post'}</p>
+              {showNotification()?.length > 0 &&
+                showNotification().map((notification) => (
+                  <p className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] bg-slate-50 text-black">
+                    <span className="font-semibold pr-1">{notification?.count}</span>
+                    people reacted to your post
+                  </p>
+                ))}
             </div>
           </div>
 
