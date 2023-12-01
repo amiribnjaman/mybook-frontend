@@ -2,11 +2,15 @@ import axios from "axios";
 import { SERVER_URL } from "../utilitis/SERVER_URL";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useCookies } from "react-cookie";
+
 
 export default function CreatePostCard({ createPostCard, setCreatePostCard, reload, setReload }) {
   const imgbbKey = "aefb8bb9063d982e8940fd31a2d29f9d";
   const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
   let imgUrl;
+    const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
+
 
   const {
     register,
@@ -47,6 +51,7 @@ export default function CreatePostCard({ createPostCard, setCreatePostCard, relo
       await axios
         .post(`${SERVER_URL}/post/create`, data, {
           headers: {
+            authorization: "Bearer " + cookies.Token,
             "Content-Type": "application/json",
           },
         })
