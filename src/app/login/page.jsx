@@ -35,9 +35,9 @@ export default function LoginPage() {
             toast.success(res.data.message);
             // Redirect user to Home page
             navigate.push("/");
-          } else if (res.data.status == '401') {
+          } else if (res.data.status == "401" || res.data.status == "404") {
             toast.error(res.data.message);
-          }
+          } 
         })
         .catch((err) => {
           toast.error("Something went wrong");
