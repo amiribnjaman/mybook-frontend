@@ -226,8 +226,8 @@ export default function TopNavbar() {
               } absolute top-[60px] py-4 px-1 border right-[-50px] bg-white shadow-md w-[250px] rounded-md`}
             >
               {showNotification()?.length > 0 &&
-                showNotification().map((notification) => (
-                  <p className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-black">
+                showNotification().map((notification, index) => (
+                  <p key={index} className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-black">
                     <span className="font-semibold pr-1">{notification?.count}</span>
                     people reacted to your post
                   </p>
