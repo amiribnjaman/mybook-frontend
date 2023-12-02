@@ -48,7 +48,7 @@ export default function InterectionCard({
            **
            */
           (async () => {
-            if (res.data.status == "201") {
+            if (res.data.status == "201" || res.data.status == "200") {
               // PUSH A NEW NOTIFICATION
               await axios
                 .patch(
