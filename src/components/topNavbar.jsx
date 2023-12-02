@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { SERVER_URL } from "@/utilitis/SERVER_URL";
+import axios from "axios";
 
 export default function TopNavbar() {
   const [showLogout, setShowLogout] = useState(false);
@@ -16,21 +17,21 @@ export default function TopNavbar() {
   const [reload, setReload] = useState(false);
   const [showNotificationCard, setShowNotificationCard] = useState(false);
 
+  let userId;
+  /*
+   **
+   ** GETTING LOGEDIN USER-ID FROM LOCALSTORAGE
+   **
+   */
+  if (typeof window !== "undefined") {
+    userId = localStorage.getItem("userId");
+  }
   /*
    **
    ** FETCHING ALL POST
    **
    */
   useEffect(() => {
-    let userId;
-    /*
-     **
-     ** GETTING LOGEDIN USER-ID FROM LOCALSTORAGE
-     **
-     */
-    if (typeof window !== "undefined") {
-      userId = localStorage.getItem("userId");
-    }
     fetch(`${SERVER_URL}/user/get-notification/${userId}`)
       .then((res) => res.json())
       .then((data) => {
@@ -38,7 +39,7 @@ export default function TopNavbar() {
           setNotification(data.data[0].notification);
         }
       });
-  }, []);
+  }, [reload]);
 
   // Handle logout button
   const handleLogout = () => {
@@ -53,15 +54,53 @@ export default function TopNavbar() {
    **
    */
   const showNotification = () => {
-    const likeUnread = notification.filter(
-      (notification) => notification.like == true && notification.read == false
-    );
-    const commentUnread = notification.filter(
-      (notification) => notification.comment == true && notification.read == false
+    const likeUnread = notification?.filter(
+      (notification) => notification?.like == true && notification?.read == false
     );
 
-    return [likeUnread, commentUnread];
+    const likeRead = notification?.filter(
+      (notification) => notification?.like == true && notification?.read == true
+    );
+    const commentUnread = notification?.filter(
+      (notification) =>
+        notification?.comment == true && notification?.read == false
+    );
+    const commentRead = notification?.filter(
+      (notification) =>
+        notification?.comment == true && notification?.read == true
+    );
 
+    const totalUnread = notification?.filter(
+      (notification) => notification?.read == false
+    );
+
+    return { totalUnread, likeUnread, commentUnread, likeRead, commentRead };
+  };
+
+
+  /*
+   **
+   ** HANDLE READ NOTIFICATION
+   **
+   */
+  const handleReadNotification = async () => {
+    await axios
+      .patch(
+        `${SERVER_URL}/user/read-notification`,
+        {
+          userId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.status == '200') {
+          setReload(!reload);
+        }
+      });
   };
 
   return (
@@ -192,12 +231,21 @@ export default function TopNavbar() {
 
           {/* Notification */}
           <div
-            onClick={() => setShowNotificationCard(!showNotificationCard)}
+            onClick={() => {
+              handleReadNotification();
+              setShowNotificationCard(!showNotificationCard);
+            }}
             className="dropdown relative dropdown-end md:block hidden flex"
           >
-            {/*  */}
+            {/*
+             **
+             ** TOTAL UNREAD NOTIFICATION
+             **
+             */}
             <sup className="absolute top-[0px] right-[0px] bg-red rounded-full px-2 py-3 bg-red-600 text-white font-bold">
-              {notification.length > 0 ? notification?.length : 0}
+              {showNotification()?.totalUnread?.length > 0
+                ? showNotification()?.totalUnread.length
+                : 0}
             </sup>
             <label tabIndex={0} className="cursor-pointer">
               <div className="indicator p-3 bg-gray-200 rounded-full">
@@ -229,11 +277,11 @@ export default function TopNavbar() {
                 showNotificationCard ? "block" : "hidden"
               } absolute top-[60px] py-4 px-1 border right-[-50px] bg-white shadow-md w-[250px] rounded-md`}
             >
-              {showNotification()[0]?.length > 0 &&
-                showNotification()[0]?.map((notification, index) => (
+              {showNotification()?.likeUnread?.length > 0 &&
+                showNotification()?.likeUnread?.map((notification, index) => (
                   <p
                     key={index}
-                    className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-black"
+                    className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-black bg-blue-50"
                   >
                     <span className="font-semibold pr-1">
                       {notification?.count}
@@ -241,20 +289,42 @@ export default function TopNavbar() {
                     people reacted to your post
                   </p>
                 ))}
-              {showNotification()[1]?.length > 0 &&
-                showNotification()[1]?.map(
-                  (notification, index) => (
-                    <p
-                      key={index}
-                      className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-black"
-                    >
-                      <span className="font-semibold pr-1">
-                        {notification?.count}
-                      </span>
-                      people commented to your post
-                    </p>
-                  )
-                )}
+              {showNotification()?.likeRead?.length > 0 &&
+                showNotification()?.likeRead?.map((notification, index) => (
+                  <p
+                    key={index}
+                    className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-gray-700"
+                  >
+                    <span className="font-semibold pr-1">
+                      {notification?.count}
+                    </span>
+                    people reacted to your post
+                  </p>
+                ))}
+              {showNotification()?.commentUnread?.length > 0 &&
+                showNotification()?.commentUnread.map((notification, index) => (
+                  <p
+                    key={index}
+                    className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-black bg-blue-50"
+                  >
+                    <span className="font-semibold pr-1">
+                      {notification?.count}
+                    </span>
+                    people commented to your post
+                  </p>
+                ))}
+              {showNotification()?.commentUnread?.length > 0 &&
+                showNotification()?.commentUnread.map((notification, index) => (
+                  <p
+                    key={index}
+                    className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-gray-700"
+                  >
+                    <span className="font-semibold pr-1">
+                      {notification?.count}
+                    </span>
+                    people commented to your post
+                  </p>
+                ))}
             </div>
           </div>
 
