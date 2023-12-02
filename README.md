@@ -1,6 +1,7 @@
-# MyBook ### FullStack application [on vercel live](https://mybook-appifylab.vercel.app/) or [on netlify live](https://mybook-appifylab.netlify.app/)
+# MyBook [on vercel live](https://mybook-appifylab.vercel.app/) or [on netlify live](https://mybook-appifylab.netlify.app/)
+### A social media FullStack application like- Facebook  
 
-## A social media application like- Facebook
+ 
 
 **As simple as that- first of all user has to create an account using their First name, Surname, Email and Password**
 **And then the user can log in using their email and password accurately**
