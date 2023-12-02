@@ -54,10 +54,14 @@ export default function TopNavbar() {
    */
   const showNotification = () => {
     const likeUnread = notification.filter(
-      (not) => not.like == true && not.read == false
+      (notification) => notification.like == true && notification.read == false
+    );
+    const commentUnread = notification.filter(
+      (notification) => notification.comment == true && notification.read == false
     );
 
-    return likeUnread;
+    return [likeUnread, commentUnread];
+
   };
 
   return (
@@ -193,7 +197,7 @@ export default function TopNavbar() {
           >
             {/*  */}
             <sup className="absolute top-[0px] right-[0px] bg-red rounded-full px-2 py-3 bg-red-600 text-white font-bold">
-              {showNotification()?.length > 0 ? showNotification()?.length : 0}
+              {notification.length > 0 ? notification?.length : 0}
             </sup>
             <label tabIndex={0} className="cursor-pointer">
               <div className="indicator p-3 bg-gray-200 rounded-full">
@@ -225,13 +229,32 @@ export default function TopNavbar() {
                 showNotificationCard ? "block" : "hidden"
               } absolute top-[60px] py-4 px-1 border right-[-50px] bg-white shadow-md w-[250px] rounded-md`}
             >
-              {showNotification()?.length > 0 &&
-                showNotification().map((notification, index) => (
-                  <p key={index} className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-black">
-                    <span className="font-semibold pr-1">{notification?.count}</span>
+              {showNotification()[0]?.length > 0 &&
+                showNotification()[0]?.map((notification, index) => (
+                  <p
+                    key={index}
+                    className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-black"
+                  >
+                    <span className="font-semibold pr-1">
+                      {notification?.count}
+                    </span>
                     people reacted to your post
                   </p>
                 ))}
+              {showNotification()[1]?.length > 0 &&
+                showNotification()[1]?.map(
+                  (notification, index) => (
+                    <p
+                      key={index}
+                      className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-black"
+                    >
+                      <span className="font-semibold pr-1">
+                        {notification?.count}
+                      </span>
+                      people commented to your post
+                    </p>
+                  )
+                )}
             </div>
           </div>
 

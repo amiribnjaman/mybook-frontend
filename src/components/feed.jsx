@@ -121,7 +121,32 @@ export default function Feed() {
           },
         })
         .then((res) => {
+          console.log(res.status)
           setReload(!reload);
+
+          // PUSH NOTIFICATION FOR COMMENT
+          (async () => { 
+            if (res.data.status == "200") {
+              // PUSH A NEW NOTIFICATION
+              await axios
+                .patch(
+                  `${SERVER_URL}/user/notification`,
+                  {
+                    userId,
+                    postId,
+                    type: "comment",
+                  },
+                  {
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                )
+                .then((res) => {
+                  // console.log(res);
+                });
+            }
+          })();
         });
     }
     reset();
