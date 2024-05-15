@@ -1,5 +1,5 @@
 # MyBook [on vercel live](https://mybook-appifylab.vercel.app/) or [on netlify live](https://mybook-appifylab.netlify.app/)
-### A social media FullStack application like- Facebook  
+### A social media FullStack application like
 
  
 
@@ -10,9 +10,9 @@
 
 **Main Features**
 * User can make a new post which can contain a picture, plain post, post with a picture etc
-* User can edit and delete their own post
+* User can edit and delete their post
 * A normal user can like, comment on a post, reply to other comments and like.
-* Comment owner can edit and delete their own post etc
+* Comment owner can edit and delete their post etc
 
 ## Frontend Technologies
 - NEXTJS
