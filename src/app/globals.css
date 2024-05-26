@@ -62,3 +62,90 @@ body {
   width: 475px !important;
   height: 180px !important;
 }
+
+
+
+/* SIGNUP PAGE */
+
+.absolute{
+  position: absolute;
+  top: 50px !important;
+  inset: 0;
+  justify-content: center;
+  display: inline-flex;
+  flex-direction: row;
+  z-index: -10;
+}
+
+.justify-center{
+  justify-content: center;
+}
+
+.bg-shape1{
+  width: 110px;
+  height: 110px;
+  border-radius: 99999px;
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  /* animation: one 10s infinite; */
+}
+
+.bg-shape2{
+  width: 150px;
+    height: 150px;
+    border-radius: 9999px;
+    position: absolute;
+    top: 40%;
+    right: 50%;
+    /* animation: two 10s infinite; */
+}
+
+.bg-shape3{
+  width: 120px;
+    height: 120px;
+    border-radius: 9999px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    /* animation: three 10s infinite; */
+}
+
+/* @keyframes one{
+  0%{left: -200px; top: 0;}
+  25%{left: -100px; top: 70px}
+  50%{left: 20px; top:150px}
+  75%{left: 50px; top: 100px }
+  100%{left: 0px; top: 0px}
+}
+@keyframes two{
+  0%{left: 0; top: 0;}
+  25%{left: 50px; top: 10px}
+  50%{left: 100px; top: 50px}
+  75%{left: 50px; top: 100px }
+  100%{left: 0px; top: 0px}
+}
+@keyframes three{
+  0%{left: 0; bottom: 0;}
+  25%{right: 50px; bottom: 10px}
+  50%{bottom: 100px; bottom: 50px}
+  75%{bottom: 50px; bottom: 100px }
+  100%{bottom: 0px; bottom: 0px}
+} */
+
+.opacity-50{
+  opacity: .5;
+}
+.bg-blur{
+  filter: blur(90px)
+}
+
+.bg-primary{
+  background-color: rgb(30,0,255);
+}
+.bg-teal{
+  background-color: rgb(255,72,173);
+}
+.bg-purple{
+  background-color: rgb(140,0,215);
+}
