@@ -109,7 +109,7 @@ export default function Feed() {
 
     /*
      **
-     ** COMMENT FIELD HAS VALUE THEN HIT THE API
+     ** IF COMMENT FIELD HAS VALUE THEN HIT THE API
      **
      */
     if (d.comment) {
