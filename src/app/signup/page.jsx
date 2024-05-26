@@ -143,13 +143,16 @@ export default function SignupPage() {
 
             <button
               type="submit"
-              className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3 w-full"
+              className="bg-gradient-to-r from-green-400 to-blue-500 hover:bg-gradient-to-l  text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3 w-full"
             >
               Signup
             </button>
           </form>
           <p>or</p>
-          <Link href="/login" className="text-dark text-[14px] underline font-semibold">
+          <Link
+            href="/login"
+            className="text-dark text-[14px] underline font-semibold"
+          >
             Already have an account?
           </Link>
         </div>
