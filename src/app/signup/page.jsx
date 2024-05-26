@@ -27,11 +27,11 @@ export default function SignupPage() {
           },
         })
         .then((res) => {
-          if (res.data.status == '201') {
+          if (res.data.status == "201") {
             toast.success("Signup successfully! Login now.");
             // Redirect user to Login page
             navigate.push("/login");
-          } else if (res.data.status == '400') {
+          } else if (res.data.status == "400") {
             toast.warn(res.data.message);
           }
         })
@@ -46,47 +46,50 @@ export default function SignupPage() {
   const customId = "custom-id-yes";
 
   return (
-    <div className="text-center mt-8 w-full">
-      <h1 className="text-[40px] text-center font-bold text-[#0866FF]">
+    <div className="text-center w-full mt-8 w-full">
+      <h1 className="text-[40px] text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 from-10% via-sky-400 via-40% to-emerald-500 to-60%">
+        {/* 00A400 */}
         Mybook
       </h1>
-      <div className="w-[60%] mx-auto my-6 py-3 border shadow-md rounded-md">
-        <h3 className="text-2xl font-semibold"> Create a new account </h3>
-        <h5> It&#39;s quick and easy.</h5>
-        <hr className="my-2" />
+      <h5 className="text-[13px] text-slate-600">
+        We serve love. We connect with your beloved one.
+      </h5>
+      <div className="w-[60%] mx-auto mt-3 mb-6 py-3 ">
+        {/* <h3 className="text-2xl font-semibold"> Welcome to Mybook </h3> */}
+
         <div className="mx-6">
           <form onSubmit={handleSubmit(signUpSubmit)} className="mt-1">
-            <div className="flex justify-between gap-2">
-              {/* Firstname field */}
-              <input
-                {...register("firstName", { required: true })}
-                type="text"
-                className="border rounded-md p-2 w-1/2"
-                placeholder="Firstname"
-              />
-              {/* Firstname error */}
-              <p className="hidden">
-                {errors?.firstName &&
-                  toast.error("First Name field is required", {
-                    toastId: customId,
-                  })}
-              </p>
-              {/* Surname field */}
-              <input
-                {...register("surName", { required: true })}
-                type="text"
-                className="border rounded-md p-2 w-1/2"
-                placeholder="Surname"
-              />
-              {/* Emial Error */}
-              <p className="hidden">
-                {errors?.surName &&
-                  toast.error("Surname Name field is required", {
-                    toastId: customId,
-                  })}
-              </p>
-            </div>
-            {/* Emial field */}
+            {/* Firstname field */}
+            <input
+              {...register("firstName", { required: true })}
+              type="text"
+              className="border rounded-md p-2 block w-full mt-3"
+              placeholder="Firstname"
+            />
+            {/* Firstname error */}
+            <p className="hidden">
+              {errors?.firstName &&
+                toast.error("First Name field is required", {
+                  toastId: customId,
+                })}
+            </p>
+
+            {/* Surname field */}
+            <input
+              {...register("surName", { required: true })}
+              type="text"
+              className="border rounded-md p-2 block w-full mt-3"
+              placeholder="Surname"
+            />
+            {/* Surname Error */}
+            <p className="hidden">
+              {errors?.surName &&
+                toast.error("Surname Name field is required", {
+                  toastId: customId,
+                })}
+            </p>
+
+            {/* Email field */}
             <input
               {...register("email", {
                 required: true,
@@ -138,23 +141,15 @@ export default function SignupPage() {
                 })}
             </p>
 
-            <p className="text-[12px] text-slate-500 mt-4 text-left mb-3">
-              People who use our service may have uploaded your contact
-              information to Facebook. Learn more.
-            </p>
-            <p className="text-[12px] text-slate-500 text-left">
-              By clicking Sign Up, you agree to our Terms, Privacy Policy and
-              Cookies Policy. You may receive SMS notifications from us and can
-              opt out at any time.
-            </p>
             <button
               type="submit"
-              className="bg-[#00A400] text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3"
+              className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3 w-full"
             >
               Signup
             </button>
           </form>
-          <Link href="/login" className="text-[#0866FF] font-semibold">
+          <p>or</p>
+          <Link href="/login" className="text-dark text-[14px] underline font-semibold">
             Already have an account?
           </Link>
         </div>
