@@ -196,7 +196,7 @@ export default function SignupPage() {
               </li>
               <li>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard
+                industry. Lorem Ipsum has been the industry&apos;s standard
               </li>
               <li>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
