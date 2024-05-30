@@ -117,7 +117,7 @@ export default function LoginPage() {
             href="/login"
             className="underline text-black text-md font-semibold rounded-md px-4 block text-left mt-3 mb-2"
           >
-            Back to login
+            Back to Login
           </Link>
         </div>
       </div>
