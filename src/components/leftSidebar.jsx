@@ -1,52 +1,36 @@
+import Link from "next/link";
+
 export default function leftSidebar() {
   return (
-    <div className="sidebar ml-6 overflow-y-auto w-1/4 fixed">
-      <div className="">
+    <div className="fixed ">
         <ul className="flex flex-col gap-3">
           <li className="">
-            {/* <RssFeed className="sidebarIcon" /> */}
-            <span className="font-semibold">User</span>
+            <Link
+              href=""
+              className="text-[30px] font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-500 from-10% to-emerald-500 to-90%"
+            >
+              Mybook
+            </Link>
           </li>
           <li className="">
-            {/* <RssFeed className="sidebarIcon" /> */}
-            <span className="font-semibold">Friends</span>
+            {/*------------Search Card------------*/}
+            <input
+              type="text"
+              className="bg-slate-100 w-[95%] text-gray-500 rounded-full px-4 py-1.5"
+              placeholder="Search Mybook"
+            />
           </li>
-          <li className="">
-            {/* <Chat className="sidebarIcon" /> */}
-            <span className="font-semibold">Saved</span>
-          </li>
-          <li className="">
-            {/* <PlayCircleFilledOutlined className="sidebarIcon" /> */}
-            <span className="font-semibold">Memories</span>
-          </li>
-          <li className="">
-            {/* <Group className="sidebarIcon" /> */}
-            <span className="font-semibold">Groups</span>
-          </li>
-          <li className="sidebarListItem">
-            {/* <Bookmark className="sidebarIcon" /> */}
-            <span className="font-semibold">Groups</span>
-          </li>
-          <li className="">
-            {/* <HelpOutline className="sidebarIcon" /> */}
-            <span className="font-semibold">Videos</span>
-          </li>
-          <li className="">
-            {/* <WorkOutline className="sidebarIcon" /> */}
-            <span className="font-semibold">Marketplace</span>
-          </li>
-          <li className="">
-            {/* <Event className="sidebarIcon" /> */}
-            <span className="font-semibold">Events</span>
-          </li>
-          <li className="">
-            {/* <School className="sidebarIcon" /> */}
-            <span className="font-semibold">Courses</span>
-          </li>
+
+          {/*----------------Subscribe to premium-----------*/}
+          <div className='w-[220px] my-3 border p-2 rounded'>
+            <h3 className='font-semibold text-[20px]'>Subscribe to Premium</h3>
+            <p className='text-sm'>
+              Subscribe to unlock new features and if eligible, receive a share
+              of ads revenue.
+            </p>
+            <button></button>
+          </div>
         </ul>
-        <button className="">Show More</button>
-        <ul className=""></ul>
       </div>
-    </div>
   );
 }

@@ -345,10 +345,9 @@ export default function TopNavbar() {
             {/*------------USER CARD (LOGOUT/LOGIN, PROFILE)----------- */}
             <div>
               <Card
-                style={{ left: "-50px" }}
                 className={`${
                   showLogout
-                    ? " absolute top-[75px] -left-[100px] w-[120px] h-[100px] shadow"
+                    ? " absolute top-[50px] -left-[60px] w-[120px] h-[100px] shadow"
                     : "hidden"
                 } flex flex-col gap-4 border`}
               >

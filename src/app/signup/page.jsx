@@ -48,7 +48,7 @@ export default function SignupPage() {
   return (
     <div className="">
       {/* MASS BG */}
-      <div className="absolute">
+      <div className="mass-bg">
         <div className="absolute inset-0 justify-center">
           <div className="bg-shape1 bg-primary opcity-50 bg-blur"></div>
           <div className="bg-shape2 bg-teal opcity-50 bg-blur"></div>

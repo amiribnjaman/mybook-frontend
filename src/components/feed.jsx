@@ -278,7 +278,7 @@ export default function Feed() {
           <div
             className={`${
               createPostCard ? "backdrop-blur-md" : ""
-            } bg-white w-[90%] mr-auto px-2 py-3 shadow border rounded-md`}
+            } bg-white w-full mr-auto px-2 py-3 shadow border rounded-md`}
           >
             <div className="mx-3 ">
               <div className="flex gap-2 justify-between mb-3">
@@ -330,7 +330,7 @@ export default function Feed() {
                 key={index}
                 className={`${
                   createPostCard ? "-z-50" : ""
-                } mt-6 mb-8 w-[90%] relative py-6 mr-auto rounded-md border shadow bg-white`}
+                } mt-6 mb-8 w-full relative py-6 mr-auto rounded-md border shadow bg-white`}
               >
                 {/*----------------POST HEADEING------------*/}
                 {/*----------------USER------------ */}

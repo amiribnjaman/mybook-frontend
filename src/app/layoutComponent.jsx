@@ -20,22 +20,22 @@ export default function LayoutComponent({ children }) {
   const authPath = route.includes(getPath);
 
   return (
-    <>
+    <div className="">
       <CookiesProvider>
-        {!authPath && (
-          <>
-            <TopNavbar />
-            <LeftSidebar />
-          </>
-        )}
-
-        <div className="mt-4 w-[95%] mx-auto flex gap-6">
-          <div className=" w-1/4"></div>
+        <div className="mt-4 w-[80%] mx-auto flex gap-8">
+          <div className=" w-[22%]">
+            {!authPath && (
+              <>
+                {/* <TopNavbar /> */}
+                <LeftSidebar />
+              </>
+            )}
+          </div>
           <ToastContainer position="top-center" />
-          {children}
-          <div className="w-1/4"> {!authPath && <RightSidebar />} </div>
+          <div className="w-[55%]">{children}</div>
+          <div className="w-[22%]"> {!authPath && <RightSidebar />} </div>
         </div>
       </CookiesProvider>
-    </>
+    </div>
   );
 }
