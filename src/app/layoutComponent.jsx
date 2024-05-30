@@ -22,7 +22,7 @@ export default function LayoutComponent({ children }) {
   return (
     <div className="">
       <CookiesProvider>
-        <div className="mt-4 w-[80%] mx-auto flex gap-8">
+        <div className="mt-4 w-[85%] mx-auto flex gap-6">
           <div className=" w-[22%]">
             {!authPath && (
               <>

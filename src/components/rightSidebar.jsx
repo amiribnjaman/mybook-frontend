@@ -106,6 +106,7 @@ export default function RightSidebar() {
 
   return (
     <div className="sidebar overflow-x-hidden fixed">
+      {/*--------------Right side nav menu-------------- */}
       <div className="flex gap-3 ">
         {/* Grid */}
         <div className="dropdown dropdown-end md:flex gap-2 items-center hidden">
@@ -286,6 +287,11 @@ export default function RightSidebar() {
           </div>
         </div>
       </div>
+
+        {/*--------------Right Profile nav menu-------------- */}
+      <div className="my-6 px-2 py-3 rounded border">
+        <h3 className="text-[16px] font-semibold">Complete your Profile</h3>
+        </div>
     </div>
   );
 }
