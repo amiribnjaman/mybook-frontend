@@ -51,61 +51,90 @@ export default function LoginPage() {
   const customId = "custom-id-yes";
 
   return (
-    <div className="text-center mt-8 w-full">
-      <h1 className="text-[40px] text-center font-bold text-[#0866FF]">
-        Mybook
-      </h1>
-      <div className="w-[60%] mx-auto my-6 py-3 border shadow-md rounded-md">
-        <h3 className="text-xl"> Log in to Mybook </h3>
-        <hr className="my-2" />
-        <div className="mx-6">
-          <form onSubmit={handleSubmit(loginSubmit)} className="mt-1">
-            <input
-              {...register("email", { required: true })}
-              type="text"
-              className="border rounded-md p-2 block w-full mt-3"
-              placeholder="Email Address"
-            />
-            <p className="hidden">
-              {errors?.email &&
-                toast.error("Email is required", {
-                  toastId: customId,
-                })}
-            </p>
-            <input
-              {...register("password", { required: true })}
-              type="password"
-              className="border rounded-md p-2 block w-full mt-3"
-              placeholder="Password"
-            />
-            <p className="hidden">
-              {errors?.password &&
-                toast.error("Password is required", {
-                  toastId: customId,
-                })}
-            </p>
+    <div className="w-1/3">
+      {/* MASS BG */}
+      <div className="absolute">
+        <div className="absolute inset-0 justify-center">
+          <div className="bg-shape1 bg-primary opcity-50 bg-blur"></div>
+          <div className="bg-shape2 bg-teal opcity-50 bg-blur"></div>
+          <div className="bg-shape3 bg-purple opcity-50 bg-blur"></div>
+        </div>
+      </div>
+      <div className="mt-20 gap-6">
+        <div className="">
+          <h1 className="text-center">
+            <span className="text-[40px] font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-500 from-10% to-emerald-500 to-90%">
+              Welcome Back
+            </span>
+            
+            {/* 00A400 */}
+          </h1>
+          <h5 className="text-[13px] text-center text-slate-600">
+            We serve love. We connect with your beloved one.
+          </h5>
+          <div className="mt-2 mb-6 py-3 ">
+            <div className="">
+              <form onSubmit={handleSubmit(loginSubmit)} className="mt-1">
+                <input
+                  {...register("email", { required: true })}
+                  type="text"
+                  className="border rounded-md p-2 block w-full mt-3"
+                  placeholder="Email Address"
+                />
+                <p className="hidden">
+                  {errors?.email &&
+                    toast.error("Email is required", {
+                      toastId: customId,
+                    })}
+                </p>
+                <input
+                  {...register("password", { required: true })}
+                  type="password"
+                  className="border rounded-md p-2 block w-full mt-3"
+                  placeholder="Password"
+                />
+                <p className="hidden">
+                  {errors?.password &&
+                    toast.error("Password is required", {
+                      toastId: customId,
+                    })}
+                </p>
 
-            <button
-              type="submit"
-              className="bg-[#0866FF] w-full text-white text-lg font-semibold rounded-md px-5 py-1 mt-6 mb-3"
-            >
-              Login
-            </button>
-          </form>
-          
-          <div className="flex gap-2 items-center">
-            <div className="h-[1px] bg-slate-100 w-[45%]"></div>
-            <p>or</p>
-            <div className="h-[1px] bg-slate-100 w-[45%]"></div>
-          </div>
-          <div className='flex flex-col mt-2'>
-          <Link href='/forgot' className="text-[13px] text-blue-700">Forgot password?</Link>
-          <Link
-            href="/signup"
-            className="bg-[#00A400] text-white text-lg font-semibold rounded-md px-8 inline-block py-2 mt-4 mb-3"
-          >
-            Create a new account
-          </Link>
+                <button
+                  type="submit"
+                  className="bg-gradient-to-r from-green-400 to-blue-500 hover:bg-gradient-to-l w-full text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3 w-full"
+                >
+                  Login
+                </button>
+              </form>
+
+              <div className="flex gap-2 items-center">
+                <div className="h-[1px] bg-slate-100 w-[45%]"></div>
+                <p>or</p>
+                <div className="h-[1px] bg-slate-100 w-[45%]"></div>
+              </div>
+              <div className="flex flex mt-2 items-center justify-between gap-1">
+                <div className="flex gap-1">
+                  <span className="font-semibold">
+                    New to <span className="text-green-500">Mybook</span>?
+                  </span>
+                  <Link
+                    href="/signup"
+                    className="text-black font-semibold rounded-md underline "
+                  >
+                    Create an Account
+                  </Link>
+                </div>
+                <Link
+                  href="/forgot"
+                  className="text-[13px] text-blue-700 font-semibold"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+
+              <div className="mt-8 text-right"></div>
+            </div>
           </div>
         </div>
       </div>

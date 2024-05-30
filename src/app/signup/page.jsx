@@ -67,8 +67,6 @@ export default function SignupPage() {
             We serve love. We connect with your beloved one.
           </h5>
           <div className="mt-2 mb-6 py-3 ">
-            {/* <h3 className="text-2xl font-semibold"> Welcome to Mybook </h3> */}
-
             <div className="md:mr-6">
               <form onSubmit={handleSubmit(signUpSubmit)} className="mt-1">
                 {/* Firstname field */}
@@ -135,7 +133,7 @@ export default function SignupPage() {
                   {...register("password", { required: true, minLength: 6 })}
                   type="password"
                   className="border rounded-md p-2 block w-full mt-2"
-                  placeholder="New Password"
+                  placeholder="Your Password"
                 />
                 {/* Password errors */}
                 <p className="hidden">
@@ -164,11 +162,12 @@ export default function SignupPage() {
               </form>
               <p className="text-[15px]">
                 or
+                <span className="inlie-block ml-2 font-semibold">Already Signup?</span>
                 <Link
                   href="/login"
                   className="text-dark text-[15px] ml-1 underline font-semibold"
                 >
-                  Already have an account?
+                  Login Now
                 </Link>
               </p>
             </div>
@@ -180,9 +179,7 @@ export default function SignupPage() {
           <div className="text-left">
             <h1 className="text-md font-semibold mt-10">
               About
-              <span className="text-green-500 ml-1">
-                Mybook
-              </span>
+              <span className="text-green-500 ml-1">Mybook</span>
             </h1>
             <p className="text-[14px] mb-4">
               Lorem Ipsum is simply dummy text of the printing and typesetting
