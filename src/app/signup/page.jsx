@@ -61,7 +61,6 @@ export default function SignupPage() {
             <span className="text-[40px] font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-500 from-10% to-emerald-500 to-90%">
               Mybook
             </span>
-            {/* 00A400 */}
           </h1>
           <h5 className="text-[13px] text-slate-600">
             We serve love. We connect with your beloved one.
