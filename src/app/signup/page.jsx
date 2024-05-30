@@ -61,7 +61,6 @@ export default function SignupPage() {
             <span className="text-[40px] font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-500 from-10% to-emerald-500 to-90%">
               Mybook
             </span>
-            {/* 00A400 */}
           </h1>
           <h5 className="text-[13px] text-slate-600">
             We serve love. We connect with your beloved one.
@@ -183,10 +182,11 @@ export default function SignupPage() {
             </h1>
             <p className="text-[14px] mb-4">
               Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
+              industry. Lorem Ipsum has been the industry&apos;s standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
               type and scrambled it to make a type specimen book. It has
               survived not only five centuries,
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorum, doloremque.
             </p>
             <h2 className="font-semibold">Features</h2>
             <ul className="list-disc text-[14px] ml-4 mt-1">
@@ -196,7 +196,7 @@ export default function SignupPage() {
               </li>
               <li>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard
+                industry. Lorem Ipsum has been the industry&apos;s standard
               </li>
               <li>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
