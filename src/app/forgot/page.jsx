@@ -73,7 +73,7 @@ export default function LoginPage() {
       </h1> */}
       <div className="w-[60%] mx-auto my-6 py-3 border rounded-md">
         <h3 className="text-[18px] font-semibold">
-          {showPassField ? "Reset your password" : "Submit your email"}
+          {showPassField ? "Reset your password" : "Submit your Email"}
         </h3>
         <div className="mx-6">
           <form onSubmit={handleSubmit(forgotPassSubmit)} className="mt-1">
@@ -108,14 +108,14 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="bg-[#0866FF] w-full text-white text-lg font-semibold rounded-md px-5 py-1 mt-6 mb-3"
+              className="bg-gradient-to-r from-green-400 to-blue-500 hover:bg-gradient-to-l w-full text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3 w-full"
             >
               Submit
             </button>
           </form>
           <Link
             href="/login"
-            className="hover:underline text-black text-md font-semibold rounded-md px-4 inline-block py-1 mt-6 mb-3"
+            className="underline text-black text-md font-semibold rounded-md px-4 block text-left mt-3 mb-2"
           >
             Back to login
           </Link>
