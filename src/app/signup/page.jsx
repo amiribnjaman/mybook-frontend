@@ -55,7 +55,7 @@ export default function SignupPage() {
           <div className="bg-shape3 bg-purple opcity-50 bg-blur"></div>
         </div>
       </div>
-      <div className="w-full mt-20 flex gap-6">
+      <div className="md:w-[180%] ml-[-40%] mt-20 flex gap-6">
         <div className="w-[50%]">
           <h1>
             <span className="text-[40px] font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-500 from-10% to-emerald-500 to-90%">

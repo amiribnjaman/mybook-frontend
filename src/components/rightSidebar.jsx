@@ -105,7 +105,7 @@ export default function RightSidebar() {
 
 
   return (
-    <div className="sidebar overflow-x-hidden fixed">
+    <div className="sidebar fixed">
       {/*--------------Right side nav menu-------------- */}
       <div className="flex gap-3 ">
         {/* Grid */}
