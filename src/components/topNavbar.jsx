@@ -235,18 +235,18 @@ export default function TopNavbar() {
               handleReadNotification();
               setShowNotificationCard(!showNotificationCard);
             }}
-            className="dropdown relative dropdown-end md:block hidden flex"
+            className="dropdown relative dropdown-end md:block hidden"
           >
             {/*
              **
              ** TOTAL UNREAD NOTIFICATION
              **
              */}
-            <sup className="absolute top-[0px] right-[0px] bg-red rounded-full px-2 py-3 bg-red-600 text-white font-bold">
+            {/* <sup className="absolute top-[0px] right-[0px] bg-red rounded-full px-2 py-3 bg-red-600 text-white font-bold">
               {showNotification()?.totalUnread?.length > 0
                 ? showNotification()?.totalUnread.length
                 : 0}
-            </sup>
+            </sup> */}
             <label tabIndex={0} className="cursor-pointer">
               <div className="indicator p-3 bg-gray-200 rounded-full">
                 <svg
@@ -272,16 +272,18 @@ export default function TopNavbar() {
              * NOTIFICATION SHOWING CARD
              *
              */}
-            <div
+            {/* <div
               className={`${
-                showNotificationCard ? "block" : "hidden"
-              } absolute top-[60px] py-4 px-1 border right-[-50px] bg-white shadow-md w-[250px] rounded-md`}
+                showNotificationCard
+                  ? "absolute top-[60px] right-[-50px] py-4 px-1 border bg-white shadow-md w-[250px] rounded-md h-auto"
+                  : "hidden"
+              }`}
             >
               {showNotification()?.likeUnread?.length > 0 &&
                 showNotification()?.likeUnread?.map((notification, index) => (
                   <p
                     key={index}
-                    className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] text-black bg-blue-50"
+                    className="text-[13px] font-semibold cursor-pointer px-6 py-1 rounded-md my-[5px] block text-black bg-blue-50"
                   >
                     <span className="font-semibold pr-1">
                       {notification?.count}
@@ -325,11 +327,11 @@ export default function TopNavbar() {
                     people commented to your post
                   </p>
                 ))}
-            </div>
+            </div> */}
           </div>
 
           {/* Profile */}
-          <div className="dropdown dropdown-end md:block hidden">
+          <div className="dropdown relative dropdown-end md:block hidden">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="cursor-pointer relative">
                 <Avatar
@@ -341,24 +343,27 @@ export default function TopNavbar() {
             </label>
 
             {/*------------USER CARD (LOGOUT/LOGIN, PROFILE)----------- */}
-            <Card
-              className={`${
-                showLogout ? "block" : "hidden"
-              } absolute flex flex-col gap-4 bg-white shadow-md top-[65px] right-[15px]`}
-              bordered
-            >
-              <Link href="" className="font-semibold mb-2">
-                Profile
-              </Link>
-              {/*--------- LOGOUT TOGGLE------------ */}
-              <Button
-                onClick={handleLogout}
-                className="mt-3 font-semibold"
-                block
+            <div>
+              <Card
+                className={`${
+                  showLogout
+                    ? " absolute top-[50px] -left-[60px] w-[120px] h-[100px] shadow"
+                    : "hidden"
+                } flex flex-col gap-4 border`}
               >
-                Logout
-              </Button>
-            </Card>
+                <Link href="" className="font-semibold mb-2">
+                  Profile
+                </Link>
+                {/*--------- LOGOUT TOGGLE------------ */}
+                <Button
+                  onClick={handleLogout}
+                  className="mt-3 font-semibold border-0 shadow-0"
+                  block
+                >
+                  Logout
+                </Button>
+              </Card>
+            </div>
           </div>
         </div>
       </div>

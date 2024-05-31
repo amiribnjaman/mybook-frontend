@@ -4,7 +4,7 @@ import Feed from "@/components/feed";
 
 export default function Home() {
   return   (
-    <main className=" min-h-screen flex-col w-2/4">
+    <main className=" min-h-screen flex-col">
       {/*=====STORIES======*/}
       {/* <Stories /> */}
       {/*====FEED=========*/}
