@@ -57,12 +57,12 @@ export default function SignupPage() {
       </div>
       <div className="md:w-[180%] md:ml-[-40%] mt-20 md:flex md:gap-6">
         <div className="md:w-[50%] ">
-          <h1>
+          <h1 className="text-center md:text-left">
             <span className="text-[40px] font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-500 from-10% to-emerald-500 to-90%">
               Mybook
             </span>
           </h1>
-          <h5 className="text-[13px] text-slate-600">
+          <h5 className="text-[13px] text-slate-600 text-center md:text-left">
             We serve love. We connect with your beloved one.
           </h5>
           <div className="mt-2 mb-6 py-3 ">
@@ -161,7 +161,9 @@ export default function SignupPage() {
               </form>
               <p className="text-[15px]">
                 or
-                <span className="inlie-block ml-2 font-semibold">Already Signup?</span>
+                <span className="inlie-block ml-2 font-semibold">
+                  Already Signup?
+                </span>
                 <Link
                   href="/login"
                   className="text-dark text-[15px] ml-1 underline font-semibold"
@@ -182,11 +184,11 @@ export default function SignupPage() {
             </h1>
             <p className="text-[14px] mb-4">
               Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry&apos;s standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries,
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorum, doloremque.
+              industry. Lorem Ipsum has been the industry&apos;s standard dummy
+              text ever since the 1500s, when an unknown printer took a galley
+              of type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, Lorem ipsum dolor, sit amet
+              consectetur adipisicing elit. Dolorum, doloremque.
             </p>
             <h2 className="font-semibold">Features</h2>
             <ul className="list-disc text-[14px] ml-4 mt-1">
