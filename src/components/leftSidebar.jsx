@@ -8,7 +8,7 @@ export default function leftSidebar() {
           <li className="">
             <Link
               href=""
-              className="text-[30px] font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-500 from-10% to-emerald-500 to-90%"
+              className="text-[32px] font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-500 from-10% to-emerald-500 to-90%"
             >
               Mybook
             </Link>
@@ -25,7 +25,7 @@ export default function leftSidebar() {
           {/*----------------Subscribe to premium-----------*/}
           <div className="w-[240px] mt-3 border p-2 rounded">
             <h3 className="font-semibold text-[20px]">Subscribe to Premium</h3>
-            <p className="text-sm">
+            <p className="text-[15px]">
               Subscribe to unlock new features and if eligible, receive a share
               of ads revenue.
             </p>
@@ -36,70 +36,104 @@ export default function leftSidebar() {
         </ul>
 
         {/*------------------Latest news/Article--------- */}
-        <div className="border rounded p-3 mt-3 ">
-          <div className="flex justify-between items-center">
-            <h3 className="font-semibold text-[16px] mb-1">
-              Lates News/Article
-            </h3>
-            <Link href="" className="text-[13px] font-semibold underline">
+        {/* <div className="border rounded p-3 mt-3 gap-1">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="font-semibold text-[17px]">Lates News/Article</h3>
+            <Link href="" className="text-[14px] font-semibold underline">
               More
             </Link>
           </div>
 
-          <div className="flex items-center gap-1 mb-1">
-            <div className="w-[35px] h-[20px] bg-slate-200 rounded"></div>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-[40px] h-[25px] bg-slate-200 rounded"></div>
             <h6 className="text-sm hover:underline cursor-pointer font-semibold">
               Lorem ipsum dolor sit..
             </h6>
           </div>
-          <div className="flex items-center gap-1 mb-1">
-            <div className="w-[35px] h-[20px] bg-slate-200 rounded"></div>
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-[40px] h-[25px] bg-slate-200 rounded"></div>
             <h6 className="text-sm hover:underline cursor-pointer font-semibold">
               Lorem ipsum dolor sit..
             </h6>
           </div>
-        </div>
+        </div> */}
 
         {/*------------------Follow--------- */}
         <div className="border rounded p-3 mt-3 mb-3 ">
-          <div className="flex justify-between items-center">
-            <h3 className="font-semibold text-[16px] mb-1">You may follow</h3>
-            <Link href="" className="text-[13px] font-semibold underline">
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="font-semibold text-[17px]">You may follow</h3>
+            <Link href="" className="text-[14px] font-semibold underline">
               More
             </Link>
           </div>
 
-          <div className="flex items-center justify-between gap-1 mb-1">
-            <div className="flex items-center gap-1">
-              <div className="w-[35px] h-[35px] bg-slate-200 rounded-full"></div>
-              <h6 className="text-sm hover:underline cursor-pointer">
+          <div className="flex items-center justify-between gap-2 mb-1 mt-1">
+            <div className="flex items-center gap-2">
+              <div className="w-[32px] h-[32px] bg-slate-200 rounded-full"></div>
+              <h6 className="text-[16px] hover:underline cursor-pointer">
                 Steve Smith
               </h6>
             </div>
-            <div className="cursor-pointer text-sm font-semibold">follow</div>
+            <div className="cursor-pointer text-[14px] font-semibold">
+              follow
+            </div>
           </div>
-          <div className="flex items-center justify-between gap-1 mb-1">
-            <div className="flex items-center gap-1">
-              <div className="w-[35px] h-[35px] bg-slate-200 rounded-full"></div>
-              <h6 className="text-sm hover:underline cursor-pointer">
+          <div className="flex items-center justify-between gap-2 mb-1 mt-1">
+            <div className="flex items-center gap-2">
+              <div className="w-[32px] h-[32px] bg-slate-200 rounded-full"></div>
+              <h6 className="text-[16px] hover:underline cursor-pointer">
                 Gerard Hasi
               </h6>
             </div>
-            <div className="cursor-pointer text-sm font-semibold">follow</div>
+            <div className="cursor-pointer text-[14px] font-semibold">
+              follow
+            </div>
+          </div>
+          <div className="flex items-center justify-between gap-2 mb-1 mt-1">
+            <div className="flex items-center gap-2">
+              <div className="w-[32px] h-[32px] bg-slate-200 rounded-full"></div>
+              <h6 className="text-[16px] hover:underline cursor-pointer">
+                Yaqub Adnain
+              </h6>
+            </div>
+            <div className="cursor-pointer text-[14px] font-semibold">
+              follow
+            </div>
+          </div>
+          <div className="flex items-center justify-between gap-2 mb-1 mt-1">
+            <div className="flex items-center gap-2">
+              <div className="w-[32px] h-[32px] bg-slate-200 rounded-full"></div>
+              <h6 className="text-[16px] hover:underline cursor-pointer">
+                Bret Leon
+              </h6>
+            </div>
+            <div className="cursor-pointer text-[14px] font-semibold">
+              follow
+            </div>
+          </div>
+          <div className="flex items-center justify-between gap-2 mb-1 mt-1">
+            <div className="flex items-center gap-2">
+              <div className="w-[32px] h-[32px] bg-slate-200 rounded-full"></div>
+              <h6 className="text-[16px] hover:underline cursor-pointer">
+                Mickel Jordan
+              </h6>
+            </div>
+            <div className="cursor-pointer text-[14px] font-semibold">
+              follow
+            </div>
+          </div>
+          <div className="flex items-center justify-between gap-2 mb-1 mt-1">
+            <div className="flex items-center gap-2">
+              <div className="w-[32px] h-[32px] bg-slate-200 rounded-full"></div>
+              <h6 className="text-[16px] hover:underline cursor-pointer">
+                Alex Tez
+              </h6>
+            </div>
+            <div className="cursor-pointer text-[14px] font-semibold">
+              follow
+            </div>
           </div>
         </div>
-
-        <ul className="flex flex-row text-[13px] gap-3 mt-3 font-semibold">
-          <li>
-            <Link href="">About</Link>
-          </li>
-          <li>
-            <Link href="">Privacy policy</Link>
-          </li>
-          <li>
-            <Link href="">Contact info</Link>
-          </li>
-        </ul>
       </div>
     </div>
   );
