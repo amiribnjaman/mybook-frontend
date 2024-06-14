@@ -23,7 +23,7 @@ export default function LayoutComponent({ children }) {
     <div className="">
       <CookiesProvider>
         <div className="mt-4 md:w-[85%] md:mx-auto flex md:gap-6 gap-2">
-          <div className=" md:w-[22%]">
+          <div className="md:w-[22%] hidden md:block">
             {!authPath && (
               <>
                 {/* <TopNavbar /> */}
@@ -33,7 +33,9 @@ export default function LayoutComponent({ children }) {
           </div>
           <ToastContainer position="top-center" />
           <div className="md:w-[55%] w-full">{children}</div>
-          <div className="md:w-[22%]"> {!authPath && <RightSidebar />} </div>
+          <div className="md:w-[22%] hidden md:block">
+            {!authPath && <RightSidebar />}{" "}
+          </div>
         </div>
       </CookiesProvider>
     </div>
