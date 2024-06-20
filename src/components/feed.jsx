@@ -278,7 +278,7 @@ export default function Feed() {
           <div
             className={`${
               createPostCard ? "backdrop-blur-md" : ""
-            } bg-white w-full mr-auto px-2 py-3 border rounded-md`}
+            } bg-white w-full mt-[65px] md:mt-0 mr-auto px-2 py-3 border rounded-md`}
           >
             <div className="mx-3 ">
               <div className="flex gap-2 justify-between mb-3">

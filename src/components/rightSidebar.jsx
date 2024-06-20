@@ -108,7 +108,6 @@ export default function RightSidebar() {
     <div className="sidebar fixed">
       {/*--------------Right side nav menu-------------- */}
       <div className="flex gap-3 ">
-        {/* Grid */}
         <div className="dropdown dropdown-end md:flex gap-2 items-center hidden">
           <label tabIndex={0} className="cursor-pointer">
             <div className="indicator flex gap-[3px] p-3 bg-gray-200 rounded-full">
