@@ -32,9 +32,12 @@ export default function LayoutComponent({ children }) {
             )}
           </div>
           <ToastContainer position="top-center" />
-          <div className="fixed md:hidden w-full z-[100]">
+          {!authPath && (
+<div className="fixed md:hidden w-full z-[100]">
             <TopNavbar />
           </div>
+          )}
+          
           <div className="md:w-[55%] w-full">{children}</div>
           <div className="md:w-[22%] hidden md:block">
             {!authPath && <RightSidebar />}{" "}
