@@ -71,7 +71,7 @@ export default function CreatePostCard({ createPostCard, setCreatePostCard, relo
   };
   return (
     <>
-      <div className="relative py-2">
+      <div className="relative pt-2 pb-2">
         <h2 className="text-center text-2xl font-semibold pb-2">Create Post</h2>
         <div
           onClick={() => setCreatePostCard(!createPostCard)}
@@ -106,21 +106,21 @@ export default function CreatePostCard({ createPostCard, setCreatePostCard, relo
             {...register("post")}
             name="post"
             id=""
-            cols="52"
+            cols=""
             rows="5"
-            className="focus:outline-none focus:border text-lg rounded-md p-2"
-            placeholder="Whats on your mind? Mr.X"
+            className="focus:outline-none focus:border text-lg rounded-md p-2 w-full"
+            placeholder="Whats on your mind?"
           ></textarea>
 
-          <div className="my-2 flex justify-between items-center px-4 py-2 rounded-md border">
-            <p>Add to your post</p>
+          <div className="my-2 flex md:flex-row flex-col justify-between md:items-center px-4 py-2 rounded-md border">
+            <p className="hidden md:block">Add to your post</p>
             <div>
               <input type="file" {...register("image")} />
             </div>
           </div>
           <button
             type="submit"
-            className="w-full bg-[#0866FF] py-[4px] text-xl mt-2 text-white rounded-md"
+            className="bg-gradient-to-r from-green-400 to-blue-500 hover:bg-gradient-to-l w-full text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3 w-full"
           >
             Post
           </button>

@@ -119,9 +119,9 @@ export default function UpdatePost() {
               {...register("post")}
               name="post"
               id=""
-              cols="52"
+              cols=""
               rows="5"
-              className="focus:outline-none focus:border text-lg rounded-md p-2"
+              className="focus:outline-none focus:border text-lg rounded-md p-2 w-full"
               placeholder="Whats on your mind? Mr.X"
             >
               {post.data?.post && post.data?.post}
@@ -134,14 +134,14 @@ export default function UpdatePost() {
               />
             </div>
             <div className="my-2 flex justify-between items-center px-4 py-2 rounded-md border">
-              <p>Add to your post</p>
+              <p className="hidden md:block">Add to your post</p>
               <div>
                 <input type="file" {...register("image")} />
               </div>
             </div>
             <button
               type="submit"
-              className="w-full bg-[#0866FF] py-[4px] text-xl mt-2 text-white rounded-md"
+              className="bg-gradient-to-r from-green-400 to-blue-500 hover:bg-gradient-to-l w-full text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3 w-full"
             >
               Update Post
             </button>

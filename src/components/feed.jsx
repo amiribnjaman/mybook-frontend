@@ -278,7 +278,7 @@ export default function Feed() {
           <div
             className={`${
               createPostCard ? "backdrop-blur-md" : ""
-            } bg-white w-full mr-auto px-2 py-3 border rounded-md`}
+            } bg-white w-full mt-[65px] md:mt-0 mr-auto px-2 py-3 border rounded-md`}
           >
             <div className="mx-3 ">
               <div className="flex gap-2 justify-between mb-3">
@@ -297,8 +297,8 @@ export default function Feed() {
                   {/*--------------------CREATE POST CARD------------------- */}
                   <div
                     className={`${
-                      createPostCard ? " fixed" : "hidden"
-                    } shadow-md border py-4 rounded-md w-[550px] fixed top-[10%] left-[3px] z-50 bg-white`}
+                      createPostCard ? "fixed" : "hidden"
+                    } shadow-md border py-4 rounded-md md:w-[550px] w-full left-0 top-[10%] md:left-[3px] z-50 bg-white`}
                   >
                     {/*-----CREATE POST COMPONENT----- */}
                     <CreatePostCard
