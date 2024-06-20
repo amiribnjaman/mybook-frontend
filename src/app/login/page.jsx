@@ -113,7 +113,7 @@ export default function LoginPage() {
                 <p>or</p>
                 <div className="h-[1px] bg-slate-100 w-[45%]"></div>
               </div>
-              <div className="flex flex mt-2 items-center justify-between gap-1">
+              <div className="md:flex mt-2 items-center justify-between gap-1">
                 <div className="flex gap-1">
                   <span className="font-semibold">
                     New to <span className="text-green-500">Mybook</span>?
