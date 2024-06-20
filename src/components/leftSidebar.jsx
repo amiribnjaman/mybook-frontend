@@ -7,7 +7,7 @@ export default function leftSidebar() {
         <ul className="flex flex-col gap-3">
           <li className="">
             <Link
-              href=""
+              href="/"
               className="text-[32px] font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-500 from-10% to-emerald-500 to-90%"
             >
               Mybook

@@ -51,7 +51,7 @@ export default function LoginPage() {
   const customId = "custom-id-yes";
 
   return (
-    <div className="md:w-[80%] mx-auto">
+    <div className="md:w-[80%] w-full mx-auto">
       {/* MASS BG */}
       <div className="mass-bg">
         <div className="absolute inset-0 justify-center">

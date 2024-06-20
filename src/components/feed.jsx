@@ -297,8 +297,8 @@ export default function Feed() {
                   {/*--------------------CREATE POST CARD------------------- */}
                   <div
                     className={`${
-                      createPostCard ? " fixed" : "hidden"
-                    } shadow-md border py-4 rounded-md w-[550px] fixed top-[10%] left-[3px] z-50 bg-white`}
+                      createPostCard ? "fixed" : "hidden"
+                    } shadow-md border py-4 rounded-md md:w-[550px] w-full left-0 top-[10%] md:left-[3px] z-50 bg-white`}
                   >
                     {/*-----CREATE POST COMPONENT----- */}
                     <CreatePostCard
