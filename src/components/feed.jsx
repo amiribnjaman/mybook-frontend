@@ -278,7 +278,7 @@ export default function Feed() {
           <div
             className={`${
               createPostCard ? "backdrop-blur-md" : ""
-            } bg-white w-full mt-[65px] md:mt-0 mr-auto px-2 py-3 border rounded-md`}
+            } bg-white w-full mt-[65px] lg:mt-0 mr-auto px-2 py-3 border rounded-md`}
           >
             <div className="mx-3 ">
               <div className="flex gap-2 justify-between mb-3">
@@ -434,7 +434,7 @@ export default function Feed() {
                  **SHOWING POST CONTENT (POST & IMAGE)
                  **
                  */}
-                <div className="md:ml-12">
+                <div className="md:w-[90%] md:ml-auto md:mr-2">
                   <div>
                     <p className="my-1 px-4">{post?.post && post?.post}</p>
                   </div>
@@ -579,7 +579,7 @@ export default function Feed() {
                   {/* <hr /> */}
                 </div>
                 {/*---------------COMMENT SECTION------------ */}
-                <div className="px-4 md:px-0 my-2 md:w-[90%] md:ml-auto">
+                <div className="px-4 md:px-0 my-2 md:w-[90%] md:ml-auto md:mr-2">
                   {/*
                    **
                    **IF COMMENT HAS LENGHT THEN SHOW COMMENT AMOUNT & CONTENT
