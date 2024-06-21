@@ -20,7 +20,7 @@ export default function LayoutComponent({ children }) {
   const authPath = route.includes(getPath);
 
   return (
-    <div className=" bg-[#F0F2F5]">
+    <div className={`${!authPath && "bg-[#F0F2F5]"}`}>
       <CookiesProvider>
         <div className="md:pt-4 md:w-[85%] md:mx-auto flex flex-col md:flex-row md:gap-6 gap-2">
           <div className="md:w-[20%] hidden md:block">

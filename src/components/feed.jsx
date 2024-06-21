@@ -285,12 +285,12 @@ export default function Feed() {
                 <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100">
                   <Avatar size={45} icon={<UserOutlined />} />
                 </div>
-                <div className="w-[87%]">
+                <div className="w-[90%]">
                   <button
                     onClick={() => setCreatePostCard(!createPostCard)}
                     className="bg-[#F0F2F5] text-[18px] hover:bg-[#E4E6E9] text-[#606266] w-full text-left px-4 py-2 px-3 rounded-full"
                   >
-                    What&#39;s on your mind? Mr. X
+                    What&#39;s on your mind?
                   </button>
 
                   {/* ====================================================== */}
@@ -298,7 +298,7 @@ export default function Feed() {
                   <div
                     className={`${
                       createPostCard ? "fixed" : "hidden"
-                    } shadow-md border py-4 rounded-md md:w-[550px] w-full left-0 top-[10%] md:left-[3px] z-50 bg-white`}
+                    } shadow-md border py-4 rounded-md md:w-[595px] w-full left-0 top-[10%] md:left-[3px] z-50 bg-white`}
                   >
                     {/*-----CREATE POST COMPONENT----- */}
                     <CreatePostCard
