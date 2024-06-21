@@ -345,7 +345,7 @@ export default function RightSidebar() {
       </div>
 
       {/*--------------Right Profile Completion Card-------------- */}
-      <div className="mt-6 mb-4 px-2 py-3 rounded border">
+      <div className="mt-6 mb-4 px-2 py-3 rounded  bg-white shadow">
         <h3 className="text-[16px] font-semibold">Complete your Profile</h3>
         <div className="mt-4 text-center">
           <Progress
