@@ -76,7 +76,7 @@ export default function UpdateCommentCard({
         />
         <button
           type="submit"
-          className="ml-2 w-[25%] inline-block text-white bg-blue-700 px-3 py-1 rounded-md"
+          className="ml-2 w-[25%] inline-block text-white  px-3 py-1.5 mt-2 bg-gradient-to-l from-green-700 to-green-500 rounded-md"
         >
           Edit
         </button>

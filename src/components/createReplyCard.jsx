@@ -57,7 +57,7 @@ export default function CreateReplyCard({
         />
         <button
           type="submit"
-          className="ml-2 w-[25%] inline-block text-white bg-green-600 px-3 py-1 rounded-md"
+          className="ml-2 w-[25%] inline-block text-white rounded-md bg-gradient-to-l from-green-700 to-green-500 px-3 py-1.5 rounded-md"
         >
           Reply
         </button>

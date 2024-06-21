@@ -455,7 +455,7 @@ export default function Feed() {
                  ** SENDING TYPE- COUNT, THE POST AND POST TOTAL LIKES/INTERACTION LENGTH AS ARGUMENTS
                  **
                  */}
-                <div className="md:w-[92%] md:ml-auto md:mr-2">
+                <div className="md:w-[90%] md:ml-auto md:mr-2">
                   <p className="px-4 text-[13px] font-semibold mb-1">
                     {post?.Likes.length > 0
                       ? handleUserPostInteraction(
@@ -510,7 +510,26 @@ export default function Feed() {
                         />
                       )}
                     </Button>
+                    <Button
+                      onClick={() =>
+                        handlerCommonFunction(
+                          post?.id,
+                          setPostId,
+                          "",
+                          "",
+                          showCommentBox,
+                          setShowCommentBox
+                        )
+                      }
+                      className="border-0 shadow"
+                    >
+                      {post?.comments.length > 0
+                        ? post?.comments.length + " Comments"
+                        : "Comment"}
+                    </Button>
 
+                    {/* 
+                    ////////COMMENT BUTTON ANOTHER STYLE///
                     {post?.comments.length > 0 ? (
                       <button
                         onClick={() => {
@@ -530,9 +549,7 @@ export default function Feed() {
                             showCommentBox,
                             setShowCommentBox
                           );
-                        }
-                          
-                        }
+                        }}
                         className=" px-2 rounded-md shadow"
                       >
                         {post?.comments.length + " Comments"}
@@ -556,17 +573,35 @@ export default function Feed() {
                           : "Comment"}
                       </Button>
                     )}
+                     */}
                     <Button className="border-0 shadow">Share</Button>
                   </div>
                   {/* <hr /> */}
                 </div>
                 {/*---------------COMMENT SECTION------------ */}
-                <div className="px-4 md:px-0 my-2 md:w-[90%] md:ml-auto md:mr-2">
+                <div className="px-4 md:px-0 my-2 md:w-[90%] md:ml-auto">
                   {/*
                    **
                    **IF COMMENT HAS LENGHT THEN SHOW COMMENT AMOUNT & CONTENT
                    **
                    */}
+                  {post?.comments.length > 0 && (
+                    <button
+                      onClick={() =>
+                        handlerCommonFunction(
+                          post?.id,
+                          setPostId,
+                          "",
+                          "",
+                          showComments,
+                          setShowComments
+                        )
+                      }
+                      className="font-semibold my-3 hover:underline"
+                    >
+                      {post?.comments.length + " Comments"}
+                    </button>
+                  )}
 
                   {/*
                    **
@@ -830,7 +865,7 @@ export default function Feed() {
                   {post.id == postId && (
                     //--------------WRITE COMMENT FORM------------------
                     <form
-                      className={`${showCommentBox ? "block" : "hidden"}`}
+                      className={`${showCommentBox ? "block" : "hidden"} mr-2`}
                       onSubmit={handleSubmit(createComment)}
                     >
                       <input
@@ -848,7 +883,7 @@ export default function Feed() {
                       />
                       <button
                         type="submit"
-                        className="bg-[#0866FF] px-4 py-1 mt-2 rounded-md text-white"
+                        className="px-3 py-1.5 bg-gradient-to-l from-green-700 to-green-500 px-4 py-1 mt-2 rounded-md text-white"
                       >
                         Comment
                       </button>
