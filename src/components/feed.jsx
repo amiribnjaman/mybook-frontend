@@ -579,10 +579,10 @@ export default function Feed() {
                   {/* <hr /> */}
                 </div>
                 {/*---------------COMMENT SECTION------------ */}
-                <div className="px-4 md:px-0 my-2 md:w-[90%] md:ml-auto md:mr-2">
+                <div className="px-4 md:px-4 my-2 md:w-[90%] md:ml-auto md:mr-2">
                   {/*
                    **
-                   **IF COMMENT HAS LENGHT THEN SHOW COMMENT AMOUNT & CONTENT
+                   **IF COMMENT HAS LENGTH THEN SHOW COMMENT AMOUNT & CONTENT
                    **
                    */}
                   {post?.comments.length > 0 && (
