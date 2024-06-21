@@ -13,17 +13,17 @@ export default function leftSidebar() {
               Mybook
             </Link>
           </li>
-          <li className="w-[240px]">
+          <li className="w-[240px] bg-white">
             {/*------------Search Card------------*/}
             <input
               type="text"
-              className="bg-slate-100 w-[240px] text-gray-500 rounded-full px-4 py-1.5"
+              className="rounded-full w-[240px] text-gray-500 rounded-full px-4 py-1.5"
               placeholder="Search Mybook"
             />
           </li>
 
           {/*----------------Subscribe to premium-----------*/}
-          <div className="w-[240px] mt-3 border p-2 rounded">
+          <div className="w-[240px] mt-3 p-2 rounded bg-white">
             <h3 className="font-semibold text-[20px]">Subscribe to Premium</h3>
             <p className="text-[15px]">
               Subscribe to unlock new features and if eligible, receive a share
@@ -59,7 +59,7 @@ export default function leftSidebar() {
         </div> */}
 
         {/*------------------Follow--------- */}
-        <div className="border rounded p-3 mt-3 mb-3 ">
+        <div className=" rounded p-3 mt-3 mb-3 bg-white ">
           <div className="flex justify-between items-center mb-3">
             <h3 className="font-semibold text-[17px]">You may follow</h3>
             <Link href="" className="text-[14px] font-semibold underline">

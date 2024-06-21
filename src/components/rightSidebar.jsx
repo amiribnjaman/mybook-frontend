@@ -108,9 +108,10 @@ export default function RightSidebar() {
     <div className="sidebar fixed">
       {/*--------------Right side nav menu-------------- */}
       <div className="flex gap-3 ">
-        <div className="dropdown dropdown-end md:flex gap-2 items-center hidden">
+        {/* Grid */}
+        <div className="dropdown dropdown-end md:flex gap-2 items-center hidden ">
           <label tabIndex={0} className="cursor-pointer">
-            <div className="indicator flex gap-[3px] p-3 bg-gray-200 rounded-full">
+            <div className="indicator flex gap-[3px] p-3 bg-white rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="1.2em"
@@ -133,7 +134,7 @@ export default function RightSidebar() {
         {/* Message */}
         <div className="dropdown dropdown-end md:flex gap-2 items-center hidden">
           <label tabIndex={0} className="cursor-pointer">
-            <div className="indicator p-[14px] bg-gray-200 rounded-full">
+            <div className="indicator p-[14px] bg-white rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="1.2em"
@@ -165,7 +166,7 @@ export default function RightSidebar() {
                 : 0}
             </sup> */}
           <label tabIndex={0} className="cursor-pointer">
-            <div className="indicator p-[11px] bg-gray-200 rounded-full">
+            <div className="indicator p-[11px] bg-white rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -250,10 +251,13 @@ export default function RightSidebar() {
 
         {/* Profile */}
         <div className="dropdown relative dropdown-end md:flex gap-2 items-center hidden">
-          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost btn-circle avatar"
+          >
             <div className="cursor-pointer relative ">
               <Avatar
-                className="bg-[#E5E7EB] text-slate-600"
+                className="bg-white text-slate-600"
                 onClick={() => setShowLogout(!showLogout)}
                 size={46}
                 icon={<UserOutlined />}
@@ -345,7 +349,7 @@ export default function RightSidebar() {
       </div>
 
       {/*--------------Right Profile Completion Card-------------- */}
-      <div className="mt-6 mb-4 px-2 py-3 rounded border">
+      <div className="mt-6 mb-4 px-2 py-3 rounded  bg-white shadow">
         <h3 className="text-[16px] font-semibold">Complete your Profile</h3>
         <div className="mt-4 text-center">
           <Progress

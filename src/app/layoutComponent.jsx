@@ -20,10 +20,10 @@ export default function LayoutComponent({ children }) {
   const authPath = route.includes(getPath);
 
   return (
-    <div className="">
+    <div className={`${!authPath && "bg-[#F0F2F5]"}`}>
       <CookiesProvider>
-        <div className="md:mt-4 md:w-[85%] md:mx-auto flex flex-col md:flex-row md:gap-6 gap-2">
-          <div className="md:w-[22%] hidden md:block">
+        <div className="md:pt-4 md:w-[85%] md:mx-auto flex flex-col md:flex-row md:gap-6 gap-2">
+          <div className="md:w-[20%] hidden md:block">
             {!authPath && (
               <>
                 {/* <TopNavbar /> */}
@@ -33,13 +33,13 @@ export default function LayoutComponent({ children }) {
           </div>
           <ToastContainer position="top-center" />
           {!authPath && (
-<div className="fixed md:hidden w-full z-[100]">
-            <TopNavbar />
-          </div>
+            <div className="fixed md:hidden w-full z-[100]">
+              <TopNavbar />
+            </div>
           )}
-          
-          <div className="md:w-[55%] w-full">{children}</div>
-          <div className="md:w-[22%] hidden md:block">
+
+          <div className="md:w-[60%] w-full">{children}</div>
+          <div className="md:w-[20%] hidden md:block">
             {!authPath && <RightSidebar />}{" "}
           </div>
         </div>

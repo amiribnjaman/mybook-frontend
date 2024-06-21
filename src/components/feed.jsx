@@ -121,11 +121,11 @@ export default function Feed() {
           },
         })
         .then((res) => {
-          console.log(res.status)
+          console.log(res.status);
           setReload(!reload);
 
           // PUSH NOTIFICATION FOR COMMENT
-          (async () => { 
+          (async () => {
             if (res.data.status == "200") {
               // PUSH A NEW NOTIFICATION
               await axios
@@ -285,12 +285,12 @@ export default function Feed() {
                 <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100">
                   <Avatar size={45} icon={<UserOutlined />} />
                 </div>
-                <div className="w-[87%]">
+                <div className="w-[90%]">
                   <button
                     onClick={() => setCreatePostCard(!createPostCard)}
                     className="bg-[#F0F2F5] text-[18px] hover:bg-[#E4E6E9] text-[#606266] w-full text-left px-4 py-2 px-3 rounded-full"
                   >
-                    What&#39;s on your mind? Mr. X
+                    What&#39;s on your mind?
                   </button>
 
                   {/* ====================================================== */}
@@ -298,7 +298,7 @@ export default function Feed() {
                   <div
                     className={`${
                       createPostCard ? "fixed" : "hidden"
-                    } shadow-md border py-4 rounded-md md:w-[550px] w-full left-0 top-[10%] md:left-[3px] z-50 bg-white`}
+                    } shadow-md border py-4 rounded-md md:w-[595px] w-full left-0 top-[10%] md:left-[3px] z-50 bg-white`}
                   >
                     {/*-----CREATE POST COMPONENT----- */}
                     <CreatePostCard
@@ -330,11 +330,11 @@ export default function Feed() {
                 key={index}
                 className={`${
                   createPostCard ? "-z-50" : ""
-                } mt-6 mb-8 w-full relative py-6 mr-auto rounded-md border bg-white`}
+                } mt-4 mb-4 w-full relative py-3 mr-auto rounded-md border bg-white`}
               >
                 {/*----------------POST HEADEING------------*/}
                 {/*----------------USER------------ */}
-                <div className="flex justify-between px-4">
+                <div className="flex justify-between px-2">
                   <div className="flex gap-3">
                     <div className="w-[40px] cursor-pointer h-[40px] rounded-full bg-gray-200 flex items-center justify-center">
                       <UserOutlined size={50} />
@@ -344,11 +344,17 @@ export default function Feed() {
                         <Link href="">
                           {post?.userName ? post?.userName : "Mr. X"}
                         </Link>
+                        {/* ------POST CREATION DATE------  */}
+                        <span className="text-[11px] text-gray-500 ml-2 inline-block font-normal">
+                          At {post?.createOn.split("T")[1].split(".")[0]},{" "}
+                          {post?.createOn.split("T")[0]}
+                        </span>
                       </h3>
-                      <span className="text-[12px] text-gray-500 -mt-4 inline-block font-normal">
+                      {/*------POST CREATION DATE------ */}
+                      {/* <span className="text-[12px] text-gray-500 -mt-4 inline-block font-normal">
                         At {post?.createOn.split("T")[1].split(".")[0]},{" "}
                         {post?.createOn.split("T")[0]}
-                      </span>
+                      </span> */}
                     </div>
                   </div>
                   {/*-----------------POST HEADING RIGHT SIDE ELLIPSIS/DOTTED BAR------------------ */}
@@ -367,7 +373,11 @@ export default function Feed() {
                       type="text"
                     >
                       <EllipsisOutlined
-                        style={{ fontSize: "22px", fontWeight: "semi-bold" }}
+                        style={{
+                          fontSize: "20px",
+                          fontWeight: "semi-bold",
+                          color: "#010101",
+                        }}
                       />
                     </Button>
                     {/*-------------------MORE OPTION CARD------------ */}
@@ -424,10 +434,16 @@ export default function Feed() {
                  **SHOWING POST CONTENT (POST & IMAGE)
                  **
                  */}
-                <div>
-                  <p className="my-3 px-4">{post?.post && post?.post}</p>
-                  <div className="mb-4">
-                    <img src={post?.imgUrl && post?.imgUrl} alt="" />
+                <div className="md:ml-12">
+                  <div>
+                    <p className="my-1 px-4">{post?.post && post?.post}</p>
+                  </div>
+                  <div className="mb-4 rounded-md px-2">
+                    <img
+                      src={post?.imgUrl && post?.imgUrl}
+                      alt=""
+                      className="rounded-md"
+                    />
                     {/* <Image height={500} width={500} alt="" src={post.imgUrl} /> */}
                   </div>
                 </div>
@@ -439,78 +455,131 @@ export default function Feed() {
                  ** SENDING TYPE- COUNT, THE POST AND POST TOTAL LIKES/INTERACTION LENGTH AS ARGUMENTS
                  **
                  */}
-                <p className="px-4 text-[13px] font-semibold mb-1">
-                  {post?.Likes.length > 0
-                    ? handleUserPostInteraction(
-                        "count",
-                        post,
-                        post?.Likes.length
-                      )
-                    : "No Like"}
-                </p>
-                <hr />
-                <div className="my-2 px-4 flex justify-between relative">
-                  {/*
-                   **
-                   ** USER INTERACTION CARD
-                   **
-                   */}
-                  {postId == post?.id && (
-                    <InterectionCard
-                      userId={userId}
-                      postId={postId}
-                      setReload={setReload}
-                      reload={reload}
-                      showIntercectionCard={showIntercectionCard}
-                      setShowInterectionCard={setShowIntercectionCard}
-                    />
-                  )}
-                  <Button
-                    type="text"
-                    onClick={() =>
-                      handlerCommonFunction(
-                        post?.id,
-                        setPostId,
-                        "",
-                        "",
-                        showIntercectionCard,
-                        setShowIntercectionCard
-                      )
-                    }
-                  >
+                <div className="md:w-[90%] md:ml-auto md:mr-2">
+                  <p className="px-4 text-[13px] font-semibold mb-1">
+                    {post?.Likes.length > 0
+                      ? handleUserPostInteraction(
+                          "count",
+                          post,
+                          post?.Likes.length
+                        )
+                      : "No Like"}
+                  </p>
+                  {/* <hr /> */}
+                  <div className="mx-4 my-2 px-4 flex justify-between relative border py-2 rounded-md">
                     {/*
                      **
-                     **CHECKING IS USER LIKED THIS POST OR NOT
-                     ** SEND TYPE- LIKE AND THE POST AS ARGUMENTS
+                     ** USER INTERACTION CARD
                      **
                      */}
-                    {post?.Likes.length > 0 ? (
-                      handleUserPostInteraction("like", post)
-                    ) : (
-                      <LikeOutlined
-                        style={{ fontSize: "24px", color: "#0866FF" }}
+                    {postId == post?.id && (
+                      <InterectionCard
+                        userId={userId}
+                        postId={postId}
+                        setReload={setReload}
+                        reload={reload}
+                        showIntercectionCard={showIntercectionCard}
+                        setShowInterectionCard={setShowIntercectionCard}
                       />
                     )}
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      handlerCommonFunction(
-                        post?.id,
-                        setPostId,
-                        "",
-                        "",
-                        showCommentBox,
-                        setShowCommentBox
-                      )
-                    }
-                  >
-                    Comment
-                  </Button>
-                  <Button>Share</Button>
+                    <Button
+                      type="text"
+                      onClick={() =>
+                        handlerCommonFunction(
+                          post?.id,
+                          setPostId,
+                          "",
+                          "",
+                          showIntercectionCard,
+                          setShowIntercectionCard
+                        )
+                      }
+                      className="border-0 shadow"
+                    >
+                      {/*
+                       **
+                       **CHECKING IS USER LIKED THIS POST OR NOT
+                       ** SEND TYPE- LIKE AND THE POST AS ARGUMENTS
+                       **
+                       */}
+                      {post?.Likes.length > 0 ? (
+                        handleUserPostInteraction("like", post)
+                      ) : (
+                        <LikeOutlined
+                          style={{ fontSize: "24px", color: "#0866FF" }}
+                        />
+                      )}
+                    </Button>
+                    <Button
+                      onClick={() =>
+                        handlerCommonFunction(
+                          post?.id,
+                          setPostId,
+                          "",
+                          "",
+                          showCommentBox,
+                          setShowCommentBox
+                        )
+                      }
+                      className="border-0 shadow"
+                    >
+                      {post?.comments.length > 0
+                        ? post?.comments.length + " Comments"
+                        : "Comment"}
+                    </Button>
+
+                    {/* 
+                    ////////COMMENT BUTTON ANOTHER STYLE///
+                    {post?.comments.length > 0 ? (
+                      <button
+                        onClick={() => {
+                          handlerCommonFunction(
+                            post?.id,
+                            setPostId,
+                            "",
+                            "",
+                            showComments,
+                            setShowComments
+                          );
+                          handlerCommonFunction(
+                            post?.id,
+                            setPostId,
+                            "",
+                            "",
+                            showCommentBox,
+                            setShowCommentBox
+                          );
+                        }}
+                        className=" px-2 rounded-md shadow"
+                      >
+                        {post?.comments.length + " Comments"}
+                      </button>
+                    ) : (
+                      <Button
+                        onClick={() =>
+                          handlerCommonFunction(
+                            post?.id,
+                            setPostId,
+                            "",
+                            "",
+                            showCommentBox,
+                            setShowCommentBox
+                          )
+                        }
+                        className="border-0 shadow"
+                      >
+                        {post?.comments.length > 0
+                          ? post?.comments.length + " Comments"
+                          : "Comment"}
+                      </Button>
+                    )}
+                     */}
+                    <Button className="border-0 shadow">Share</Button>
+                  </div>
+                  {/* <hr /> */}
                 </div>
-                <hr />
                 {/*---------------COMMENT SECTION------------ */}
-                <div className="px-4 my-2">
+                <div className="px-4 md:px-0 my-2 md:w-[90%] md:ml-auto">
                   {/*
                    **
                    **IF COMMENT HAS LENGHT THEN SHOW COMMENT AMOUNT & CONTENT
@@ -796,7 +865,7 @@ export default function Feed() {
                   {post.id == postId && (
                     //--------------WRITE COMMENT FORM------------------
                     <form
-                      className={`${showCommentBox ? "block" : "hidden"}`}
+                      className={`${showCommentBox ? "block" : "hidden"} mr-2`}
                       onSubmit={handleSubmit(createComment)}
                     >
                       <input
@@ -814,7 +883,7 @@ export default function Feed() {
                       />
                       <button
                         type="submit"
-                        className="bg-[#0866FF] px-4 py-1 mt-2 rounded-md text-white"
+                        className="px-3 py-1.5 bg-gradient-to-l from-green-700 to-green-500 px-4 py-1 mt-2 rounded-md text-white"
                       >
                         Comment
                       </button>
