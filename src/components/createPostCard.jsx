@@ -9,7 +9,7 @@ export default function CreatePostCard({ createPostCard, setCreatePostCard, relo
   const imgbbKey = "aefb8bb9063d982e8940fd31a2d29f9d";
   const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
   let imgUrl;
-    const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
 
 
   const {
@@ -58,7 +58,7 @@ export default function CreatePostCard({ createPostCard, setCreatePostCard, relo
         .then((res) => {
           if (res.data.status == 201) {
             setReload(!reload);
-            toast.success("A post uploaded.");
+            toast.success("A post created successfully.");
           }
         })
         .catch((err) => {
