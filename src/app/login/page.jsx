@@ -7,10 +7,13 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { SERVER_URL } from "../../utilitis/SERVER_URL";
 import { useCookies } from "react-cookie";
+import { useState } from "react";
+import { Flex, Spin } from "antd";
 
 export default function LoginPage() {
   const navigate = useRouter();
-    const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
+  const [loading, setLoading] = useState(false)
+  const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
   const {
     register,
     formState: { errors },
@@ -20,7 +23,9 @@ export default function LoginPage() {
 
   // Login submit function
   const loginSubmit = async (data) => {
+    setLoading(true)
     if (data.email && data.password) {
+      console.log(data)
       await axios
         .post(`${SERVER_URL}/user/login`, data, {
           withCredentials: true,
@@ -37,10 +42,12 @@ export default function LoginPage() {
             navigate.push("/");
           } else if (res.data.status == "401" || res.data.status == "404") {
             toast.error(res.data.message);
+            setLoading(false);
           } 
         })
         .catch((err) => {
           toast.error("Something went wrong");
+          setLoading(false);
         });
     }
 
@@ -66,7 +73,7 @@ export default function LoginPage() {
             <span className="text-[40px] font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-500 from-10% to-emerald-500 to-90%">
               Welcome Back
             </span>
-            
+
             {/* 00A400 */}
           </h1>
           <h5 className="text-[13px] text-center text-slate-600">
@@ -102,9 +109,13 @@ export default function LoginPage() {
 
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-green-400 to-blue-500 hover:bg-gradient-to-l w-full text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3 w-full"
+                  className={`${
+                    loading
+                      ? "bg-gray-300"
+                      : "bg-gradient-to-r from-green-400 to-blue-500"
+                  } hover:bg-gradient-to-l w-full text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3 w-full`}
                 >
-                  Login
+                  {loading ? <Spin /> : "Login"}
                 </button>
               </form>
 
