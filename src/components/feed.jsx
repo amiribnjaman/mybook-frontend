@@ -390,7 +390,7 @@ export default function Feed() {
                       <div
                         className={`${
                           moreOption ? "block" : "hidden"
-                        } absolute border px-4 py-6 rounded-md shadow-md flex flex-col gap-3 bg-white top-[55px] right-[10px]`}
+                        } absolute border px-4 py-6 rounded-md shadow-md flex flex-col gap-3 bg-white text-right top-[55px] right-[10px]`}
                       >
                         {/*
                          **
@@ -407,6 +407,7 @@ export default function Feed() {
                               </Link>
                             </button>
                             <button onClick={handleDeletePost}>Delete</button>
+                            <button className="">Report Post</button>
                           </>
                         ) : (
                           <>
@@ -422,6 +423,7 @@ export default function Feed() {
                             >
                               Delete
                             </button>
+                            <button className="">Report Post</button>
                           </>
                         )}
                       </div>
