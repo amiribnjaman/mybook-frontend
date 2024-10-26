@@ -152,8 +152,13 @@ export default function RightSidebar() {
             </div>
           </label>
           {/* <span>Message</span> */}
-          <div className="absolute top-12 shadow right-6">{showMessageCard && <MessageInboxCard />}</div>
         </div>
+        {showMessageCard && (
+          <div className="absolute top-12 shadow left-0 w-full bg-white rounded z-50 p-2 mt-4">
+            {" "}
+            <MessageInboxCard />
+          </div>
+        )}
 
         {/* Notification */}
         <div
