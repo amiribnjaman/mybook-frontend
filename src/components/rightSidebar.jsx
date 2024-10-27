@@ -8,9 +8,11 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { SERVER_URL } from "@/utilitis/SERVER_URL";
 import axios from "axios";
+import MessageInboxCard from "./messageInboxCard";
 
 export default function RightSidebar() {
   const [showLogout, setShowLogout] = useState(false);
+  const [showMessageCard, setShowMessageCard] = useState(false);
   const navigate = useRouter();
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
   const [notification, setNotification] = useState([]);
@@ -132,7 +134,12 @@ export default function RightSidebar() {
           {/* <span>Feed</span> */}
         </div>
         {/* Message */}
-        <div className="dropdown dropdown-end md:flex gap-2 items-center hidden">
+        <div
+          onClick={() => {
+            setShowMessageCard(!showMessageCard);
+          }}
+          className="dropdown dropdown-end md:flex gap-2 items-center hidden"
+        >
           <label tabIndex={0} className="cursor-pointer">
             <div className="indicator p-[14px] bg-white rounded-full">
               <svg
@@ -146,6 +153,12 @@ export default function RightSidebar() {
           </label>
           {/* <span>Message</span> */}
         </div>
+        {showMessageCard && (
+          <div className="absolute top-12 shadow left-0 w-full bg-white rounded z-50 p-2 mt-4">
+            {" "}
+            <MessageInboxCard />
+          </div>
+        )}
 
         {/* Notification */}
         <div
@@ -251,10 +264,7 @@ export default function RightSidebar() {
 
         {/* Profile */}
         <div className="dropdown relative dropdown-end md:flex gap-2 items-center hidden">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-circle avatar"
-          >
+          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="cursor-pointer relative ">
               <Avatar
                 className="bg-white text-slate-600"
