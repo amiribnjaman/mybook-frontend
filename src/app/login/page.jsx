@@ -180,7 +180,7 @@ export default function LoginPage() {
                         href="/signup"
                         className="text-[#00CFFF] font-regular "
                       >
-                        Create now
+                        create now
                       </Link>
                     </div>
                   </div>
