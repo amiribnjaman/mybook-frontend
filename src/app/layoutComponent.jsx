@@ -1,6 +1,6 @@
 "use client";
 
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import TopNavbar from "@/components/topNavbar";
 import LeftSidebar from "@/components/leftSidebar";
 import { usePathname } from "next/navigation";
@@ -8,7 +8,11 @@ import { ToastContainer } from "react-toastify";
 import RightSidebar from "@/components/rightSidebar";
 import { CookiesProvider } from "react-cookie";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({
+  weight:['100','200', '300','400','500','600','700', '800','900'],
+  subsets: ["latin"] });
+
+
 
 export default function LayoutComponent({ children }) {
   const pathname = usePathname();
@@ -20,33 +24,33 @@ export default function LayoutComponent({ children }) {
 
   return (
     <div
-      className={`bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] min-h-screen`}
+      className={`${poppins.className} bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] min-h-screen`}
     >
       <CookiesProvider>
         <div
           className={`${!authPath} && md:mx-auto flex flex-col md:flex-row md:gap-6 gap-2`}
         >
-          {!authPath && (
+          {/* {!authPath && (
             <div className="md:w-[20%] hidden lg:block">
               <>
-                {/* <TopNavbar /> */}
+                {/* <TopNavbar /> 
                 <LeftSidebar />
               </>
             </div>
-          )}
+          )} */}
           <ToastContainer position="top-center" />
-          {!authPath && (
+          {/* {!authPath && (
             <div className="fixed lg:hidden w-full md:w-[90%] z-[100]">
               <TopNavbar />
             </div>
-          )}
+          )} */}
 
           <div className="w-full">{children}</div>
-          {!authPath && (
+          {/* {!authPath && (
             <div className="md:w-[20%] hidden lg:block">
               <RightSidebar />
             </div>
-          )}
+          )} */}
         </div>
       </CookiesProvider>
     </div>

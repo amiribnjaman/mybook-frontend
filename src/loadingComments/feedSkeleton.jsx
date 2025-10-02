@@ -7,8 +7,7 @@ export default function FeedSkeleton() {
     <>
       {/*======================= CREATE POST SECTION================ */}
       <div
-        className={`"backdrop-blur-md" : ""
-        } bg-white w-[90%] mr-auto px-2 py-2 shadow border rounded-md`}
+        className={`bg-white w-[90%] mx-auto mt- px-2 py-4 shadow border rounded-md`}
       >
         <div className="mx-3 flex gap-3 mb-3 post-create">
           <Skeleton.Avatar size={50} active />
@@ -24,7 +23,7 @@ export default function FeedSkeleton() {
       </div>
 
       {/*================================NEWS FEED========================*/}
-      <div className="mt-6 w-[90%] mb-3 relative py-3 mr-auto rounded-md border shadow bg-white">
+      <div className="mt-6 w-[90%] mx-auto mb-3 relative py-3 rounded-md border shadow bg-white">
         {/*----------------POST HEADEING------------*/}
         <div className="flex justify-between px-4">
           <div className="flex gap-3 post-user">
