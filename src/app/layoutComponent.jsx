@@ -23,6 +23,7 @@ export default function LayoutComponent({ children }) {
   const authPath = route.includes(getPath);
 
   return (
+    // 0f2027
     <div
       className={`${poppins.className} bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] min-h-screen`}
     >

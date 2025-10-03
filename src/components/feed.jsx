@@ -284,7 +284,7 @@ export default function Feed() {
       {/* feed */}
       <div className=" mt-[140px] mx-auto mb-8 w-full gap-8  min-h-screen flex">
         {/* Feed left navbar */}
-        <div className="mb-8 col-span-3 min-h-screen w-[28%] shadow fixed flex-start bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] pt-[20px]">
+        <div className="mb-8 col-span-3 min-h-screen w-[28%] shadow fixed flex-start bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] pt-[28px]">
           <div className="sticky self-start top-[40px] left-0 h-screen w-[280px] ml-[6%]">
             <ul>
               <li className="flex gap-3 items-center mb-6 text-[#f4f4f9] font-regular cursor-pointer bg-[#203A43] w-[100%] h-[44px] rounded-[8px] hover:opacity-90 transition px-[20px] py-[16px]">
@@ -339,25 +339,26 @@ export default function Feed() {
             </ul>
           </div>
         </div>
-{/* 
+        {/* 
         <div className="mb-8 mt-8 flex justify-center col-span-1">
           <hr className="w-[.2px] min-h-[80vh] text-[#f4f4f9] bg-[#f4f4f9]" />
         </div> */}
         {/* Main feed */}
-        <div className="mb-8 mt-8 col-span-8 text-white w-[65%] flex-end ml-auto mr-[3%]">
+        <div className="mb-4 mt-8 col-span-8 text-white w-[65%] flex-end ml-auto mr-[3%]">
+          {/* Single post */}
           <div className="">
             {/* Post top userinfo sec  */}
             <div className="flex justify-between items-center">
               {/* User info */}
               <div className="flex gap-4 items-center">
                 {/*  User image */}
-                <div className="w-[36px] h-[36px] bg-[#f1f1f1] rounded-full"></div>
+                <div className="w-[38px] h-[38px] bg-[#f1f1f1] rounded-full"></div>
 
                 <div>
-                  <h3 className="text-[16px] font-regular cursor-pointer">
+                  <h3 className="text-[18px] font-regular cursor-pointer">
                     Ameer Hosen
                   </h3>
-                  <h5 className="text-[12px] font-light text-[#ddd]">
+                  <h5 className="text-[13px] font-light text-[#ddd]">
                     2 hours ago
                   </h5>
                 </div>
@@ -419,23 +420,82 @@ export default function Feed() {
               </div>
             </div>
 
-            <div className="mb-14 mt-14 flex justify-center">
+            {/* User interaction on post */}
+            <div className="mt-[24px]">
+              <div className="flex gap-4 items-center">
+                {/* Love */}
+                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[20px] flex items-center justify-center cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M16.696 3C14.652 3 12.887 4.197 12 5.943C11.113 4.197 9.348 3 7.304 3C4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"
+                    />
+                  </svg>
+                </div>
+
+                {/* comment */}
+                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[20px] flex items-center justify-center cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M3.464 16.828C2 15.657 2 14.771 2 11s0-5.657 1.464-6.828C4.93 3 7.286 3 12 3s7.071 0 8.535 1.172S22 7.229 22 11s0 4.657-1.465 5.828C19.072 18 16.714 18 12 18c-2.51 0-3.8 1.738-6 3v-3.212c-1.094-.163-1.899-.45-2.536-.96"
+                    />
+                  </svg>
+                </div>
+
+                {/* share */}
+                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[20px] flex items-center justify-center cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="23"
+                    height="23"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M19.59 12L15 7.41v2.46l-.86.13c-4.31.61-7.23 2.87-8.9 6.33c2.32-1.64 5.2-2.43 8.76-2.43h1v2.69m-2-1.69v.02c-4.47.21-7.67 1.82-10 5.08c1-5 4-10 11-11V5l7 7l-7 7v-4.1c-.33 0-.66.01-1 .02Z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-14 mt-6 flex justify-center">
               <hr className="w-[100%] min-h-[.5px] text-[#fff] bg-[#fff]" />
             </div>
           </div>
+          {/* Single post */}
           <div className="">
             {/* Post top userinfo sec  */}
             <div className="flex justify-between items-center">
               {/* User info */}
               <div className="flex gap-4 items-center">
                 {/*  User image */}
-                <div className="w-[36px] h-[36px] bg-[#f1f1f1] rounded-full"></div>
+                <div className="w-[38px] h-[38px] bg-[#f1f1f1] rounded-full"></div>
 
                 <div>
-                  <h3 className="text-[16px] font-regular cursor-pointer">
+                  <h3 className="text-[18px] font-regular cursor-pointer">
                     Ameer Hosen
                   </h3>
-                  <h5 className="text-[12px] font-light text-[#ddd]">
+                  <h5 className="text-[13px] font-light text-[#ddd]">
                     2 hours ago
                   </h5>
                 </div>
@@ -497,23 +557,83 @@ export default function Feed() {
               </div>
             </div>
 
-            <div className="mb-20 mt-14 flex justify-center">
+            {/* User interaction on post */}
+            <div className="mt-[24px]">
+              <div className="flex gap-4 items-center">
+                {/* Love */}
+                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[20px] flex items-center justify-center cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M16.696 3C14.652 3 12.887 4.197 12 5.943C11.113 4.197 9.348 3 7.304 3C4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"
+                    />
+                  </svg>
+                </div>
+
+                {/* comment */}
+                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[20px] flex items-center justify-center cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M3.464 16.828C2 15.657 2 14.771 2 11s0-5.657 1.464-6.828C4.93 3 7.286 3 12 3s7.071 0 8.535 1.172S22 7.229 22 11s0 4.657-1.465 5.828C19.072 18 16.714 18 12 18c-2.51 0-3.8 1.738-6 3v-3.212c-1.094-.163-1.899-.45-2.536-.96"
+                    />
+                  </svg>
+                </div>
+
+                {/* share */}
+                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[20px] flex items-center justify-center cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="23"
+                    height="23"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M19.59 12L15 7.41v2.46l-.86.13c-4.31.61-7.23 2.87-8.9 6.33c2.32-1.64 5.2-2.43 8.76-2.43h1v2.69m-2-1.69v.02c-4.47.21-7.67 1.82-10 5.08c1-5 4-10 11-11V5l7 7l-7 7v-4.1c-.33 0-.66.01-1 .02Z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-14 mt-6 flex justify-center">
               <hr className="w-[100%] min-h-[.5px] text-[#fff] bg-[#fff]" />
             </div>
           </div>
+          
+          {/* Single post */}
           <div className="">
             {/* Post top userinfo sec  */}
             <div className="flex justify-between items-center">
               {/* User info */}
               <div className="flex gap-4 items-center">
                 {/*  User image */}
-                <div className="w-[36px] h-[36px] bg-[#f1f1f1] rounded-full"></div>
+                <div className="w-[38px] h-[38px] bg-[#f1f1f1] rounded-full"></div>
 
                 <div>
-                  <h3 className="text-[16px] font-regular cursor-pointer">
+                  <h3 className="text-[18px] font-regular cursor-pointer">
                     Ameer Hosen
                   </h3>
-                  <h5 className="text-[12px] font-light text-[#ddd]">
+                  <h5 className="text-[13px] font-light text-[#ddd]">
                     2 hours ago
                   </h5>
                 </div>
@@ -575,10 +695,69 @@ export default function Feed() {
               </div>
             </div>
 
-            <div className="mb-20 mt-14 flex justify-center">
+            {/* User interaction on post */}
+            <div className="mt-[24px]">
+              <div className="flex gap-4 items-center">
+                {/* Love */}
+                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[20px] flex items-center justify-center cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M16.696 3C14.652 3 12.887 4.197 12 5.943C11.113 4.197 9.348 3 7.304 3C4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"
+                    />
+                  </svg>
+                </div>
+
+                {/* comment */}
+                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[20px] flex items-center justify-center cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M3.464 16.828C2 15.657 2 14.771 2 11s0-5.657 1.464-6.828C4.93 3 7.286 3 12 3s7.071 0 8.535 1.172S22 7.229 22 11s0 4.657-1.465 5.828C19.072 18 16.714 18 12 18c-2.51 0-3.8 1.738-6 3v-3.212c-1.094-.163-1.899-.45-2.536-.96"
+                    />
+                  </svg>
+                </div>
+
+                {/* share */}
+                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[20px] flex items-center justify-center cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="23"
+                    height="23"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M19.59 12L15 7.41v2.46l-.86.13c-4.31.61-7.23 2.87-8.9 6.33c2.32-1.64 5.2-2.43 8.76-2.43h1v2.69m-2-1.69v.02c-4.47.21-7.67 1.82-10 5.08c1-5 4-10 11-11V5l7 7l-7 7v-4.1c-.33 0-.66.01-1 .02Z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-14 mt-6 flex justify-center">
               <hr className="w-[100%] min-h-[.5px] text-[#fff] bg-[#fff]" />
             </div>
           </div>
+
         </div>
       </div>
 
