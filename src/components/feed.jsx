@@ -272,14 +272,317 @@ export default function Feed() {
   };
 
   return (
-    <>
-    <TopNav />
-    <hr className="w-[90%] mx-auto mt-[20px] mb-[40px] h-[.5px] bg-[#f4f4f9]" />
-      {posts?.length > 0 ? (
-        <></>
-      ) : (
-        <FeedSkeleton />
-      )}
-    </>
+    <div className="relative">
+      <div className="fixed top-0 left-0 w-full h-[140px] z-50 shadow bg-[#2c5364]">
+        <TopNav />
+      </div>
+      {/* <hr className="w-[95%] mx-auto mt-[16px] mb-[20px] h-[.5px] text-[#203A43] bg-[#203A43]" /> */}
+      {/* <div className="pt-[120px] mb-8 mt-8 flex justify-center">
+        <hr className="w-[95%] min-h-[.5px] text-[#203A43] bg-[#203A43]" />
+      </div> */}
+
+      {/* feed */}
+      <div className=" mt-[140px] mx-auto mb-8 w-full gap-8  min-h-screen flex">
+        {/* Feed left navbar */}
+        <div className="mb-8 col-span-3 min-h-screen w-[28%] shadow fixed flex-start bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] pt-[20px]">
+          <div className="sticky self-start top-[40px] left-0 h-screen w-[280px] ml-[6%]">
+            <ul>
+              <li className="flex gap-3 items-center mb-6 text-[#f4f4f9] font-regular cursor-pointer bg-[#203A43] w-[100%] h-[44px] rounded-[8px] hover:opacity-90 transition px-[20px] py-[16px]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M19.5 10a.5.5 0 0 0-1 0zm-14 0a.5.5 0 0 0-1 0zm15.146 2.354a.5.5 0 0 0 .708-.708zM12 3l.354-.354a.5.5 0 0 0-.708 0zm-9.354 8.646a.5.5 0 0 0 .708.708zM7 21.5h10v-1H7zM19.5 19v-9h-1v9zm-14 0v-9h-1v9zm15.854-7.354l-9-9l-.708.708l9 9zm-9.708-9l-9 9l.708.708l9-9zM17 21.5a2.5 2.5 0 0 0 2.5-2.5h-1a1.5 1.5 0 0 1-1.5 1.5zm-10-1A1.5 1.5 0 0 1 5.5 19h-1A2.5 2.5 0 0 0 7 21.5z"
+                  />
+                </svg>
+                <span className="text-[16px]">Home</span>
+              </li>
+              <li className="flex gap-3 items-center mb-6 text-[#f4f4f9] font-regular cursor-pointer bg-[#203A43] w-[100%] h-[44px] rounded-[8px] hover:opacity-90 transition px-[20px] py-[16px]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 640 512"
+                  className="text-white"
+                >
+                  <path
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    d="M192 256c61.9 0 112-50.1 112-112S253.9 32 192 32S80 82.1 80 144s50.1 112 112 112m76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C51.6 288 0 339.6 0 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2M480 256c53 0 96-43 96-96s-43-96-96-96s-96 43-96 96s43 96 96 96m48 32h-3.8c-13.9 4.8-28.6 8-44.2 8s-30.3-3.2-44.2-8H432c-20.4 0-39.2 5.9-55.7 15.4c24.4 26.3 39.7 61.2 39.7 99.8v38.4c0 2.2-.5 4.3-.6 6.4H592c26.5 0 48-21.5 48-48c0-61.9-50.1-112-112-112"
+                  />
+                </svg>
+                <span className="text-[16px]">Followers</span>
+              </li>
+
+              <li className="flex gap-3 items-center mb-6 text-[#f4f4f9] font-regular cursor-pointer bg-[#203A43] w-[100%] h-[44px] rounded-[8px] hover:opacity-90 transition px-[20px] py-[16px]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                >
+                  <g fill="none" fill-rule="evenodd">
+                    <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
+                    <path
+                      fill="currentColor"
+                      d="M12 12c1.873 0 3.57.62 4.815 1.487c1.183.825 2.185 2.051 2.185 3.37c0 .724-.309 1.324-.796 1.77c-.458.421-1.056.694-1.672.88C15.301 19.88 13.68 20 12 20s-3.301-.12-4.532-.493c-.616-.186-1.214-.459-1.673-.88C5.31 18.182 5 17.582 5 16.858c0-1.319 1.002-2.545 2.185-3.37C8.43 12.62 10.127 12 12 12m0 2c-1.44 0-2.743.48-3.67 1.127c-.989.69-1.33 1.392-1.33 1.73c0 .304.352.494.672.614l.205.07l.17.052c.94.284 2.32.407 3.953.407c1.508 0 2.799-.105 3.728-.344l.304-.087l.19-.06c.343-.117.778-.314.778-.652s-.341-1.04-1.33-1.73C14.744 14.481 13.44 14 12 14m7-1c1.044 0 1.992.345 2.693.833c.64.447 1.307 1.19 1.307 2.096c0 1.335-1.297 1.813-2.463 1.98l-.3.037l-.289.025l-.138.008c.122-.345.19-.72.19-1.122a3.8 3.8 0 0 0-.107-.888c.386-.03.703-.08.939-.151c.104-.032.01-.13-.1-.215l-.107-.078l-.076-.051a2.7 2.7 0 0 0-.995-.418c-.38-.76-.964-1.418-1.586-1.943A4.8 4.8 0 0 1 19 13M5 13q.537.002 1.032.113c-.622.525-1.206 1.183-1.586 1.943a2.7 2.7 0 0 0-.995.418l-.128.088c-.127.092-.276.22-.155.256c.236.071.553.122.94.151a3.7 3.7 0 0 0-.108.888c0 .402.068.777.19 1.122l-.28-.02l-.296-.03c-1.202-.147-2.614-.607-2.614-2c0-.905.666-1.649 1.307-2.096A4.76 4.76 0 0 1 5 13m13.5-6a2.5 2.5 0 1 1 0 5a2.5 2.5 0 0 1 0-5m-13 0a2.5 2.5 0 1 1 0 5a2.5 2.5 0 0 1 0-5M12 3a4 4 0 1 1 0 8a4 4 0 0 1 0-8m6.5 6a.5.5 0 1 0 0 1a.5.5 0 0 0 0-1m-13 0a.5.5 0 1 0 0 1a.5.5 0 0 0 0-1M12 5a2 2 0 1 0 0 4a2 2 0 0 0 0-4"
+                    />
+                  </g>
+                </svg>
+                <span className="text-[16px]">Groups</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+{/* 
+        <div className="mb-8 mt-8 flex justify-center col-span-1">
+          <hr className="w-[.2px] min-h-[80vh] text-[#f4f4f9] bg-[#f4f4f9]" />
+        </div> */}
+        {/* Main feed */}
+        <div className="mb-8 mt-8 col-span-8 text-white w-[65%] flex-end ml-auto mr-[3%]">
+          <div className="">
+            {/* Post top userinfo sec  */}
+            <div className="flex justify-between items-center">
+              {/* User info */}
+              <div className="flex gap-4 items-center">
+                {/*  User image */}
+                <div className="w-[36px] h-[36px] bg-[#f1f1f1] rounded-full"></div>
+
+                <div>
+                  <h3 className="text-[16px] font-regular cursor-pointer">
+                    Ameer Hosen
+                  </h3>
+                  <h5 className="text-[12px] font-light text-[#ddd]">
+                    2 hours ago
+                  </h5>
+                </div>
+              </div>
+
+              {/* Top right- follow & more btn */}
+              <div className="flex gap-8 items-center ml-2">
+                <div className="w-[100px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 items-center justify-center cursor-pointer hover:opacity-90 transition pl-1">
+                  <span>Follow</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M5 13v-1h6V6h1v6h6v1h-6v6h-1v-6z"
+                    />
+                  </svg>
+                </div>
+
+                {/* More icon */}
+                <div className="cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 256 256"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M140 128a12 12 0 1 1-12-12a12 12 0 0 1 12 12m56-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m-136 0a12 12 0 1 0 12 12a12 12 0 0 0-12-12"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            {/* Post main section */}
+            <div className="my-[40px] grid grid-cols-6 gap-8">
+              <div className="col-span-4">
+                <h2 className="text-[20px] font-regular ">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste,
+                  hic.
+                </h2>
+
+                <p className="mt-[36px] text-[14px] font-light">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Necessitatibus maiores, laudantium atque illo neque ea facilis
+                  sit aliquam omnis animi reiciendis cumque inventore quas
+                  explicabo veritatis sunt corporis consequuntur iure.
+                </p>
+              </div>
+
+              {/* Post img */}
+              <div className="col-span-2">
+                <div className="w-full bg-gradient-to-r from-[#f1f1f2] to-[#fff] h-full rounded-[24px]"></div>
+              </div>
+            </div>
+
+            <div className="mb-14 mt-14 flex justify-center">
+              <hr className="w-[100%] min-h-[.5px] text-[#fff] bg-[#fff]" />
+            </div>
+          </div>
+          <div className="">
+            {/* Post top userinfo sec  */}
+            <div className="flex justify-between items-center">
+              {/* User info */}
+              <div className="flex gap-4 items-center">
+                {/*  User image */}
+                <div className="w-[36px] h-[36px] bg-[#f1f1f1] rounded-full"></div>
+
+                <div>
+                  <h3 className="text-[16px] font-regular cursor-pointer">
+                    Ameer Hosen
+                  </h3>
+                  <h5 className="text-[12px] font-light text-[#ddd]">
+                    2 hours ago
+                  </h5>
+                </div>
+              </div>
+
+              {/* Top right- follow & more btn */}
+              <div className="flex gap-8 items-center ml-2">
+                <div className="w-[100px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 items-center justify-center cursor-pointer hover:opacity-90 transition pl-1">
+                  <span>Follow</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M5 13v-1h6V6h1v6h6v1h-6v6h-1v-6z"
+                    />
+                  </svg>
+                </div>
+
+                {/* More icon */}
+                <div className="cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 256 256"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M140 128a12 12 0 1 1-12-12a12 12 0 0 1 12 12m56-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m-136 0a12 12 0 1 0 12 12a12 12 0 0 0-12-12"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            {/* Post main section */}
+            <div className="my-[40px] grid grid-cols-6 gap-8">
+              <div className="col-span-4">
+                <h2 className="text-[20px] font-regular ">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste,
+                  hic.
+                </h2>
+
+                <p className="mt-[36px] text-[14px] font-light">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Necessitatibus maiores, laudantium atque illo neque ea facilis
+                  sit aliquam omnis animi reiciendis cumque inventore quas
+                  explicabo veritatis sunt corporis consequuntur iure.
+                </p>
+              </div>
+
+              {/* Post img */}
+              <div className="col-span-2">
+                <div className="w-full bg-gradient-to-r from-[#f1f1f2] to-[#fff] h-full rounded-[24px]"></div>
+              </div>
+            </div>
+
+            <div className="mb-20 mt-14 flex justify-center">
+              <hr className="w-[100%] min-h-[.5px] text-[#fff] bg-[#fff]" />
+            </div>
+          </div>
+          <div className="">
+            {/* Post top userinfo sec  */}
+            <div className="flex justify-between items-center">
+              {/* User info */}
+              <div className="flex gap-4 items-center">
+                {/*  User image */}
+                <div className="w-[36px] h-[36px] bg-[#f1f1f1] rounded-full"></div>
+
+                <div>
+                  <h3 className="text-[16px] font-regular cursor-pointer">
+                    Ameer Hosen
+                  </h3>
+                  <h5 className="text-[12px] font-light text-[#ddd]">
+                    2 hours ago
+                  </h5>
+                </div>
+              </div>
+
+              {/* Top right- follow & more btn */}
+              <div className="flex gap-8 items-center ml-2">
+                <div className="w-[100px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 items-center justify-center cursor-pointer hover:opacity-90 transition pl-1">
+                  <span>Follow</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M5 13v-1h6V6h1v6h6v1h-6v6h-1v-6z"
+                    />
+                  </svg>
+                </div>
+
+                {/* More icon */}
+                <div className="cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 256 256"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M140 128a12 12 0 1 1-12-12a12 12 0 0 1 12 12m56-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m-136 0a12 12 0 1 0 12 12a12 12 0 0 0-12-12"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            {/* Post main section */}
+            <div className="my-[40px] grid grid-cols-6 gap-8">
+              <div className="col-span-4">
+                <h2 className="text-[20px] font-regular ">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste,
+                  hic.
+                </h2>
+
+                <p className="mt-[36px] text-[14px] font-light">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Necessitatibus maiores, laudantium atque illo neque ea facilis
+                  sit aliquam omnis animi reiciendis cumque inventore quas
+                  explicabo veritatis sunt corporis consequuntur iure.
+                </p>
+              </div>
+
+              {/* Post img */}
+              <div className="col-span-2">
+                <div className="w-full bg-gradient-to-r from-[#f1f1f2] to-[#fff] h-full rounded-[24px]"></div>
+              </div>
+            </div>
+
+            <div className="mb-20 mt-14 flex justify-center">
+              <hr className="w-[100%] min-h-[.5px] text-[#fff] bg-[#fff]" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* {posts?.length > 0 ? <></> : <FeedSkeleton />} */}
+    </div>
   );
 }

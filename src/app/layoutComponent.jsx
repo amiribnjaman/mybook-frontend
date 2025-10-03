@@ -28,7 +28,7 @@ export default function LayoutComponent({ children }) {
     >
       <CookiesProvider>
         <div
-          className={`${!authPath} && md:mx-auto flex flex-col md:flex-row md:gap-6 gap-2`}
+          className={`${!authPath} && md:mx-auto flex `}
         >
           {/* {!authPath && (
             <div className="md:w-[20%] hidden lg:block">
