@@ -155,15 +155,15 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
             />
           </svg>
 
-          <div className="w-[152px] h-[40px] bg-white rounded-full flex items-center justify-center gap-2">
+          <div className="w-[160px] h-[40px] bg-white rounded-full flex items-center justify-center gap-[10px] pl-0 pr-3">
             <div className="w-[36px] h-[36px] bg-[#f1f1f1] rounded-full"></div>
             <h1>Ameer H.</h1>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="12"
+              width="16"
               height="22"
               viewBox="0 0 12 24"
-              className="rotate-[90deg]"
+              className={`${showLogout ? 'rotate-[-90deg]' : 'rotate-[90deg] '} transition `}
             >
               <defs>
                 <path
@@ -198,9 +198,9 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
                 <span>Profile</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="23"
-                  height="23"
-                  viewBox="0 0 23 23"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
                 >
                   <path
                     fill="currentColor"
@@ -312,8 +312,8 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
                 <span>Logout</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
+                  width="25"
+                  height="25"
                   viewBox="0 0 24 24"
                 >
                   <path

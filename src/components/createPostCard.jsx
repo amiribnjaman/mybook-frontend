@@ -175,7 +175,7 @@ export default function CreatePostCard({
               {/* Updaload option */}
               <div className="">
                 <button
-                  className="w-full h-[66px] bg-[#f6f6f6] rounded-md flex flex-col justify-center items-center border border-[#f6f6f6] hover:border-[#00CFFF] transition text-center mr-4 gap-1"
+                  className="w-full h-[66px] bg-[#f6f6f6] rounded-md flex flex-col justify-center items-center border-2 border-dotted border-[#f6f6f6] hover:border-gray-200 transition text-center mr-4 gap-1"
                   type="button"
                   onClick={() => fileInputRef.current.click()}
                 >
@@ -190,7 +190,7 @@ export default function CreatePostCard({
                       d="M5 3h13a3 3 0 0 1 3 3v13a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3m0 1a2 2 0 0 0-2 2v11.59l4.29-4.3l2.5 2.5l5-5L20 16V6a2 2 0 0 0-2-2zm4.79 13.21l-2.5-2.5L3 19a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-1.59l-5.21-5.2zM7.5 6A2.5 2.5 0 0 1 10 8.5A2.5 2.5 0 0 1 7.5 11A2.5 2.5 0 0 1 5 8.5A2.5 2.5 0 0 1 7.5 6m0 1A1.5 1.5 0 0 0 6 8.5A1.5 1.5 0 0 0 7.5 10A1.5 1.5 0 0 0 9 8.5A1.5 1.5 0 0 0 7.5 7"
                     />
                   </svg>
-                  <span className="text-[13px] font-light">Upload</span>
+                  <span className="text-[14px] font-light">Click to Upload</span>
                 </button>
 
                 <input
