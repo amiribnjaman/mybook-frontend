@@ -100,7 +100,7 @@ export default function LoginPage() {
                 </Link>
                 <h1 className="text-[36px] text-white font-regular ">
                   Login to
-                  <span className="text-[#00CFFF] font-bold"> K'nect</span>
+                  <span className="text-[#00CFFF] font-bold"> K&#39;nect</span>
                   {/* 00A400 */}
                 </h1>
               </div>
@@ -176,7 +176,7 @@ export default function LoginPage() {
                   <div className="md:flex mt-2 items-center justify-between gap-1">
                     <div className="flex gap-1">
                       <span className="font-regular text-white">
-                        Dont have account?
+                        Don&#39;t have account?
                       </span>
                       <Link
                         href="/signup"

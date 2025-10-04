@@ -86,7 +86,7 @@ export default function SignupPage() {
                 </Link>
                 <h1 className="text-[36px] text-white font-regular leading-[36px]">
                   Welcome to
-                  <span className="text-[#00CFFF] font-bold"> K'nect</span>
+                  <span className="text-[#00CFFF] font-bold"> K&#39;nect</span>
                   {/* 00A400 */}
                   <span className="block">Create an account.</span>
                 </h1>

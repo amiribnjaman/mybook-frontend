@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Exo_2 } from "next/font/google";
 import Link from "next/link";
@@ -6,16 +6,15 @@ import React from "react";
 
 const exo = Exo_2({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin"],
+  subsets: ["latin", ],
 });
 
-export default function TopNav() {
-    
+export default function TopNav({ createPostCard, setCreatePostCard }) {
   return (
     <div>
       {/* Top message */}
       <div className="flex items-center justify-center text-center pt-4">
-        <h6 className="text-white font-light text-sm flex items-center gap-2">
+        <h6 className="text-white font-extralight text-sm flex items-center gap-2">
           <span>Stop genocide on Gaza. Free Palestine</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +47,7 @@ export default function TopNav() {
             <h1
               className={`${exo.className} text-[30px] text-[#00CFFF] font-semibold`}
             >
-              K'nect
+              K&#39;nect
               {/* 00A400 */}
             </h1>
           </Link>
@@ -70,14 +69,19 @@ export default function TopNav() {
               />
             </svg>
             <input
-              className="w-[340px] h-[40px] bg-[#F4F4F9] rounded-full pl-1 pr-4 text-dark placeholder:text-[#666A71] placeholder:font-regular  outline-none"
+              className="w-[340px] h-[40px] bg-[#F4F4F9] rounded-full pl-1 pr-4 text-dark placeholder:text-[#666A71] placeholder:font-light  outline-none"
               type="text"
               placeholder="Search here.."
             />
           </div>
 
           {/* Create button */}
-          <div className="w-[120px] h-[40px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 items-center justify-center cursor-pointer hover:opacity-90 transition">
+          <button
+            onClick={() => {
+              setCreatePostCard(!createPostCard);
+            }}
+            className="w-[120px] h-[40px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 items-center justify-center cursor-pointer hover:opacity-90 transition"
+          >
             <span>Create</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +91,7 @@ export default function TopNav() {
             >
               <path fill="currentColor" d="M5 13v-1h6V6h1v6h6v1h-6v6h-1v-6z" />
             </svg>
-          </div>
+          </button>
         </div>
 
         {/* USER OPTIONS */}
@@ -154,3 +158,7 @@ export default function TopNav() {
     </div>
   );
 }
+
+         
+         
+       

@@ -1,6 +1,6 @@
 "use client";
 
-import { Poppins } from "next/font/google";
+import { Poppins, Montserrat, Urbanist, Baloo_2, Baloo_Bhai_2, Baloo_Bhaijaan_2, Noto_Sans_Bengali } from "next/font/google";
 import TopNavbar from "@/components/topNavbar";
 import LeftSidebar from "@/components/leftSidebar";
 import { usePathname } from "next/navigation";
@@ -11,6 +11,20 @@ import { CookiesProvider } from "react-cookie";
 const poppins = Poppins({
   weight:['100','200', '300','400','500','600','700', '800','900'],
   subsets: ["latin"] });
+
+const montserrat = Montserrat({
+  weight:['100','200', '300','400','500','600','700', '800','900'],
+  subsets: ["latin"]
+});
+  
+const urbanist = Urbanist({
+  weight:['100','200', '300','400','500','600','700', '800','900'],
+  subsets: ["latin"] });
+
+  const notoBengali = Noto_Sans_Bengali({
+    weight: [ "100","200","300","400", "500", "600", "700", "800"],
+    subsets: ["bengali"],
+  });
 
 
 
@@ -25,12 +39,10 @@ export default function LayoutComponent({ children }) {
   return (
     // 0f2027
     <div
-      className={`${poppins.className} bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] min-h-screen`}
+      className={`${urbanist.className} ${notoBengali.className} bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] min-h-screen`}
     >
       <CookiesProvider>
-        <div
-          className={`${!authPath} && md:mx-auto flex `}
-        >
+        <div className={`${!authPath} && md:mx-auto flex `}>
           {/* {!authPath && (
             <div className="md:w-[20%] hidden lg:block">
               <>
