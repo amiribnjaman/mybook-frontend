@@ -111,8 +111,9 @@ export default function CreatePostCard({
             {/* Header with cancle button */}
             <div className="flex justify-between items-center py-4 px-6">
               <h5 className="text-[14px] font-light">Create a new post</h5>
+              {/* Card cancle button */}
               <button
-                className="w-[36px] h-[36px] bg-[#f6f6f6] rounded-md flex justify-center items-center border border-[#f6f6f6] hover:border-[#ddd] transition text-center"
+                className="w-[36px] h-[36px] bg-[#f9f9f9] rounded-md flex justify-center items-center border border-[#f6f6f6] hover:border-[#eee] transition text-center"
                 onClick={() => setCreatePostCard(!createPostCard)}
               >
                 <svg
