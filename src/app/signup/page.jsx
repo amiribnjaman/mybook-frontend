@@ -96,7 +96,7 @@ export default function SignupPage() {
                 <div className="">
                   <form onSubmit={handleSubmit(signUpSubmit)} className="mt-1">
                     <label
-                      className="text-white mb-[8px] text-[16px] font-regular "
+                      className="text-white text-[16px] font-light "
                       htmlFor="name"
                     >
                       Full Name:
@@ -105,7 +105,7 @@ export default function SignupPage() {
                       {...register("firstName", { required: true })}
                       type="text"
                       id="name"
-                      className="border rounded-[4px] px-[16px] py-2 block w-full mt-[4px] mb-[20px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
+                      className="border rounded-[4px] px-[16px] py-2 block w-full mt-[8px] mb-[24px] placeholder:font-light focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
                       placeholder="Mr. Jon Day"
                     />
                     <p className="hidden">
@@ -115,7 +115,7 @@ export default function SignupPage() {
                         })}
                     </p>
                     <label
-                      className="text-white mb-[8px] text-[16px] font-regular "
+                      className="text-white mb-[8px] text-[16px] font-light "
                       htmlFor="email"
                     >
                       Email Address:
@@ -124,7 +124,7 @@ export default function SignupPage() {
                       {...register("email", { required: true })}
                       type="email"
                       id="email"
-                      className="border rounded-[4px] px-[16px] py-2 block w-full mt-[4px] mb-[20px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
+                      className="border rounded-[4px] px-[16px] py-2 block w-full mt-[8px] mb-[24px] placeholder:font-light focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
                       placeholder="example@mail.com"
                     />
                     <p className="hidden">
@@ -135,7 +135,7 @@ export default function SignupPage() {
                     </p>
 
                     <label
-                      className="mt-[24px] text-white mb-[8px] text-[16px] font-regular "
+                      className="text-white text-[16px] font-light "
                       htmlFor="password"
                     >
                       Your Password:
@@ -143,7 +143,7 @@ export default function SignupPage() {
                     <input
                       {...register("password", { required: true })}
                       type="password"
-                      className="border rounded-[4px] px-[16px] py-2 block w-full mt-[8px] mb-[8px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
+                      className="border rounded-[4px] px-[16px] py-2 block w-full mt-[8px] mb-[24px] placeholder:font-light focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
                       placeholder="Password"
                       id="password"
                     />
@@ -157,7 +157,7 @@ export default function SignupPage() {
 
                     <button
                       type="submit"
-                      className={`bg-[#00CFFF] hover:bg-[#13BCE3]  w-full text-white text-lg font-semibold rounded-[4px] px-8 py-2 mt-6 mb-3 w-full`}
+                      className={`bg-[#00CFFF] hover:bg-[#13BCE3]  w-full text-white text-lg font-semibold rounded-[4px] px-8 py-2 mt-6 mb-[8px] w-full`}
                     >
                       Sign Up
                     </button>
@@ -165,7 +165,7 @@ export default function SignupPage() {
 
                   <div className="flex gap-2 items-center"></div>
                   <div className="md:flex mt-2 items-center justify-between gap-1">
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 font-light text-[16px]">
                       <span className="font-regular text-white">
                         Already registered?
                       </span>
@@ -177,8 +177,8 @@ export default function SignupPage() {
                       </Link>
                     </div>
                   </div>
-                  <hr className="mt-[20px]" />
-                  <div className="text-dark bg-white font-semibold cursor-pointer flex gap-4 items-center justify-center rounded-[4px] px-8 py-2.5 mt-6 mb-3 w-full text-center">
+                  <hr className="my-[28px]" />
+                  <div className="text-dark bg-white font-semibold cursor-pointer flex gap-4 items-center justify-center rounded-[4px] px-8 py-2.5 mb-3 w-full text-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="22"

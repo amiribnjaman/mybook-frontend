@@ -109,7 +109,7 @@ export default function LoginPage() {
                 <div className="">
                   <form onSubmit={handleSubmit(loginSubmit)} className="mt-1">
                     <label
-                      className="text-white mb-[8px] text-[16px] font-regular "
+                      className="text-white text-[16px] font-light "
                       htmlFor="email"
                     >
                       Email Address:
@@ -118,7 +118,7 @@ export default function LoginPage() {
                       {...register("email", { required: true })}
                       type="text"
                       id="email"
-                      className="border rounded-[4px] px-[16px] py-2 block w-full mt-[4px] mb-[20px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
+                      className="border rounded-[4px] px-[16px] py-2 block w-full mt-[8px] mb-[24px] placeholder:font-light focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
                       placeholder="example@gmail.com"
                     />
                     <p className="hidden">
@@ -129,7 +129,7 @@ export default function LoginPage() {
                     </p>
 
                     <label
-                      className="mt-[24px] text-white mb-[8px] text-[16px] font-regular "
+                      className="mt-[24px] text-white text-[16px] font-light "
                       htmlFor="password"
                     >
                       Password:
@@ -137,11 +137,11 @@ export default function LoginPage() {
                     <input
                       {...register("password", { required: true })}
                       type="password"
-                      className="border rounded-[4px] px-[16px] py-2 block w-full mt-[8px] mb-[8px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
+                      className="border rounded-[4px] px-[16px] py-2 block w-full mb-[10px] mt-[8px] placeholder:font-light focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
                       placeholder="Password"
                       id="password"
                     />
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 text-[16px] font-light mt-[8px]">
                       <span className="font-regular text-white">
                         Forgotten password?
                       </span>
@@ -166,15 +166,15 @@ export default function LoginPage() {
                         loading
                           ? "bg-gray-300"
                           : "bg-[#00CFFF] hover:bg-[#13BCE3]"
-                      } hover:bg-[#00CFeef] w-full text-white text-lg font-semibold rounded-[4px] px-8 py-2 mt-6 mb-3 w-full`}
+                      } hover:bg-[#00CFeef] w-full text-white text-lg font-semibold rounded-[4px] px-8 py-2 mt-6 mb-[8px] w-full`}
                     >
                       {loading ? <Spin /> : "Login"}
                     </button>
                   </form>
 
                   <div className="flex gap-2 items-center"></div>
-                  <div className="md:flex mt-2 items-center justify-between gap-1">
-                    <div className="flex gap-1">
+                  <div className="md:flex mt-[8px] items-center justify-between gap-1">
+                    <div className="flex gap-1 text-[16px] font-light">
                       <span className="font-regular text-white">
                         Don&#39;t have account?
                       </span>
@@ -186,8 +186,8 @@ export default function LoginPage() {
                       </Link>
                     </div>
                   </div>
-                  <hr className="mt-[20px]" />
-                  <div className="text-dark bg-white font-semibold cursor-pointer flex gap-4 items-center justify-center rounded-[4px] px-8 py-2.5 mt-6 mb-3 w-full text-center">
+                  <hr className="my-[28px]" />
+                  <div className="text-dark bg-white font-semibold cursor-pointer flex gap-4 items-center justify-center rounded-[4px] px-8 py-2.5 mb-3 w-full text-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="22"
