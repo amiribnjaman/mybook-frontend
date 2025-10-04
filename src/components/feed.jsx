@@ -40,14 +40,6 @@ export default function Feed() {
   const [showComments, setShowComments] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
 
-  const [fileName, setFileName] = useState('No file chosen')
-  const fileInputRef = useRef()
-  
-  const handleFileChange = (e) => {
-    if(e.target.files.lenght >0) {
-      setFileName(e.target.files[0].name)
-    }
-  }
 
   const {
     register,
@@ -973,111 +965,7 @@ export default function Feed() {
       </div>
 
       {/* Create post card */}
-      <div
-        className={`${
-          createPostCard
-            ? "fixed w-[540px] h-[520px] bg-[#fff] rounded-[12px] shadow-lg z-[100] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            : "hidden"
-        }  `}
-      >
-        <div>
-          <div className="flex justify-between items-center p-4">
-            <h5 className="text-[14px] font-light">Create a new post</h5>
-            <button
-              className="w-[36px] h-[36px] bg-[#f6f6f6] rounded-md flex justify-center items-center border border-[#f6f6f6] hover:border-[#ddd] transition text-center"
-              onClick={() => setCreatePostCard(!createPostCard)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                viewBox="0 0 24 24"
-                className="rotate-45 text-center pl-[2px] text-[#]"
-              >
-                <path
-                  fill="currentColor"
-                  d="M5 13v-1h6V6h1v6h6v1h-6v6h-1v-6z"
-                />
-              </svg>
-            </button>
-          </div>
-
-          {/* Editor body */}
-          <div className="px-4 flex flex-col">
-            {/* Top */}
-            <div className="flex justify-between items-center my-[12px]">
-              <h3 className="text-[24px] ">Share your thougth by</h3>
-              <div className="flex gap-[4px] items-center">
-                {/*  Post category option */}
-                <div className="w-[52px] px-2 py-1 h-[28px] text-[12px] bg-[#e0f7ff] border border-[#e0f7ff] hover:border-[#c0e8ca] text-[#007bbf]  rounded-[24px] flex items-center text-center justify-center cursor-pointer">
-                  Post
-                </div>
-                <div className="w-[54px] px-2 py-1 h-[28px] text-[12px] bg-[#e6f8ed] text-[#1f7f34] border border-[#e6f8ed] hover:border-[#c0f0ff] rounded-[24px] flex items-center text-center justify-center cursor-pointer">
-                  News
-                </div>
-                <div className="w-[56px] px-2 py-1 h-[28px] text-[12px] bg-[#f5f3ff] text-[#6b46c1] border border-[#f5f3ff] hover:border-[#e0d9ff] rounded-[24px] flex items-center text-center justify-center cursor-pointer">
-                  Article
-                </div>
-              </div>
-            </div>
-            {/* <label
-              className="text-[#2c5364] mb-[8px] text-[16px] font-regular "
-              htmlFor="title"
-            >
-              Post Title:
-            </label> */}
-            <input
-              type="text"
-              id="title"
-              className="border rounded-[4px] px-[16px] py-2 block w-full mt-[4px] mb-[20px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] placeholder:font-light outline-none"
-              placeholder="post title"
-            />
-            <textarea
-              type="text"
-              id="title"
-              rows={5}
-              className="border rounded-[4px] px-[16px] py-2 block w-full mt-[4px] mb-[20px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] placeholder:font-light outline-none"
-              placeholder="write your post here..."
-            />
-
-            {/* Updaload option */}
-            <div className="">
-              <button
-                className="w-full h-[68px] bg-[#f6f6f6] rounded-md flex flex-col justify-center items-center border border-[#f6f6f6] hover:border-[#00CFFF] transition text-center mr-4 gap-1"
-                type="button"
-                onClick={() => fileInputRef.current.click()}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M5 3h13a3 3 0 0 1 3 3v13a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3m0 1a2 2 0 0 0-2 2v11.59l4.29-4.3l2.5 2.5l5-5L20 16V6a2 2 0 0 0-2-2zm4.79 13.21l-2.5-2.5L3 19a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-1.59l-5.21-5.2zM7.5 6A2.5 2.5 0 0 1 10 8.5A2.5 2.5 0 0 1 7.5 11A2.5 2.5 0 0 1 5 8.5A2.5 2.5 0 0 1 7.5 6m0 1A1.5 1.5 0 0 0 6 8.5A1.5 1.5 0 0 0 7.5 10A1.5 1.5 0 0 0 9 8.5A1.5 1.5 0 0 0 7.5 7"
-                  />
-                </svg>
-                <span className="text-[13px] font-light">Upload</span>
-              </button>
-
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                className="hidden"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className={`bg-[#00CFFF] hover:bg-[#13BCE3] text-center text-white text-lg font-regular rounded-[4px] px-2 py-2 mt-6 mb-3 absolute bottom-4 left-4 right-4`}
-            >
-              Post
-            </button>
-          </div>
-        </div>
-      </div>
+      {createPostCard && <CreatePostCard createPostCard={createPostCard} setCreatePostCard={setCreatePostCard} />}
     </div>
   );
 }
