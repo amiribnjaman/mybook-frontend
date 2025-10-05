@@ -23,7 +23,7 @@ export default function CreatePostCard({
   const [fileName, setFileName] = useState("No file chosen");
   const [selectedImg, setSelectedImg] = useState("");
   const fileInputRef = useRef();
-  const [postCategory, setPostCategory] = useState("");
+  const [postCategory, setPostCategory] = useState("Post");
 
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
