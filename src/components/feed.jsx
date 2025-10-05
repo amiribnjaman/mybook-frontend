@@ -824,7 +824,7 @@ export default function Feed() {
       </div>
 
       {/* Create post card */}
-      {createPostCard && <CreatePostCard createPostCard={createPostCard} setCreatePostCard={setCreatePostCard} />}
+      {createPostCard && <CreatePostCard setReload={setReload} reload={reload} createPostCard={createPostCard} setCreatePostCard={setCreatePostCard} />}
     </div>
   );
 }

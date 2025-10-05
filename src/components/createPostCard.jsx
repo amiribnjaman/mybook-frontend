@@ -12,15 +12,18 @@ export default function CreatePostCard({
   reload,
   setReload,
 }) {
+
+  // image bb upload apis
   const imgbbKey = "aefb8bb9063d982e8940fd31a2d29f9d";
   const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
   let postImgUrl;
+
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
 
   const [fileName, setFileName] = useState("No file chosen");
   const [selectedImg, setSelectedImg] = useState("");
   const fileInputRef = useRef();
-  const [postCategory, setPostCategory] = useState('')
+  const [postCategory, setPostCategory] = useState("");
 
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
@@ -42,136 +45,144 @@ export default function CreatePostCard({
 
   // Handle post submit
   const handlePostSubmit = async (d) => {
-    const {
-      postTitle,
-      postContent
-    } = d;
+    setPostCategory(postCategory || "Post");
+    const { postTitle, postContent } = d;
 
-    console.log("hello inside", postTitle, postContent);
+    // console.log("hello inside", postTitle, postContent, postCategory);
     // return
 
     const userId = localStorage.getItem("userId");
 
-     // Upload image into imgbb
-    //  const img = fileInputRef.current.files[0];
-    //  if (img) {
-    //    let formData = new FormData();
-    //    formData.append("image", img);
-    //    await fetch(url, {
-    //      method: "POST",
-    //      body: formData,
-    //    })
-    //      .then((res) => res.json())
-    //      .then((data) => {
-    //        postImgUrl = data.data.url;
-    //      });
-    //  }
+    // Upload image into imgbb
+    const img = fileInputRef.current.files[0];
+    if (img) {
+      let formData = new FormData();
+      formData.append("image", img);
+      await fetch(url, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          postImgUrl = data.data.url;
+        });
+    }
 
-    // const data = {
-    //   userId,
-    //   postTitle,
-    //   postContent,
-    //   postImgUrl,
-    // };
+    // console.log("img url", img, postImgUrl);
+    const data = {
+      userId,
+      postTitle,
+      postContent,
+      postCategory,
+      postImgUrl,
+    };
 
+    console.log(img && postTitle && postContent)
     // POST DATA INTO SERVER
-    // if (img && post) {
-    //   await axios
-    //     .post(`${SERVER_URL}/post/create`, data, {
-    //       headers: {
-    //         authorization: "Bearer " + cookies.Token,
-    //         "Content-Type": "application/json",
-    //       },
-    //     })
-    //     .then((res) => {
-    //       if (res.data.status == 201) {
-    //         setReload(!reload);
-    //         toast.success("A post created successfully.");
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log(err.message);
-    //     });
-    // }
+    if (img && postTitle && postContent) {
+      console.log('server code',)
+      await axios
+        .post(`${SERVER_URL}/post/create`, data, {
+          headers: {
+            authorization: "Bearer " + cookies.Token,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          if (res.data.status == 201) {
+            setReload(!reload);
+            console.log(res.data.message);
+            setCreatePostCard(!createPostCard);
+            toast.success("A post created successfully.");
+          } else {
+            console.log(res.data.message)
+            toast.error(res.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }
 
+    setSelectedImg("");
     reset();
-    // setCreatePostCard(!createPostCard);
+    setPostCategory('');
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit(handlePostSubmit)}>
-        <div
-          className={`${
-            createPostCard
-              ? "fixed w-[580px] h-[588px] bg-[#fff] rounded-[8px] shadow-lg z-[100] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden"
-              : "hidden"
-          }  `}
-        >
-          <div>
-            {/* Header with cancle button */}
-            <div className="flex justify-between items-center py-3 px-4">
-              <h5 className="text-[14px] font-light">Create a new post</h5>
-              {/* Card cancle button */}
-              <button
-                className="w-[36px] h-[36px] bg-[#f9f9f9] rounded-md flex justify-center items-center border border-[#f6f6f6] hover:border-[#eee] transition text-center"
-                onClick={() => setCreatePostCard(!createPostCard)}
+      <div
+        className={`${
+          createPostCard
+            ? "fixed w-[580px] h-[588px] bg-[#fff] rounded-[8px] shadow-lg z-[100] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden"
+            : "hidden"
+        }  `}
+      >
+        <div>
+          {/* Header with cancle button */}
+          <div className="flex justify-between items-center py-3 px-4">
+            <h5 className="text-[14px] font-light">Create a new post</h5>
+            {/* Card cancle button */}
+            <button
+              className="w-[36px] h-[36px] bg-[#f9f9f9] rounded-md flex justify-center items-center border border-[#f6f6f6] hover:border-[#eee] transition text-center"
+              onClick={() => setCreatePostCard(!createPostCard)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                viewBox="0 0 24 24"
+                className="rotate-45 text-center pl-[2px] text-[#]"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="30"
-                  height="30"
-                  viewBox="0 0 24 24"
-                  className="rotate-45 text-center pl-[2px] text-[#]"
+                <path
+                  fill="currentColor"
+                  d="M5 13v-1h6V6h1v6h6v1h-6v6h-1v-6z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Editor body */}
+          <div className="px-4 flex flex-col">
+            {/* Top */}
+            <div className="flex justify-between items-center mt-[8px] mb-[8px]">
+              <h3 className="text-[24px] ">Share your thougth by</h3>
+              <div className="flex gap-[4px] items-center">
+                {/*  Post category option */}
+                <button
+                  onClick={() => setPostCategory("Post")}
+                  className="w-[52px] px-2 py-1 h-[28px] text-[12px] bg-[#e0f7ff] border border-[#e0f7ff] hover:border-[#c0e8ca] text-[#007bbf]  rounded-[24px] flex items-center text-center justify-center cursor-pointer"
                 >
-                  <path
-                    fill="currentColor"
-                    d="M5 13v-1h6V6h1v6h6v1h-6v6h-1v-6z"
-                  />
-                </svg>
-              </button>
+                  Post
+                </button>
+                <button
+                  onClick={() => setPostCategory("News")}
+                  className="w-[54px] px-2 py-1 h-[28px] text-[12px] bg-[#e6f8ed] text-[#1f7f34] border border-[#e6f8ed] hover:border-[#c0f0ff] rounded-[24px] flex items-center text-center justify-center cursor-pointer"
+                >
+                  News
+                </button>
+                <button
+                  onClick={() => setPostCategory("Article")}
+                  className="w-[56px] px-2 py-1 h-[28px] text-[12px] bg-[#f5f3ff] text-[#6b46c1] border border-[#f5f3ff] hover:border-[#e0d9ff] rounded-[24px] flex items-center text-center justify-center cursor-pointer"
+                >
+                  Article
+                </button>
+              </div>
             </div>
 
-            {/* Editor body */}
-            <div className="px-4 flex flex-col">
-              {/* Top */}
-              <div className="flex justify-between items-center mt-[8px] mb-[8px]">
-                <h3 className="text-[24px] ">Share your thougth by</h3>
-                <div className="flex gap-[4px] items-center">
-                  {/*  Post category option */}
-                  <button
-                    onClick={() => setPostCategory("Post")}
-                    className="w-[52px] px-2 py-1 h-[28px] text-[12px] bg-[#e0f7ff] border border-[#e0f7ff] hover:border-[#c0e8ca] text-[#007bbf]  rounded-[24px] flex items-center text-center justify-center cursor-pointer"
-                  >
-                    Post
-                  </button>
-                  <button
-                    onClick={() => setPostCategory("News")}
-                    className="w-[54px] px-2 py-1 h-[28px] text-[12px] bg-[#e6f8ed] text-[#1f7f34] border border-[#e6f8ed] hover:border-[#c0f0ff] rounded-[24px] flex items-center text-center justify-center cursor-pointer"
-                  >
-                    News
-                  </button>
-                  <button
-                    onClick={() => setPostCategory("Article")}
-                    className="w-[56px] px-2 py-1 h-[28px] text-[12px] bg-[#f5f3ff] text-[#6b46c1] border border-[#f5f3ff] hover:border-[#e0d9ff] rounded-[24px] flex items-center text-center justify-center cursor-pointer"
-                  >
-                    Article
-                  </button>
-                </div>
+            {/* Selected category */}
+            {/*  */}
+            {postCategory && (
+              <div
+                onClick={() => setPostCategory("Post")}
+                className="w-[52px] px-2 py-1 h-[28px] text-[12px] bg-[#00CFFF] border border-[#13BCE3] hover:border-[#c0e8ca] text-[white]  rounded-[24px] flex items-center text-center justify-center cursor-pointer mb-[8px]"
+              >
+                {postCategory}
               </div>
+            )}
 
-              {/* Selected category */}
-              {/*  */}
-              {postCategory && (
-                <div
-                  onClick={() => setPostCategory("Post")}
-                  className="w-[52px] px-2 py-1 h-[28px] text-[12px] bg-[#00CFFF] border border-[#13BCE3] hover:border-[#c0e8ca] text-[white]  rounded-[24px] flex items-center text-center justify-center cursor-pointer mb-[8px]"
-                >
-                  {postCategory}
-                </div>
-              )}
-
-              {/*================= Create post form input fields============= */}
+            {/*================= Create post form input fields============= */}
+            <form onSubmit={handleSubmit(handlePostSubmit)}>
               {/* <label
               className="text-[#2c5364] mb-[8px] text-[16px] font-regular "
               htmlFor="title"
@@ -248,7 +259,7 @@ export default function CreatePostCard({
                       />
                     </svg>
                   </button>
-                  <img src={selectedImg} className="w-full h-full" />
+                  <img src={selectedImg} className="w-full h-full rounded-md" />
                 </div>
               )}
 
@@ -259,10 +270,10 @@ export default function CreatePostCard({
               >
                 Post
               </button>
-            </div>
+            </form>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
