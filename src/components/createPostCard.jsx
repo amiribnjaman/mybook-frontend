@@ -14,12 +14,13 @@ export default function CreatePostCard({
 }) {
   const imgbbKey = "aefb8bb9063d982e8940fd31a2d29f9d";
   const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
-  let imgUrl;
+  let postImgUrl;
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
 
   const [fileName, setFileName] = useState("No file chosen");
   const [selectedImg, setSelectedImg] = useState("");
   const fileInputRef = useRef();
+  const [postCategory, setPostCategory] = useState('')
 
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
@@ -42,35 +43,35 @@ export default function CreatePostCard({
   // Handle post submit
   const handlePostSubmit = async (d) => {
     const {
-      post_title,
-      post_content,
+      postTitle,
+      postContent
     } = d;
 
-    console.log("hello inside");
+    console.log("hello inside", postTitle, postContent);
     // return
 
     const userId = localStorage.getItem("userId");
 
-    // Upload image into imgbb
-    // const img = d.image[0];
-    // if (img) {
-    //   let formData = new FormData();
-    //   formData.append("image", img);
-    //   await fetch(url, {
-    //     method: "POST",
-    //     body: formData,
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       imgUrl = data.data.url;
-    //     });
-    // }
+     // Upload image into imgbb
+    //  const img = fileInputRef.current.files[0];
+    //  if (img) {
+    //    let formData = new FormData();
+    //    formData.append("image", img);
+    //    await fetch(url, {
+    //      method: "POST",
+    //      body: formData,
+    //    })
+    //      .then((res) => res.json())
+    //      .then((data) => {
+    //        postImgUrl = data.data.url;
+    //      });
+    //  }
 
     // const data = {
     //   userId,
-    //   post_title,
-    //   post_content,
-    //   imgUrl,
+    //   postTitle,
+    //   postContent,
+    //   postImgUrl,
     // };
 
     // POST DATA INTO SERVER
@@ -103,13 +104,13 @@ export default function CreatePostCard({
         <div
           className={`${
             createPostCard
-              ? "fixed w-[580px] h-[572px] bg-[#fff] rounded-[8px] shadow-lg z-[100] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden"
+              ? "fixed w-[580px] h-[588px] bg-[#fff] rounded-[8px] shadow-lg z-[100] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden"
               : "hidden"
           }  `}
         >
           <div>
             {/* Header with cancle button */}
-            <div className="flex justify-between items-center py-4 px-6">
+            <div className="flex justify-between items-center py-3 px-4">
               <h5 className="text-[14px] font-light">Create a new post</h5>
               {/* Card cancle button */}
               <button
@@ -134,21 +135,41 @@ export default function CreatePostCard({
             {/* Editor body */}
             <div className="px-4 flex flex-col">
               {/* Top */}
-              <div className="flex justify-between items-center my-[12px]">
+              <div className="flex justify-between items-center mt-[8px] mb-[8px]">
                 <h3 className="text-[24px] ">Share your thougth by</h3>
                 <div className="flex gap-[4px] items-center">
                   {/*  Post category option */}
-                  <div className="w-[52px] px-2 py-1 h-[28px] text-[12px] bg-[#e0f7ff] border border-[#e0f7ff] hover:border-[#c0e8ca] text-[#007bbf]  rounded-[24px] flex items-center text-center justify-center cursor-pointer">
+                  <button
+                    onClick={() => setPostCategory("Post")}
+                    className="w-[52px] px-2 py-1 h-[28px] text-[12px] bg-[#e0f7ff] border border-[#e0f7ff] hover:border-[#c0e8ca] text-[#007bbf]  rounded-[24px] flex items-center text-center justify-center cursor-pointer"
+                  >
                     Post
-                  </div>
-                  <div className="w-[54px] px-2 py-1 h-[28px] text-[12px] bg-[#e6f8ed] text-[#1f7f34] border border-[#e6f8ed] hover:border-[#c0f0ff] rounded-[24px] flex items-center text-center justify-center cursor-pointer">
+                  </button>
+                  <button
+                    onClick={() => setPostCategory("News")}
+                    className="w-[54px] px-2 py-1 h-[28px] text-[12px] bg-[#e6f8ed] text-[#1f7f34] border border-[#e6f8ed] hover:border-[#c0f0ff] rounded-[24px] flex items-center text-center justify-center cursor-pointer"
+                  >
                     News
-                  </div>
-                  <div className="w-[56px] px-2 py-1 h-[28px] text-[12px] bg-[#f5f3ff] text-[#6b46c1] border border-[#f5f3ff] hover:border-[#e0d9ff] rounded-[24px] flex items-center text-center justify-center cursor-pointer">
+                  </button>
+                  <button
+                    onClick={() => setPostCategory("Article")}
+                    className="w-[56px] px-2 py-1 h-[28px] text-[12px] bg-[#f5f3ff] text-[#6b46c1] border border-[#f5f3ff] hover:border-[#e0d9ff] rounded-[24px] flex items-center text-center justify-center cursor-pointer"
+                  >
                     Article
-                  </div>
+                  </button>
                 </div>
               </div>
+
+              {/* Selected category */}
+              {/*  */}
+              {postCategory && (
+                <div
+                  onClick={() => setPostCategory("Post")}
+                  className="w-[52px] px-2 py-1 h-[28px] text-[12px] bg-[#00CFFF] border border-[#13BCE3] hover:border-[#c0e8ca] text-[white]  rounded-[24px] flex items-center text-center justify-center cursor-pointer mb-[8px]"
+                >
+                  {postCategory}
+                </div>
+              )}
 
               {/*================= Create post form input fields============= */}
               {/* <label
@@ -158,17 +179,17 @@ export default function CreatePostCard({
               Post Title:
             </label> */}
               <input
-                {...register("post_title", { required: false })}
+                {...register("postTitle", { required: false })}
                 type="text"
-                id="post_title"
-                className="border border-[#f5f5f5] rounded-[4px] px-[16px] py-2 block w-full mt-[4px] mb-[16px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] placeholder:font-light outline-none"
+                id="postTitle"
+                className="border border-[#f5f5f5] rounded-[4px] px-[16px] py-2 block w-full mt-[4px] mb-[12px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] placeholder:font-light outline-none"
                 placeholder="post title"
               />
               <textarea
-                {...register("post_content", { required: false })}
-                id="post_content"
+                {...register("postContent", { required: false })}
+                id="postContent"
                 rows={5}
-                className="border border-[#f5f5f5] rounded-[4px] px-[16px] py-2 block w-full mt-[4px] mb-[20px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] placeholder:font-light outline-none resize-none"
+                className="border border-[#f5f5f5] rounded-[4px] px-[16px] py-2 block w-full mt-[4px] mb-[16px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] placeholder:font-light outline-none resize-none"
                 placeholder="write your post here..."
               />
 
@@ -190,7 +211,9 @@ export default function CreatePostCard({
                       d="M5 3h13a3 3 0 0 1 3 3v13a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3m0 1a2 2 0 0 0-2 2v11.59l4.29-4.3l2.5 2.5l5-5L20 16V6a2 2 0 0 0-2-2zm4.79 13.21l-2.5-2.5L3 19a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-1.59l-5.21-5.2zM7.5 6A2.5 2.5 0 0 1 10 8.5A2.5 2.5 0 0 1 7.5 11A2.5 2.5 0 0 1 5 8.5A2.5 2.5 0 0 1 7.5 6m0 1A1.5 1.5 0 0 0 6 8.5A1.5 1.5 0 0 0 7.5 10A1.5 1.5 0 0 0 9 8.5A1.5 1.5 0 0 0 7.5 7"
                     />
                   </svg>
-                  <span className="text-[14px] font-light">Click to Upload</span>
+                  <span className="text-[14px] font-light">
+                    Click to Upload
+                  </span>
                 </button>
 
                 <input
@@ -232,7 +255,7 @@ export default function CreatePostCard({
               {/* Submit button */}
               <button
                 type="submit"
-                className={`bg-[#00CFFF] hover:bg-[#13BCE3] text-center text-white text-lg font-regular rounded-[4px] px-2 py-2 mt-6 mb-3 absolute bottom-2 left-4 right-4`}
+                className={`bg-[#00CFFF] hover:bg-[#13BCE3] text-center text-white text-lg font-regular rounded-[4px] px-2 py-2 mt-6 mb-3 absolute bottom-1 left-4 right-4`}
               >
                 Post
               </button>

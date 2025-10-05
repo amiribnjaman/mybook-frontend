@@ -38,7 +38,7 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
       {/* Top message */}
       <div className="flex items-center justify-center text-center pt-4">
         <h6 className="text-white font-extralight text-sm flex items-center gap-2">
-          <span>Stop genocide on Gaza. Free Palestine</span>
+          <span>Stop the genocide in Gaza. Free Palestine</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

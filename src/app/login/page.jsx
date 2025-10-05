@@ -9,6 +9,12 @@ import { SERVER_URL } from "../../utilitis/SERVER_URL";
 import { useCookies } from "react-cookie";
 import { useState } from "react";
 import { Flex, Spin } from "antd";
+import { Exo_2 } from "next/font/google";
+
+const exo = Exo_2({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin", ],
+});
 
 export default function LoginPage() {
   const navigate = useRouter();
@@ -148,8 +154,8 @@ export default function LoginPage() {
                         <svg
                           onClick={() => setShowPassword(!showPassword)}
                           xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
+                          width="22"
+                          height="22"
                           viewBox="0 0 36 36"
                           className="absolute top-[50%] cursor-pointer -translate-y-1/2 right-[3%] text-gray-700"
                         >
@@ -170,8 +176,8 @@ export default function LoginPage() {
                           onClick={() => setShowPassword(!showPassword)}
                           className="absolute top-[50%] cursor-pointer -translate-y-1/2 right-[3%] text-gray-600"
                           xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
+                          width="22"
+                          height="22"
                           viewBox="0 0 36 36"
                         >
                           <rect width="36" height="36" fill="none" />

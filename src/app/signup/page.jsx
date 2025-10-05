@@ -12,20 +12,24 @@ import { useState, useRef } from "react";
 export default function SignupPage() {
   const navigate = useRouter();
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   const [fileName, setFileName] = useState("No file chosen");
   const [selectedImg, setSelectedImg] = useState("");
   const fileInputRef = useRef();
 
+  // image bb upload apis
+  const imgbbKey = "aefb8bb9063d982e8940fd31a2d29f9d";
+  const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
+  let imgUrl;
+
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
-        console.log();
-        const file = URL.createObjectURL(e.target.files[0]);
-        setFileName(e.target.files[0].name);
-        setSelectedImg(file);
-      }
+      console.log();
+      const file = URL.createObjectURL(e.target.files[0]);
+      setFileName(e.target.files[0].name);
+      setSelectedImg(file);
+    }
   };
-  
 
   const {
     register,
@@ -36,15 +40,45 @@ export default function SignupPage() {
 
   // Signup submit function
   const signUpSubmit = async (data) => {
-    console.log(data)
-    setLoading(true)
-    if (data.firstName && data.email && data.password) {
+    console.log(data, fileInputRef.current.files[0]);
+    // return
+    setLoading(true);
+
+    // Upload image into imgbb
+    const img = fileInputRef.current.files[0];
+    if (img) {
+      let formData = new FormData();
+      formData.append("image", img);
+      await fetch(url, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          imgUrl = data.data.url;
+        });
+    }
+
+    console.log(imgUrl);
+
+
+    // Sending data to the server
+    if (data.fullName && data.email && data.password) {
       await axios
-        .post(`${SERVER_URL}/user/signup`, data, {
-          headers: {
-            "Content-Type": "application/json",
+        .post(
+          `${SERVER_URL}/user/signup`,
+          {
+            fullName: data.fullName,
+            email: data.email,
+            password: data.password,
+            imgUrl,
           },
-        })
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
         .then((res) => {
           if (res.data.status == "201") {
             toast.success("Signup successfully! Login now.");
@@ -52,6 +86,8 @@ export default function SignupPage() {
             navigate.push("/login");
           } else if (res.data.status == "400") {
             toast.warn(res.data.message);
+            // Redirect user to Login page
+            navigate.push("/login");
           }
         })
         .catch((err) => {
@@ -60,6 +96,7 @@ export default function SignupPage() {
         });
     }
     reset();
+    setSelectedImg('')
     setLoading(false);
   };
 
@@ -123,14 +160,14 @@ export default function SignupPage() {
                       Full Name:
                     </label>
                     <input
-                      {...register("firstName", { required: true })}
+                      {...register("fullName", { required: true })}
                       type="text"
                       id="name"
                       className="border rounded-[4px] px-[16px] py-2 block w-full mt-[8px] mb-[24px] placeholder:font-light focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
                       placeholder="Mr. Jon Day"
                     />
                     <p className="hidden">
-                      {errors?.firstName &&
+                      {errors?.fullName &&
                         toast.error("Please provide your full name", {
                           toastId: customId,
                         })}
@@ -175,8 +212,8 @@ export default function SignupPage() {
                         <svg
                           onClick={() => setShowPassword(!showPassword)}
                           xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
+                          width="22"
+                          height="22"
                           viewBox="0 0 36 36"
                           className="absolute top-[50%] cursor-pointer -translate-y-1/2 right-[3%] text-gray-700"
                         >
@@ -197,8 +234,8 @@ export default function SignupPage() {
                           onClick={() => setShowPassword(!showPassword)}
                           className="absolute top-[50%] cursor-pointer -translate-y-1/2 right-[3%] text-gray-600"
                           xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
+                          width="22"
+                          height="22"
                           viewBox="0 0 36 36"
                         >
                           <rect width="36" height="36" fill="none" />
@@ -239,7 +276,7 @@ export default function SignupPage() {
                     <div className="mt-[20px]">
                       <label
                         className="text-white text-[16px] font-light "
-                        htmlFor="password"
+                        htmlFor="image"
                       >
                         Upload a Profile picture (Optional):
                       </label>
@@ -268,6 +305,7 @@ export default function SignupPage() {
                         type="file"
                         {...register("image", { required: false })}
                         ref={fileInputRef}
+                        id="image"
                         onChange={handleFileChange}
                         className="hidden"
                       />
@@ -377,14 +415,4 @@ export default function SignupPage() {
       </div>
     </div>
   );
-
-
-
-
-
-
-
-
-
-
 }
