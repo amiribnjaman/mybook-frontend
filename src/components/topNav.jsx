@@ -30,6 +30,8 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
     // Handle logout button
   const handleLogout = () => {
     localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userImg");
     setCookie("Token", "");
     navigate.push("/login");
   };
@@ -155,15 +157,23 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
             />
           </svg>
 
-          <div className="w-[160px] h-[40px] bg-white rounded-full flex items-center justify-center gap-[10px] pl-0 pr-3">
-            <div className="w-[36px] h-[36px] bg-[#f1f1f1] rounded-full"></div>
-            <h1>Ameer H.</h1>
+          <div className=" h-[40px] bg-white rounded-full flex items-center justify-center gap-[10px] pl-[4px] pr-3">
+            <div className="w-[32px] h-[32px] bg-[#f1f1f1] rounded-full">
+              {localStorage.getItem("userImg") && <img
+                className="w-[32px] h-[32px] rounded-full"
+                src={localStorage.getItem("userImg")}
+                alt=""
+              />}
+            </div>
+            <h1>{localStorage.getItem("userName") && localStorage.getItem("userName")}</h1>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="22"
               viewBox="0 0 12 24"
-              className={`${showLogout ? 'rotate-[-90deg]' : 'rotate-[90deg] '} transition `}
+              className={`${
+                showLogout ? "rotate-[-90deg]" : "rotate-[90deg] "
+              } transition `}
             >
               <defs>
                 <path

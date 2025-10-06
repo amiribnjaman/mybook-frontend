@@ -5,17 +5,18 @@ import SkeletonImage from "antd/es/skeleton/Image";
 export default function FeedSkeleton() {
   return (
     <>
-
-      <div className="flex w-[95%] mx-auto min-h-[1000px]">
-      {/* =============================LEFT NAVABR ============ */}
-        <div style={{width:'27%'}} className="mt-6 max-w-[27%] ml-[3%] mb-3 relative py-3 rounded-md border shadow bg-white h-[900px]">
+      <div style={{ height: "68vh" }} className="flex w-[95%] mx-auto ">
+        {/* =============================LEFT NAVABR ============ */}
+        <div
+          style={{ width: "27%" }}
+          className="mt-6 max-w-[27%] ml-[3%] mb-3 px-6 relative py-3 rounded-lg shadow bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] h-[900px]"
+        >
           {/*----------------POST HEADEING------------*/}
           <div className="flex justify-between px-4">
             <div className="flex flex-col gap-3 post-user">
               <Skeleton.Input
                 size={30}
                 className="w-full mt-[4px]"
-                
                 block
                 active
               />
@@ -43,11 +44,9 @@ export default function FeedSkeleton() {
             </div>
             <div></div>
           </div>
-
-          
         </div>
         {/*================================NEWS FEED========================*/}
-        <div className="mt-6 w-[70%] ml-auto mb-3 relative py-3 rounded-md border shadow bg-white mr-[2%] h-[900px]">
+        <div className="mt-6 w-[70%] ml-auto mb-3 relative py-3 px-6 rounded-lg bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] mr-[2%] min-h-[900px]">
           {/*----------------POST HEADEING------------*/}
           <div className="flex justify-between px-4">
             <div className="flex gap-3 post-user">
@@ -70,7 +69,7 @@ export default function FeedSkeleton() {
               <SkeletonImage size={35} active />
             </div>
           </div>
-          <hr />
+          {/* <hr /> */}
           <div className="mt-2">
             <div className="flex gap-[20px] pt-3 pb-1 px-3 gap-4 skeleton-group">
               <Skeleton.Input

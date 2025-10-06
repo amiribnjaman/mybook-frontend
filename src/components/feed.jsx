@@ -39,6 +39,7 @@ export default function Feed() {
   const [showIntercectionCard, setShowIntercectionCard] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
+  const [postLiked, setPostLiked] = useState(false)
 
   const {
     register,
@@ -248,6 +249,10 @@ export default function Feed() {
     }
   };
 
+  const handlePostLike = (postId) => {
+    console.log(postId)
+  }
+
   /*
    **
    ** HANDLE COMMENT LIKE
@@ -410,8 +415,8 @@ export default function Feed() {
             {/* Main feed */}
             <div className="mb-4 mt-8 col-span-8 text-white w-[65%] flex-end ml-auto mr-[3%]">
               {/*============= Single post getting & showing throguh mapping=========== */}
-              {posts.map((post) => (
-                <div className="shadow bg-[#203a43] border border-[#2c5364] rounded-[18px] py-[16px] px-[20px] mb-[28px]">
+              {posts?.map((post) => (
+                <div className="shadow bg-[#203a43] border border-[#2c5364] rounded-[18px] pt-[20px] pb-[12px] px-[20px] mb-[28px]">
                   {/* Post top userinfo sec  */}
                   <div className="flex justify-between items-center">
                     {/* User info */}
@@ -473,16 +478,17 @@ export default function Feed() {
 
                   {/* Post main section */}
                   <div className="mt-[24px] mb-[16px] grid grid-cols-6 gap-10">
-                    <div className="col-span-4">
-                      <h2 className="text-[21px] font-regular line-clamp-1 cursor-pointer hover:text-[#00CFFF] transition">
-                        <span>{post?.postTitle}</span>
+                    {post?.postContent && (
+                      <div className="col-span-4">
+                        <h2 className="text-[21px] font-regular line-clamp-1 cursor-pointer hover:text-[#00CFFF] transition">
+                          <span>{post?.postTitle}</span>
 
-                        {/* {post?.postTitle.split(/\s+/).slice(0,8).join(' ')}
+                          {/* {post?.postTitle.split(/\s+/).slice(0,8).join(' ')}
                       {post?.postTitle.split(/\s+/).length >8 && '...'} */}
-                      </h2>
+                        </h2>
 
-                      {/* Post category tag */}
-                      {/* <div
+                        {/* Post category tag */}
+                        {/* <div
                       className={`${
                         post?.postCategory == "Post" &&
                         "bg-[#00CFFF] text-[white]"
@@ -497,30 +503,36 @@ export default function Feed() {
                       {post?.postCategory ? post?.postCategory : "Post"}
                     </div> */}
 
-                      <p className="mt-[24px] text-[16px] font-light text-[#ddd] line-clamp-4">
-                        {post?.postContent}
-                        {/* {post?.postContent.split(/\s+/).slice(0,20).join(' ')}*/}
-                        {/* {post?.postContent.split(/\s+/).length > 20 && "continue..."} */}
-                      </p>
-                    </div>
+                        <p className="mt-[24px] text-[16px] font-light text-[#ddd] line-clamp-4">
+                          {post?.postContent}
+                          {/* {post?.postContent.split(/\s+/).slice(0,20).join(' ')}*/}
+                          {/* {post?.postContent.split(/\s+/).length > 20 && "continue..."} */}
+                        </p>
+                      </div>
+                    )}
 
                     {/* Post img */}
-                    <div className="col-span-2">
-                      <div className="w-full h-[160px]  h-full rounded-[24px] flex items-center justify-center">
-                        <img
-                          className="w-full h-[160px] rounded-[24px]"
-                          src={post?.postImgUrl}
-                          alt=""
-                        />
+                    {post?.postImgUrl && (
+                      <div className="col-span-2">
+                        <div className="w-full h-[160px] h-full rounded-[20px] flex items-center justify-center">
+                          <img
+                            className="w-full h-[160px] rounded-[20px]"
+                            src={post?.postImgUrl}
+                            alt=""
+                          />
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
 
                   {/* User interaction on post */}
                   <div className="mt-[0px]">
                     <div className="flex gap-4 items-center">
                       {/* Love */}
-                      <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[16px] flex items-center justify-center cursor-pointer">
+                      <div
+                        onClick={() => handlePostLike(post?.id)}
+                        className="w-[56px] h-[44px] border border-[#203A43] hover:border-[#2c5364] bg-[#203A43] hover:bg-[#0f2027] rounded-[16px] flex items-center justify-center cursor-pointer"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="22"
@@ -539,7 +551,7 @@ export default function Feed() {
                       </div>
 
                       {/* comment */}
-                      <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[16px] flex items-center justify-center cursor-pointer">
+                      <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex items-center justify-center cursor-pointer">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="22"
@@ -558,10 +570,10 @@ export default function Feed() {
                       </div>
 
                       {/* share */}
-                      <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:bg-[#0f2027] rounded-[16px] flex items-center justify-center cursor-pointer">
+                      <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex pb-1 items-center justify-center cursor-pointer">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="23"
+                          width="24"
                           height="23"
                           viewBox="0 0 24 24"
                         >

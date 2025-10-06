@@ -112,11 +112,11 @@ export default function SignupPage() {
               <div className="bg-shape3 bg-purple opcity-50 bg-blur"></div>
             </div>
           </div> */}
-        <div className="mt-12 gap-6">
+        <div className="mt-8 gap-6">
           <div className="flex flex-cols-2 gap-6 md:gap-20  justify-between items-center">
             <div className="">
               <Link href="/login">
-                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-10">
+                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-8">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="21"
@@ -367,7 +367,7 @@ export default function SignupPage() {
                       </Link>
                     </div>
                   </div>
-                  <hr className="my-[28px]" />
+                  {/* <hr className="my-[28px]" />
                   <div className="text-dark bg-white font-regular cursor-pointer flex gap-4 items-center justify-center rounded-[4px] px-8 py-2.5 mb-3 w-full text-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -399,8 +399,7 @@ export default function SignupPage() {
                       </g>
                     </svg>
                     <span>Signup with Google</span>
-                  </div>
-                  <div className="mt-8 text-right"></div>
+                  </div> */}
                 </div>
               </div>
             </div>
