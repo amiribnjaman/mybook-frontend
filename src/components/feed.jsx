@@ -39,7 +39,8 @@ export default function Feed() {
   const [showIntercectionCard, setShowIntercectionCard] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
-  const [postLiked, setPostLiked] = useState(false)
+  const [postLiked, setPostLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
 
   const {
     register,
@@ -220,38 +221,70 @@ export default function Feed() {
    **
    **
    */
-  const handleUserPostInteraction = (type, post, length = null) => {
-    const findLike = post.Likes.find((like) => like.userId == userId);
-    if (type == "like") {
-      if (findLike?.userId == userId) {
-        if (findLike?.likeType == "Love") {
-          return <HeartFilled style={{ fontSize: "26px", color: "#D61355" }} />;
-        } else if (findLike?.likeType == "Angry") {
-          return <FrownFilled style={{ fontSize: "26px", color: "#FF9551" }} />;
-        } else {
-          return <LikeFilled style={{ fontSize: "26px", color: "#0866FF" }} />;
+  const handleUserPostInteraction = async (postId) => {
+    // setPostLiked(!postLiked);
+    // setLikeCount(postLiked ? initialLikes - 1 : initialLikes + 1);
+    // Immediate UI update
+    console.log('outside')
+    setPosts((prevPost) =>
+      prevPost.map((post) => {
+        if (post?.id === postId) {
+          console.log(post.id, postId)
+
+          const isLiked = post?.likes?.includes(userId);
+          return {
+            ...post,
+            likes: isLiked
+              ? post?.likes?.filter((like) => like.userId !== userId)
+              : [...post.likes, { userId }],
+          };
         }
-      } else {
-        return (
-          <p className="font-normal text-black">
-            <LikeOutlined style={{ fontSize: "24px", color: "#0866FF" }} />
-          </p>
+        return post;
+      })
+    );
+
+
+    return
+
+    // Server operatoin
+    await axios
+      .patch(
+        `${SERVER_URL}/post/interaction`,
+        { postId, userId },
+        {
+          headers: {
+            authorization: "Bearer " + cookies.Token,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.status == 201) {
+          console.log(res.data);
+        }
+      })
+      .catch((err) => {
+        // Immediate UI Revert if fail
+        setPosts((prevPost) =>
+          prevPost.map((post) => {
+            if (post?.id === postId) {
+              const isLiked = post?.likes?.includes(userId);
+              return {
+                ...post,
+                likes: isLiked
+                  ? post?.likes?.filter((like) => like.userId !== userId)
+                  : [...post.likes, { userId }],
+              };
+            }
+            return post;
+          })
         );
-      }
-    } else if (type == "count") {
-      if (findLike?.userId == userId && length > 1) {
-        return "You and " + (length - 1) + " other people like this";
-      } else if (findLike?.userId == userId && length == 1) {
-        return `You ${findLike?.likeType} this`;
-      } else if (findLike?.userId != userId && length > 0) {
-        return length + " people like this";
-      }
-    }
+      });
   };
 
   const handlePostLike = (postId) => {
-    console.log(postId)
-  }
+    console.log(postId);
+  };
 
   /*
    **
@@ -416,7 +449,7 @@ export default function Feed() {
             <div className="mb-4 mt-8 col-span-8 text-white w-[65%] flex-end ml-auto mr-[3%]">
               {/*============= Single post getting & showing throguh mapping=========== */}
               {posts?.map((post) => (
-                <div className="shadow bg-[#203a43] border border-[#2c5364] rounded-[18px] pt-[20px] pb-[12px] px-[20px] mb-[28px]">
+                <div className="shadow bg-[#203a43] border border-[#2c5364] rounded-[18px] pt-[20px] pb-[14px] px-[20px] mb-[28px]">
                   {/* Post top userinfo sec  */}
                   <div className="flex justify-between items-center">
                     {/* User info */}
@@ -425,7 +458,7 @@ export default function Feed() {
                       <div className="w-[38px] h-[38px] bg-[#f1f1f1] rounded-full">
                         {post?.userImg && (
                           <img
-                            src={post.userImg}
+                            src={post?.userImg}
                             className="w-full h-full rounded-full"
                             alt=""
                           />
@@ -530,24 +563,47 @@ export default function Feed() {
                     <div className="flex gap-4 items-center">
                       {/* Love */}
                       <div
-                        onClick={() => handlePostLike(post?.id)}
-                        className="w-[56px] h-[44px] border border-[#203A43] hover:border-[#2c5364] bg-[#203A43] hover:bg-[#0f2027] rounded-[16px] flex items-center justify-center cursor-pointer"
+                        onClick={() => {
+                          handleUserPostInteraction(
+                            post?.id
+                          );
+                        }}
+                        className="px-3 h-[44px] border border-[#203A43] hover:border-[#2c5364] bg-[#203A43] hover:bg-[#0f2027] rounded-[16px] flex gap-[6px] items-center justify-center cursor-pointer"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="22"
-                          height="22"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="1.5"
-                            d="M16.696 3C14.652 3 12.887 4.197 12 5.943C11.113 4.197 9.348 3 7.304 3C4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"
-                          />
-                        </svg>
+                        {post?.likes?.includes(userId) ? (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M11.566 21.112L12 20.5za.75.75 0 0 0 .867 0L12 20.5l.434.612l.008-.006l.021-.015l.08-.058q.104-.075.295-.219a38.5 38.5 0 0 0 4.197-3.674c1.148-1.168 2.315-2.533 3.199-3.981c.88-1.44 1.516-3.024 1.516-4.612c0-1.885-.585-3.358-1.62-4.358c-1.03-.994-2.42-1.439-3.88-1.439c-1.725 0-3.248.833-4.25 2.117C10.998 3.583 9.474 2.75 7.75 2.75c-3.08 0-5.5 2.639-5.5 5.797c0 1.588.637 3.171 1.516 4.612c.884 1.448 2.051 2.813 3.199 3.982a38.5 38.5 0 0 0 4.492 3.892l.08.058l.021.015z"
+                            />
+                          </svg>
+                        ) : (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.5"
+                              d="M16.696 3C14.652 3 12.887 4.197 12 5.943C11.113 4.197 9.348 3 7.304 3C4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"
+                            />
+                          </svg>
+                        )}
+                        {post?.Likes?.length > 0 && (
+                          <span className="text-[16px] font-extralight pt-[2px]">
+                            {post?.Likes?.length}
+                          </span>
+                        )}
                       </div>
 
                       {/* comment */}
