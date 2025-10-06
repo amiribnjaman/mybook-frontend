@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import { useEffect, useState, useRef } from "react";
+import {  Spin } from "antd";
 
 export default function CreatePostCard({
   createPostCard,
@@ -21,6 +22,7 @@ export default function CreatePostCard({
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
 
   const [fileName, setFileName] = useState("No file chosen");
+    const [loading, setLoading] = useState(false);
   const [selectedImg, setSelectedImg] = useState("");
   const fileInputRef = useRef();
   const [postCategory, setPostCategory] = useState("Post");
@@ -45,6 +47,8 @@ export default function CreatePostCard({
 
   // Handle post submit
   const handlePostSubmit = async (d) => {
+    
+    setLoading(true);
     setPostCategory(postCategory || "Post");
     const { postTitle, postContent } = d;
 
@@ -102,11 +106,13 @@ export default function CreatePostCard({
         .catch((err) => {
           console.log(err.message);
         });
+        
     }
 
     setSelectedImg("");
     reset();
     setPostCategory('');
+    setLoading(false);
   };
 
   return (
@@ -266,9 +272,11 @@ export default function CreatePostCard({
               {/* Submit button */}
               <button
                 type="submit"
-                className={`bg-[#00CFFF] hover:bg-[#13BCE3] text-center text-white text-lg font-regular rounded-[4px] px-2 py-2 mt-6 mb-3 absolute bottom-1 left-4 right-4`}
+                className={`${
+                  loading ? "bg-[#f9f9f9] cursor-disable" : "bg-[#00CFFF] hover:bg-[#13BCE3]"
+                } text-center text-white text-lg font-regular rounded-[4px] px-2 py-2 mt-6 mb-3 absolute bottom-[6px] left-4 right-4`}
               >
-                Post
+                {loading ? <Spin /> : "Create Post"}
               </button>
             </form>
           </div>

@@ -40,7 +40,6 @@ export default function SignupPage() {
 
   // Signup submit function
   const signUpSubmit = async (data) => {
-    console.log(data, fileInputRef.current.files[0]);
     // return
     setLoading(true);
 
@@ -59,7 +58,6 @@ export default function SignupPage() {
         });
     }
 
-    console.log(imgUrl);
 
 
     // Sending data to the server
@@ -278,10 +276,10 @@ export default function SignupPage() {
                         className="text-white text-[16px] font-light "
                         htmlFor="image"
                       >
-                        Upload a Profile picture (Optional):
+                        Upload your profile picture (Optional):
                       </label>
                       <button
-                        className="w-full h-[100px] bg-[#f6f6f6] rounded-md flex flex-col mt-[8px] justify-center items-center border-2 border-dotted border-[#f6f6f6] hover:border-gray-400 transition text-center mr-4 gap-1"
+                        className="w-full h-[72px] bg-[#f6f6f6] rounded-md flex flex-col mt-[8px] justify-center items-center border-2 border-dotted border-[#f6f6f6] hover:border-gray-400 transition text-center mr-4 gap-1"
                         type="button"
                         onClick={() => fileInputRef.current.click()}
                       >
@@ -370,7 +368,7 @@ export default function SignupPage() {
                     </div>
                   </div>
                   <hr className="my-[28px]" />
-                  <div className="text-dark bg-white font-semibold cursor-pointer flex gap-4 items-center justify-center rounded-[4px] px-8 py-2.5 mb-3 w-full text-center">
+                  <div className="text-dark bg-white font-regular cursor-pointer flex gap-4 items-center justify-center rounded-[4px] px-8 py-2.5 mb-3 w-full text-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="22"

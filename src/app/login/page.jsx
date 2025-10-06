@@ -252,7 +252,7 @@ export default function LoginPage() {
                     </div>
                   </div>
                   <hr className="my-[28px]" />
-                  <div className="text-dark bg-white font-semibold cursor-pointer flex gap-4 items-center justify-center rounded-[4px] px-8 py-2.5 mb-3 w-full text-center">
+                  <div className="text-dark bg-white font-regular cursor-pointer flex gap-4 items-center justify-center rounded-[4px] px-8 py-2.5 mb-3 w-full text-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="22"
