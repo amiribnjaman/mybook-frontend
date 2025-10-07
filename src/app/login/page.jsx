@@ -79,11 +79,11 @@ export default function LoginPage() {
           <div className="bg-shape3 bg-purple opcity-50 bg-blur"></div>
         </div>
       </div> */}
-        <div className="mt-8 gap-6">
+        <div className="mt-12 gap-6">
           <div className="flex flex-cols-2 gap-6 md:gap-20 justify-between items-center">
             <div className="">
               <Link href="/">
-                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-8">
+                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-12">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="21"

@@ -112,11 +112,11 @@ export default function SignupPage() {
               <div className="bg-shape3 bg-purple opcity-50 bg-blur"></div>
             </div>
           </div> */}
-        <div className="mt-8 gap-6">
+        <div className="mt-12 gap-6">
           <div className="flex flex-cols-2 gap-6 md:gap-20  justify-between items-center">
             <div className="">
               <Link href="/login">
-                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-8">
+                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-12">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="21"
@@ -140,7 +140,7 @@ export default function SignupPage() {
                 <Link href="/" className="mb-3 block">
                   <img src="/img/logo.png" alt="logo" />
                 </Link>
-                <h1 className="text-[36px] text-white font-regular leading-[36px]">
+                <h1 className="text-[36px] text-white font-regular leading-[38px]">
                   Welcome to
                   <span className="text-[#00CFFF] font-bold"> K&#39;nect</span>
                   {/* 00A400 */}
