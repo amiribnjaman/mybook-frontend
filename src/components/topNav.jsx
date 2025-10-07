@@ -38,7 +38,7 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
   return (
     <div>
       {/* Top message */}
-      <div className="flex items-center justify-center text-center pt-4">
+      <div className="md:flex hidden items-center justify-center text-center pt-4">
         <h6 className="text-white font-extralight text-sm flex items-center gap-2">
           <span>Stop the genocide in Gaza. Free Palestine</span>
           <svg
@@ -66,11 +66,11 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
       <div className="w-[95%] mx-auto pb-8 pt-6 flex gap-12 items-center justify-between">
         {/* LOGO */}
         <div className="text-white font-bold text-lg">
-          <Link href="/" className="flex items-center gap-[8px]">
-            <img className="" src="/img/logo.png" alt="logo" />
+          <Link href="/" className="flex items-center gap-[8px] ">
+            <img className="w-[90%]" src="/img/logo.png" alt="logo" />
 
             <h1
-              className={`${exo.className} text-[30px] text-[#00CFFF] font-semibold`}
+              className={`${exo.className} text-[26px] md:text-[30px] text-[#00CFFF] font-semibold`}
             >
               K&#39;nect
               {/* 00A400 */}
@@ -78,9 +78,9 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
           </Link>
         </div>
 
-        {/* Search */}
+        {/* Search & create button */}
         <div className=" flex gap-3">
-          <div className="relative flex items-center gap-3 w-[340px] h-[40px] bg-[#F4F4F9] rounded-full px-4 focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF]">
+          <div className="relative hidden md:flex items-center gap-3 w-[340px] h-[40px] bg-[#F4F4F9] rounded-full px-4 focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -105,7 +105,7 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
             onClick={() => {
               setCreatePostCard(!createPostCard);
             }}
-            className="w-[120px] h-[40px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 items-center justify-center cursor-pointer hover:opacity-90 transition"
+            className="w-[120px] md:static fixed bottom-[40px] right-[20px] h-[40px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 items-center justify-center cursor-pointer hover:opacity-90 transition shadow-xl"
           >
             <span>Create</span>
             <svg
@@ -157,15 +157,20 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
             />
           </svg>
 
-          <div className=" h-[40px] bg-white rounded-full flex items-center justify-center gap-[10px] pl-[4px] pr-3">
+          <div className=" h-[40px] bg-white rounded-full flex items-center justify-center gap-[10px] px-1 md:px-0 md:pl-[4px] md:pr-3">
             <div className="w-[32px] h-[32px] bg-[#f1f1f1] rounded-full">
-              {localStorage.getItem("userImg") && <img
-                className="w-[32px] h-[32px] rounded-full"
-                src={localStorage.getItem("userImg")}
-                alt=""
-              />}
+              {localStorage.getItem("userImg") && (
+                <img
+                  className="w-[32px] h-[32px] rounded-full"
+                  src={localStorage.getItem("userImg")}
+                  alt=""
+                />
+              )}
             </div>
-            <h1>{localStorage.getItem("userName") && localStorage.getItem("userName")}</h1>
+            <h1 className=" md:block hidden">
+              {localStorage.getItem("userName") &&
+                localStorage.getItem("userName")}
+            </h1>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -173,7 +178,7 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
               viewBox="0 0 12 24"
               className={`${
                 showLogout ? "rotate-[-90deg]" : "rotate-[90deg] "
-              } transition `}
+              } transition md:block hidden`}
             >
               <defs>
                 <path

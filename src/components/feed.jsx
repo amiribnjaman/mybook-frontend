@@ -318,7 +318,7 @@ export default function Feed() {
   return (
     <div>
       <div>
-        <div className="fixed top-0 left-0 w-full h-[140px] z-50 shadow bg-[#2c5364]">
+        <div className="fixed top-0 left-0 w-full h-[92px] md:h-[140px] z-50 shadow bg-[#2c5364]">
           <TopNav
             createPostCard={createPostCard}
             setCreatePostCard={setCreatePostCard}
@@ -335,10 +335,10 @@ export default function Feed() {
             className={`${
               createPostCard &&
               "blur-sm opacity-50 pointer-events-none overflow-hidden"
-            } mt-[140px] mx-auto mb-8 w-full gap-8  min-h-screen flex`}
+            } mt-[92px] md:mt-[140px] mx-auto mb-8 w-full gap-8 min-h-screen flex`}
           >
             {/* Feed left navbar */}
-            <div className="mb-8 col-span-3 min-h-screen w-[28%] shadow fixed flex-start bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] pt-[24px]">
+            <div className="mb-8 col-span-3 min-h-screen md:w-[28%] hidden shadow md:fixed md:block flex-start bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] pt-[24px]">
               <div className="sticky self-start top-[40px] left-0 h-screen w-[70%] ml-[6%]">
                 <ul>
                   <li className="flex gap-4 items-center mb-4 text-[#f4f4f9] font-regular cursor-pointer bg-[#203A43] w-[100%] h-[44px] rounded-[8px] border border-[#203A43] hover:border-[#2c5364] transition px-[20px] py-[16px]">
@@ -449,13 +449,13 @@ export default function Feed() {
         </div> */}
 
             {/* Main feed */}
-            <div className="mb-4 mt-8 col-span-8 text-white w-[65%] flex-end ml-auto mr-[3%]">
+            <div className="mb-4 mt-8 md:col-span-8 text-white w-[95%] md:w-[65%] flex-end md:ml-auto mx-auto md:mx-0 md:mr-[3%]">
               {/*============= Single post getting & showing throguh mapping=========== */}
               {posts?.map((post) => {
                 const liked = post?.likes?.includes(userId);
                 const likeCount = post?.likes?.length || 0;
                 return (
-                  <div className="shadow bg-[#203a43] border border-[#2c5364] rounded-[18px] pt-[20px] pb-[14px] px-[20px] mb-[28px]">
+                  <div className="shadow bg-[#203a43] border border-[#2c5364] rounded-[18px] pt-[20px] pb-[14px] px-[20px] mb-[16px] md:mb-[28px]">
                     {/* Post top userinfo sec  */}
                     <div className="flex justify-between items-center">
                       {/* User info */}
@@ -483,7 +483,7 @@ export default function Feed() {
 
                       {/* Top right- follow & more btn */}
                       <div className="flex gap-6 items-center justify-center ml-2">
-                        <div className="w-[100px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition pl-1">
+                        <div className="w-[100px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition pl-1">
                           <span className="pl-1 text-center">Follow</span>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -516,7 +516,7 @@ export default function Feed() {
                     </div>
 
                     {/* Post main section */}
-                    <div className="mt-[24px] mb-[16px] grid grid-cols-6 gap-10">
+                    <div className="mt-[24px] mb-[16px] md:grid md:grid-cols-6 gap-10">
                       {post?.postContent && (
                         <div className="col-span-4">
                           <h2 className="text-[21px] font-regular line-clamp-1 cursor-pointer hover:text-[#00CFFF] transition">
@@ -542,7 +542,7 @@ export default function Feed() {
                       {post?.postCategory ? post?.postCategory : "Post"}
                     </div> */}
 
-                          <p className="mt-[24px] text-[16px] font-light text-[#ddd] line-clamp-4">
+                          <p className="md:mt-[24px] mt-[16px] text-[16px] font-light text-[#ddd] line-clamp-4">
                             {post?.postContent}
                             {/* {post?.postContent.split(/\s+/).slice(0,20).join(' ')}*/}
                             {/* {post?.postContent.split(/\s+/).length > 20 && "continue..."} */}
@@ -552,10 +552,10 @@ export default function Feed() {
 
                       {/* Post img */}
                       {post?.postImgUrl && (
-                        <div className="col-span-2">
-                          <div className="w-full h-[160px] h-full rounded-[20px] flex items-center justify-center">
+                        <div className="col-span-2 mt-[20px] md:mt-0">
+                          <div className="w-full h-[200px] md:h-[160px] h-full rounded-[12px] md:rounded-[20px] flex items-center justify-center">
                             <img
-                              className="w-full h-[160px] rounded-[20px]"
+                              className="w-full h-[200px] md:h-[160px] rounded-[12px] md:rounded-[20px]"
                               src={post?.postImgUrl}
                               alt=""
                             />
@@ -577,21 +577,20 @@ export default function Feed() {
                           {liked ? (
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              width="22"
-                              height="22"
+                              width="25"
+                              height="25"
                               viewBox="0 0 24 24"
-                              
                             >
                               <path
-                                fill="currentColor"
+                                fill="#ef4444"
                                 d="M11.566 21.112L12 20.5za.75.75 0 0 0 .867 0L12 20.5l.434.612l.008-.006l.021-.015l.08-.058q.104-.075.295-.219a38.5 38.5 0 0 0 4.197-3.674c1.148-1.168 2.315-2.533 3.199-3.981c.88-1.44 1.516-3.024 1.516-4.612c0-1.885-.585-3.358-1.62-4.358c-1.03-.994-2.42-1.439-3.88-1.439c-1.725 0-3.248.833-4.25 2.117C10.998 3.583 9.474 2.75 7.75 2.75c-3.08 0-5.5 2.639-5.5 5.797c0 1.588.637 3.171 1.516 4.612c.884 1.448 2.051 2.813 3.199 3.982a38.5 38.5 0 0 0 4.492 3.892l.08.058l.021.015z"
                               />
                             </svg>
                           ) : (
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              width="22"
-                              height="22"
+                              width="24"
+                              height="24"
                               viewBox="0 0 24 24"
                             >
                               <path
@@ -605,7 +604,13 @@ export default function Feed() {
                             </svg>
                           )}
                           {likeCount > 0 && (
-                            <span style={{display: 'inline-block', animation: 'popIn 0.3s ease-out'}} className="text-[16px] font-extralight pt-[2px] transition-all ease-out duration-300 transform">
+                            <span
+                              style={{
+                                display: "inline-block",
+                                animation: "popIn 0.3s ease-out",
+                              }}
+                              className="text-[16px] font-extralight pt-[2px] transition-all ease-out duration-300 transform"
+                            >
                               {likeCount}
                             </span>
                           )}
@@ -615,8 +620,8 @@ export default function Feed() {
                         <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex items-center justify-center cursor-pointer">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="22"
-                            height="22"
+                            width="24"
+                            height="24"
                             viewBox="0 0 24 24"
                           >
                             <path
@@ -635,7 +640,7 @@ export default function Feed() {
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
-                            height="23"
+                            height="24"
                             viewBox="0 0 24 24"
                           >
                             <path

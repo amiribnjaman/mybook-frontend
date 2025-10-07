@@ -120,7 +120,7 @@ export default function CreatePostCard({
       <div
         className={`${
           createPostCard
-            ? "fixed w-[580px] h-[588px] bg-[#fff] rounded-[8px] shadow-lg z-[100] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden"
+            ? "fixed w-[95%] md:w-[580px] h-[70%] md:h-[588px] bg-[#fff] rounded-[8px] shadow-lg z-[100] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden"
             : "hidden"
         }  `}
       >
@@ -151,8 +151,8 @@ export default function CreatePostCard({
           {/* Editor body */}
           <div className="px-4 flex flex-col">
             {/* Top */}
-            <div className="flex justify-between items-center mt-[8px] mb-[8px]">
-              <h3 className="text-[24px] ">Share your thougth by</h3>
+            <div className="md:flex justify-between items-center my-[16px] md:my-[8px]">
+              <h3 className="text-[20px] md:text-[24px] mb-[8px] md:mb-[0px]">Share your thougth by</h3>
               <div className="flex gap-[4px] items-center">
                 {/*  Post category option */}
                 <button

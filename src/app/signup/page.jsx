@@ -103,7 +103,7 @@ export default function SignupPage() {
 
   return (
     <div className="">
-      <div className="ml-[100px] mx-auto">
+      <div className="md:ml-[100px] md:mx-0 mx-[20px] mx-auto">
         {/* MASS BG */}
         {/* <div className="mass-bg">
             <div className="absolute inset-0 justify-center">
@@ -112,11 +112,13 @@ export default function SignupPage() {
               <div className="bg-shape3 bg-purple opcity-50 bg-blur"></div>
             </div>
           </div> */}
-        <div className="mt-12 gap-6">
-          <div className="flex flex-cols-2 gap-6 md:gap-20  justify-between items-center">
+        <div className="md:mt-12 mt-6 gap-6">
+          <div className="md:flex flex-cols-2 gap-6 md:gap-20 justify-between items-center">
+
+            {/* SIGNUP MAIN LEFT SECTION */}
             <div className="">
               <Link href="/login">
-                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-12">
+                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-6 md:mb-12">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="21"
@@ -140,7 +142,7 @@ export default function SignupPage() {
                 <Link href="/" className="mb-3 block">
                   <img src="/img/logo.png" alt="logo" />
                 </Link>
-                <h1 className="text-[36px] text-white font-regular leading-[38px]">
+                <h1 className="text-[32px] md:text-[36px] text-white font-regular leading-[38px]">
                   Welcome to
                   <span className="text-[#00CFFF] font-bold"> K&#39;nect</span>
                   {/* 00A400 */}
@@ -148,7 +150,7 @@ export default function SignupPage() {
                 </h1>
               </div>
 
-              <div className="md:mt-[24px] mb-6 py-3 w-[460px]">
+              <div className="md:mt-[24px] mb-6 py-3 w-[100%] md:w-[460px]">
                 <div className="">
                   <form onSubmit={handleSubmit(signUpSubmit)} className="mt-1">
                     <label
@@ -279,7 +281,7 @@ export default function SignupPage() {
                         Upload your profile picture (Optional):
                       </label>
                       <button
-                        className="w-full h-[72px] bg-[#f6f6f6] rounded-md flex flex-col mt-[8px] justify-center items-center border-2 border-dotted border-[#f6f6f6] hover:border-gray-400 transition text-center mr-4 gap-1"
+                        className="w-full h-[60px] md:h-[72px] bg-[#f6f6f6] rounded-md flex flex-col mt-[8px] justify-center items-center border-2 border-dotted border-[#f6f6f6] hover:border-gray-400 transition text-center mr-4 gap-1"
                         type="button"
                         onClick={() => fileInputRef.current.click()}
                       >
@@ -403,9 +405,12 @@ export default function SignupPage() {
                 </div>
               </div>
             </div>
-            <hr className="w-[.2px] min-h-[80vh] bg-[#F4F4F9]" />
+
+            {/* VERTICAL LINE */}
+            <hr className="w-[.2px] hidden md:block min-h-[80vh] bg-[#F4F4F9]" />
+            {/* RIGHT IMAGE */}
             <div>
-              <img className="w-[460px]" src="/img/bg-img.png" alt="login" />
+              <img className="md:w-[460px] hidden md:block" src="/img/bg-img.png" alt="login" />
             </div>
           </div>
         </div>
