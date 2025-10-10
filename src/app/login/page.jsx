@@ -43,14 +43,17 @@ export default function LoginPage() {
         })
         .then((res) => {
           if (res.data.status == '200') {
-            console.log(res.data)
-            localStorage?.setItem('userId', res.data.userId)
-            localStorage?.setItem('userName', res.data.userName)
-            localStorage?.setItem('userImg', res.data.userImg)
+            // console.log(res.data)
+            // localStorage?.setItem('userId', res.data.userId)
+            // localStorage?.setItem('userName', res.data.userName)
+            // localStorage?.setItem('userImg', res.data.userImg)
+
+            // SETTING USER INFO TO LOCALSTORAGE
+            localStorage.setItem("user", JSON.stringify({id: res.data.userId, name: res.data.userName, img: res.data.userImg}));
             setCookie("Token", res.data.token);
             toast.success(res.data.message);
-            // Redirect user to Home page
             navigate.push("/");
+            // Redirect user to Home page
           } else if (res.data.status == "401" || res.data.status == "404") {
             toast.error(res.data.message);
             setLoading(false);
@@ -84,7 +87,7 @@ export default function LoginPage() {
             {/* LOGIN MAIN LEFT SECTION */}
             <div className="">
               <Link href="/">
-                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-16 md:mb-12">
+                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-12 md:mb-12">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="21"
