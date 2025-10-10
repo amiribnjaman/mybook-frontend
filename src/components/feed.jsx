@@ -335,7 +335,7 @@ export default function Feed() {
             className={`${
               createPostCard &&
               "blur-sm opacity-50 pointer-events-none overflow-hidden"
-            } mt-[92px] md:mt-[140px] mx-auto mb-8 w-full gap-8 min-h-screen flex`}
+            } mt-[88px] md:mt-[140px] mx-auto mb-8 w-full gap-8 min-h-screen flex`}
           >
             {/* Feed left navbar */}
             <div className="mb-8 col-span-3 min-h-screen md:w-[28%] hidden shadow md:fixed md:block flex-start bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] pt-[24px]">
@@ -455,7 +455,7 @@ export default function Feed() {
                 const liked = post?.likes?.includes(userId);
                 const likeCount = post?.likes?.length || 0;
                 return (
-                  <div key={post?.id} className="shadow bg-[#203a43] border border-[#2c5364] rounded-[18px] pt-[20px] pb-[14px] px-[20px] mb-[16px] md:mb-[28px]">
+                  <div key={post?.id} className="shadow bg-[#203a43] border border-[#2c5364] rounded-[18px] pt-[14px] md:pt-[20px] pb-[10px] md:pb-[14px] px-[8px] md:px-[20px] mb-[16px] md:mb-[28px]">
                     {/* Post top userinfo sec  */}
                     <div className="flex justify-between items-center">
                       {/* User info */}
@@ -482,7 +482,7 @@ export default function Feed() {
                       </div>
 
                       {/* Top right- follow & more btn */}
-                      <div className="flex gap-6 items-center justify-center ml-2">
+                      <div className="flex ga-3 md:gap-6 items-center justify-center ml-2">
                         <div className="w-[100px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition pl-1">
                           <span className="pl-1 text-center">Follow</span>
                           <svg
@@ -542,7 +542,7 @@ export default function Feed() {
                       {post?.postCategory ? post?.postCategory : "Post"}
                     </div> */}
 
-                          <p className="md:mt-[24px] mt-[16px] text-[16px] font-light text-[#ddd] line-clamp-4">
+                          <p className="md:mt-[24px] mt-[12px] text-[16px] font-light text-[#ddd] line-clamp-4">
                             {post?.postContent}
                             {/* {post?.postContent.split(/\s+/).slice(0,20).join(' ')}*/}
                             {/* {post?.postContent.split(/\s+/).length > 20 && "continue..."} */}
@@ -661,7 +661,7 @@ export default function Feed() {
             </div>
           </div>
         ) : (
-          <div className="md:mt-[160px] mt-[120px]">
+          <div className="md:mt-[160px] mt-[92px]">
             <FeedSkeleton />
           </div>
         )}

@@ -55,7 +55,8 @@ export default function CreatePostCard({
     // console.log("hello inside", postTitle, postContent, postCategory);
     // return
 
-    const userId = localStorage.getItem("userId");
+    // const userId = localStorage.getItem("userId");
+    const {id: userId} = JSON.parse(localStorage?.getItem('user'))
 
     // Upload image into imgbb
     const img = fileInputRef.current.files[0];
@@ -82,8 +83,9 @@ export default function CreatePostCard({
     };
 
     console.log(img && postTitle && postContent)
+    
     // POST DATA INTO SERVER
-    if (img && postTitle && postContent) {
+    if (img || postContent) {
       console.log('server code',)
       await axios
         .post(`${SERVER_URL}/post/create`, data, {
@@ -120,13 +122,13 @@ export default function CreatePostCard({
       <div
         className={`${
           createPostCard
-            ? "fixed w-[95%] md:w-[580px] h-[70%] md:h-[588px] bg-[#fff] rounded-[8px] shadow-lg z-[100] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden"
+            ? "fixed w-[95%] md:w-[580px] h-[90%] md:h-[588px] bg-[#fff] rounded-[8px] shadow-lg z-[100] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden"
             : "hidden"
         }  `}
       >
         <div>
           {/* Header with cancle button */}
-          <div className="flex justify-between items-center py-3 px-4">
+          <div className="flex justify-between items-center py-2 px-2 md:py-3 md:px-4">
             <h5 className="text-[14px] font-light">Create a new post</h5>
             {/* Card cancle button */}
             <button
@@ -149,10 +151,10 @@ export default function CreatePostCard({
           </div>
 
           {/* Editor body */}
-          <div className="px-4 flex flex-col">
+          <div className="md:px-4 px-2 flex flex-col">
             {/* Top */}
-            <div className="md:flex justify-between items-center my-[16px] md:my-[8px]">
-              <h3 className="text-[20px] md:text-[24px] mb-[8px] md:mb-[0px]">Share your thougth by</h3>
+            <div className="md:flex justify-between items-center my-[4px] md:my-[8px]">
+              <h3 className="text-[20px] md:text-[24px] mb-[2px] md:mb-[0px]">Share your thougth by</h3>
               <div className="flex gap-[4px] items-center">
                 {/*  Post category option */}
                 <button
@@ -181,7 +183,7 @@ export default function CreatePostCard({
             {postCategory && (
               <div
                 onClick={() => setPostCategory("Post")}
-                className="w-[52px] px-2 py-1 h-[28px] text-[12px] bg-[#00CFFF] border border-[#13BCE3] hover:border-[#c0e8ca] text-[white]  rounded-[24px] flex items-center text-center justify-center cursor-pointer mb-[8px]"
+                className="w-[52px] hidden md:block px-2 py-1 h-[28px] text-[12px] bg-[#00CFFF] border border-[#13BCE3] hover:border-[#c0e8ca] text-[white]  rounded-[24px] flex items-center text-center justify-center cursor-pointer mb-[8px]"
               >
                 {postCategory}
               </div>
@@ -206,14 +208,14 @@ export default function CreatePostCard({
                 {...register("postContent", { required: false })}
                 id="postContent"
                 rows={5}
-                className="border border-[#f5f5f5] rounded-[4px] px-[16px] py-2 block w-full mt-[4px] mb-[16px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] placeholder:font-light outline-none resize-none"
+                className="border border-[#f5f5f5] rounded-[4px] px-[16px] py-2 block w-full mt-[4px] mb-[10px] md:mb-[16px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] placeholder:font-light outline-none resize-none"
                 placeholder="write your post here..."
               />
 
               {/* Updaload option */}
               <div className="">
                 <button
-                  className="w-full h-[66px] bg-[#f6f6f6] rounded-md flex flex-col justify-center items-center border-2 border-dotted border-[#f6f6f6] hover:border-gray-200 transition text-center mr-4 gap-1"
+                  className="w-full h-[60px] md:h-[66px] bg-[#f6f6f6] rounded-md flex flex-col justify-center items-center border-2 border-dotted border-[#f6f6f6] hover:border-gray-200 transition text-center mr-4 gap-1"
                   type="button"
                   onClick={() => fileInputRef.current.click()}
                 >
@@ -244,9 +246,9 @@ export default function CreatePostCard({
 
               {/* Preview image */}
               {selectedImg && (
-                <div className="w-[66px] h-[70px] mt-[12px] rounded-md border border-[#f6f6f6] relative">
+                <div className="md:w-[66px] w-[52px] h-[60px] md:h-[70px] mt-[8px] md:mt-[12px] rounded-md border border-[#f6f6f6] relative">
                   <button
-                    className="w-[28px] absolute top-0 right-0 h-[28px] bg-[#f1f1f1] hover:bg-[#f6f6f6] rounded-md flex justify-center items-center border border-[#f6f6f6] hover:border-[#ddd] transition text-center"
+                    className="md:w-[28px] w-[24px] h-[24px] absolute top-0 right-0 md:h-[28px] bg-[#f1f1f1] hover:bg-[#f6f6f6] rounded-md flex justify-center items-center border border-[#f6f6f6] hover:border-[#ddd] transition text-center"
                     onClick={() => {
                       setSelectedImg("");
                       setFileName("No file chosen");
@@ -274,7 +276,7 @@ export default function CreatePostCard({
                 type="submit"
                 className={`${
                   loading ? "bg-[#f9f9f9] cursor-disable" : "bg-[#00CFFF] hover:bg-[#13BCE3]"
-                } text-center text-white text-lg font-regular rounded-[4px] px-2 py-2 mt-6 mb-3 absolute bottom-[6px] left-4 right-4`}
+                } text-center text-white text-lg font-regular rounded-[4px] px-2 py-2 md:mt-6 mt-3 mb-2 md:mb-3 absolute bottom-[3px] md:bottom-[6px] left-2 right-2 md:left-4 md:right-4`}
               >
                 {loading ? <Spin /> : "Create Post"}
               </button>
