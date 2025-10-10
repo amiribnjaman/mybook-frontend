@@ -83,7 +83,7 @@ export default function CreatePostCard({
     };
 
     console.log(img && postTitle && postContent)
-    
+
     // POST DATA INTO SERVER
     if (img || postContent) {
       console.log('server code',)
@@ -128,7 +128,7 @@ export default function CreatePostCard({
       >
         <div>
           {/* Header with cancle button */}
-          <div className="flex justify-between items-center py-2 px-2 md:py-3 md:px-4">
+          <div className="flex justify-between items-center pt-0 pb-2 md:pt-0 md:pb-0 px-2 md:py-3 md:px-4">
             <h5 className="text-[14px] font-light">Create a new post</h5>
             {/* Card cancle button */}
             <button
@@ -153,9 +153,9 @@ export default function CreatePostCard({
           {/* Editor body */}
           <div className="md:px-4 px-2 flex flex-col">
             {/* Top */}
-            <div className="md:flex justify-between items-center my-[4px] md:my-[8px]">
+            <div className="md:flex justify-between items-center md:my-[8px]">
               <h3 className="text-[20px] md:text-[24px] mb-[2px] md:mb-[0px]">Share your thougth by</h3>
-              <div className="flex gap-[4px] items-center">
+              <div className="flex gap-[4px] mb-[4px] md:mb-0 items-center">
                 {/*  Post category option */}
                 <button
                   onClick={() => setPostCategory("Post")}

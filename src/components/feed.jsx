@@ -56,7 +56,8 @@ export default function Feed() {
    **
    */
   if (typeof window !== "undefined") {
-    userId = localStorage?.getItem("userId");
+    const user = JSON.parse(localStorage?.getItem("user"));
+    userId = user?.id
   }
 
   /*
