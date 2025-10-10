@@ -39,7 +39,7 @@ export default function TopNavbar() {
           setNotification(data.data[0].notification);
         }
       });
-  }, [reload]);
+  }, [reload, userId]);
 
   // Handle logout button
   const handleLogout = () => {

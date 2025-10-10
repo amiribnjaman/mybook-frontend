@@ -41,7 +41,7 @@ export default function RightSidebar() {
           setNotification(data.data[0].notification);
         }
       });
-  }, [reload]);
+  }, [reload, userId]);
 
   // Handle logout button
   const handleLogout = () => {

@@ -41,8 +41,8 @@ export default function LoginPage() {
           toast.error("Something went wrong. Try again.");
         });
 
-      reset()
-    } else if (data.email){
+      reset();
+    } else if (data.email) {
       await axios
         .post(`${SERVER_URL}/user/forgot-pass-check`, data, {
           headers: {
@@ -71,17 +71,18 @@ export default function LoginPage() {
       {/* <h1 className="text-[40px] text-center font-bold text-[#0866FF]">
         Mybook
       </h1> */}
-      <div className="w-[60%] mx-auto my-6 py-3 border rounded-md">
-        <h3 className="text-[18px] font-semibold">
-          {showPassField ? "Reset your password" : "Submit your Email"}
-        </h3>
-        <div className="mx-6">
+      <div className="w-[400px] mx-auto my-[80px] py-3 border rounded-md bg-white shadow">
+        <div className="mx-6 my-6">
           <form onSubmit={handleSubmit(forgotPassSubmit)} className="mt-1">
+            <h5 className="text-dark text-[18px] font-light text-left">
+              {showPassField ? "Reset your password" : "Submit your Email"}
+            </h5>
             <input
               {...register("email", { required: true })}
-              type="text"
-              className="border rounded-md p-2 block w-full mt-3"
-              placeholder="Email Address"
+              type="email"
+              id="email"
+              className="border rounded-[4px] px-[16px] py-2 block w-full mt-[8px] mb-[24px] placeholder:font-light focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
+              placeholder="example@gmail.com"
             />
             <p className="hidden">
               {errors?.email &&
@@ -94,7 +95,7 @@ export default function LoginPage() {
                 <input
                   {...register("password", { required: true })}
                   type="password"
-                  className="border rounded-md p-2 block w-full mt-3"
+                  className="border rounded-[4px] px-[16px] py-2 block w-full mt-[8px] mb-[24px] placeholder:font-light focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] outline-none"
                   placeholder="Set new Password"
                 />
                 <p className="hidden">
@@ -108,14 +109,14 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="bg-gradient-to-r from-green-400 to-blue-500 hover:bg-gradient-to-l w-full text-white text-lg font-semibold rounded-md px-8 py-2 mt-6 mb-3 w-full"
+              className="bg-[#00CFFF] hover:bg-[#13BCE3] w-full text-white text-lg font-semibold rounded-md px-8 py-2 mt-3 mb-3 w-full"
             >
               Submit
             </button>
           </form>
           <Link
             href="/login"
-            className="underline text-black text-md font-semibold rounded-md px-4 block text-left mt-3 mb-2"
+            className="text-[16px] underline font-light text-black block text-left mt-3 mb-2"
           >
             Back to Login
           </Link>
