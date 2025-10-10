@@ -56,7 +56,7 @@ export default function Feed() {
    **
    */
   if (typeof window !== "undefined") {
-    userId = localStorage.getItem("userId");
+    userId = localStorage?.getItem("userId");
   }
 
   /*
@@ -455,7 +455,7 @@ export default function Feed() {
                 const liked = post?.likes?.includes(userId);
                 const likeCount = post?.likes?.length || 0;
                 return (
-                  <div className="shadow bg-[#203a43] border border-[#2c5364] rounded-[18px] pt-[20px] pb-[14px] px-[20px] mb-[16px] md:mb-[28px]">
+                  <div key={post?.id} className="shadow bg-[#203a43] border border-[#2c5364] rounded-[18px] pt-[20px] pb-[14px] px-[20px] mb-[16px] md:mb-[28px]">
                     {/* Post top userinfo sec  */}
                     <div className="flex justify-between items-center">
                       {/* User info */}
@@ -661,7 +661,7 @@ export default function Feed() {
             </div>
           </div>
         ) : (
-          <div className="mt-[160px]">
+          <div className="md:mt-[160px] mt-[120px]">
             <FeedSkeleton />
           </div>
         )}

@@ -167,3 +167,7 @@ body {
     transform: translateY(0);
   }
 }
+
+.mobile-skeletop-img{
+  width: 100% !important;
+}

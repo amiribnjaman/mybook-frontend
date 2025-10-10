@@ -44,9 +44,9 @@ export default function LoginPage() {
         .then((res) => {
           if (res.data.status == '200') {
             console.log(res.data)
-            localStorage.setItem('userId', res.data.userId)
-            localStorage.setItem('userName', res.data.userName)
-            localStorage.setItem('userImg', res.data.userImg)
+            localStorage?.setItem('userId', res.data.userId)
+            localStorage?.setItem('userName', res.data.userName)
+            localStorage?.setItem('userImg', res.data.userImg)
             setCookie("Token", res.data.token);
             toast.success(res.data.message);
             // Redirect user to Home page
@@ -70,7 +70,7 @@ export default function LoginPage() {
 
   return (
     <div className="">
-      <div className="md:ml-[100px] md:mx-0 mx-[20px] mx-auto">
+      <div className="md:ml-[100px] md:mx-0 mx-[16px]">
         {/* MASS BG */}
         {/* <div className="mass-bg">
         <div className="absolute inset-0 justify-center">
@@ -79,12 +79,12 @@ export default function LoginPage() {
           <div className="bg-shape3 bg-purple opcity-50 bg-blur"></div>
         </div>
       </div> */}
-        <div className="mt-6 md:mt-12 gap-6">
+        <div className="mt-10 md:mt-12 gap-6">
           <div className="md:flex md:flex-cols-2 gap-6 md:gap-20 justify-between items-center">
             {/* LOGIN MAIN LEFT SECTION */}
             <div className="">
               <Link href="/">
-                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-20 md:mb-12">
+                <div className="bg-[#203A43] w-[56px] h-[40px] flex justify-center items-center rounded-[8px] mb-16 md:mb-12">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="21"

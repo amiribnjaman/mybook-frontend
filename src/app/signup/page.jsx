@@ -103,7 +103,7 @@ export default function SignupPage() {
 
   return (
     <div className="">
-      <div className="md:ml-[100px] md:mx-0 mx-[20px] mx-auto">
+      <div className="md:ml-[100px] md:mx-0 mx-[16px]">
         {/* MASS BG */}
         {/* <div className="mass-bg">
             <div className="absolute inset-0 justify-center">
@@ -112,7 +112,7 @@ export default function SignupPage() {
               <div className="bg-shape3 bg-purple opcity-50 bg-blur"></div>
             </div>
           </div> */}
-        <div className="md:mt-12 mt-6 gap-6">
+        <div className="md:mt-12 mt-7 gap-6">
           <div className="md:flex flex-cols-2 gap-6 md:gap-20 justify-between items-center">
 
             {/* SIGNUP MAIN LEFT SECTION */}

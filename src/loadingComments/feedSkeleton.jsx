@@ -5,7 +5,7 @@ import SkeletonImage from "antd/es/skeleton/Image";
 export default function FeedSkeleton() {
   return (
     <>
-      <div style={{ height: "68vh" }} className="flex w-[95%] mx-auto ">
+      <div className="flex w-[95%] mx-auto gap-10">
         {/* =============================LEFT NAVABR ============ */}
         <div
           style={{ width: "27%" }}
@@ -46,7 +46,7 @@ export default function FeedSkeleton() {
           </div>
         </div>
         {/*================================NEWS FEED========================*/}
-        <div className="mt-6 w-[95%] md:w-[70%] mx-auto md:mx-0 md:ml-auto mb-3 relative py-3 px-6 rounded-lg bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] mr-[2%] min-h-[900px]">
+        <div className="mt-6 w-[95%] md:w-[70%] mx-auto md:mx-0 md:ml-auto mb-3 relative py-3 px-6 rounded-lg bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] mr-[2%] md:min-h-[900px]">
           {/*----------------POST HEADEING------------*/}
           <div className="flex justify-between px-4">
             <div className="flex gap-3 post-user">
@@ -64,27 +64,23 @@ export default function FeedSkeleton() {
 
           {/*----------------POST CONTENT----------- */}
           <div className="mt-8 mb-4">
-            <div className="mb-4 px-4 mt-10 flex gap-3">
-              <Skeleton paragraph size={60} rows={1} active />
-              <SkeletonImage size={35} active />
+            <div className="mb-4 px-2 md:px-4 mt-10 md:flex gap-4">
+              <Skeleton paragraph size={60} active />
+
+              <div className="hidden md:block flex w-full">
+                <SkeletonImage active />
+              </div>
+              <div className="block md:hidden w-[200px]">
+                <SkeletonImage className='md:hidden mobile-skeletop-img' active />
+              </div>
             </div>
           </div>
           {/* <hr /> */}
-          <div className="mt-2">
-            <div className="flex gap-[20px] pt-3 pb-1 px-3 gap-4 skeleton-group">
-              <Skeleton.Input
-                size={15}
-                className="w-full mt-[4px]"
-                block
-                active
-              />
-              <Skeleton.Input size={15} className=" mt-[4px]" block active />
-              <Skeleton.Input
-                size={15}
-                className="w-full mt-[4px]"
-                block
-                active
-              />
+          <div className="md:block hidden mt-2 w-[200px]">
+            <div className="flex gap-[10px] pt-3 pb-1 px-3 gap-4 skeleton-group">
+              <Skeleton.Input className="w-full mt-[4px]" block active />
+              <Skeleton.Input className=" mt-[4px]" block active />
+              <Skeleton.Input className="w-full mt-[4px]" block active />
             </div>
           </div>
         </div>

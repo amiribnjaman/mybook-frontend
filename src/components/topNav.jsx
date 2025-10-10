@@ -18,20 +18,26 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
 
   
       let userId;
+      let userName;
+      let userImg;
+  
       /*
        **
-       ** GETTING LOGEDIN USER-ID FROM LOCALSTORAGE
+       ** GETTING LOGEDIN USER-ID, USERNAME, USERIMG FROM LOCALSTORAGE
        **
        */
       if (typeof window !== "undefined") {
-        userId = localStorage.getItem("userId");
+        userId = localStorage?.getItem("userId");
+        userName = localStorage?.getItem("userName");
+        userImg = localStorage?.getItem("userImg");
+
       }
   
-    // Handle logout button
+    // Handle logout operation method
   const handleLogout = () => {
-    localStorage.removeItem("userId");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userImg");
+    localStorage?.removeItem("userId");
+    localStorage?.removeItem("userName");
+    localStorage?.removeItem("userImg");
     setCookie("Token", "");
     navigate.push("/login");
   };
@@ -159,18 +165,17 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
 
           <div className=" h-[40px] bg-white rounded-full flex items-center justify-center gap-[10px] px-1 md:px-0 md:pl-[4px] md:pr-3">
             <div className="w-[32px] h-[32px] bg-[#f1f1f1] rounded-full">
-              {localStorage.getItem("userImg") && (
+              {userImg && (
                 <img
                   className="w-[32px] h-[32px] rounded-full"
-                  src={localStorage.getItem("userImg")}
+                  src={userImg}
                   alt=""
                 />
               )}
             </div>
-            <h1 className=" md:block hidden">
-              {localStorage.getItem("userName") &&
-                localStorage.getItem("userName")}
-            </h1>
+            <h4 className=" md:block hidden">
+              {userName && userName}
+            </h4>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
