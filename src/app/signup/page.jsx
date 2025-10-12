@@ -347,9 +347,10 @@ export default function SignupPage() {
                       type="submit"
                       className={`${
                         loading
-                          ? "bg-[#f9f9f9]"
+                          ? "bg-[#f9f9f9] cursor-not-allowed"
                           : "bg-[#00CFFF] hover:bg-[#13BCE3]"
-                      } hover:bg-[#00CFeef] w-full text-white text-lg font-semibold rounded-[4px] px-8 py-2 mt-[32px] mb-[8px] w-full`}
+                        } hover:bg-[#00CFeef] w-full text-white text-lg font-semibold rounded-[4px] px-8 py-2 mt-[32px] mb-[8px] w-full`}
+                      disabled={loading}
                     >
                       {loading ? <Spin /> : "Sign Up"}
                     </button>

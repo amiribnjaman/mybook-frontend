@@ -40,9 +40,9 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
     // localStorage?.removeItem("userId");
     // localStorage?.removeItem("userName");
     // localStorage?.removeItem("userImg");
+    navigate.push("/login");
     localStorage.removeItem('user')
     setCookie("Token", "");
-    navigate.push("/login");
   };
   return (
     <div>

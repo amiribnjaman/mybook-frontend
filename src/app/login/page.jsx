@@ -47,12 +47,13 @@ export default function LoginPage() {
             // localStorage?.setItem('userId', res.data.userId)
             // localStorage?.setItem('userName', res.data.userName)
             // localStorage?.setItem('userImg', res.data.userImg)
-
+            console.log(res.data)
+            navigate.push("/");
+            toast.success(res.data.message);
             // SETTING USER INFO TO LOCALSTORAGE
             localStorage.setItem("user", JSON.stringify({id: res.data.userId, name: res.data.userName, img: res.data.userImg}));
             setCookie("Token", res.data.token);
-            toast.success(res.data.message);
-            navigate.push("/");
+            
             // Redirect user to Home page
           } else if (res.data.status == "401" || res.data.status == "404") {
             toast.error(res.data.message);
@@ -246,9 +247,10 @@ export default function LoginPage() {
                           type="submit"
                           className={`${
                             loading
-                              ? "bg-[#f9f9f9]"
+                              ? "bg-[#f9f9f9] cursor-not-allowed text-gray-400"
                               : "bg-[#00CFFF] hover:bg-[#13BCE3]"
                           } hover:bg-[#00CFeef] w-full text-white text-lg font-semibold rounded-[4px] px-8 py-2 mt-6 mb-[8px] w-full`}
+                          disabled={loading}
                         >
                           {loading ? <Spin /> : "Login"}
                         </button>
