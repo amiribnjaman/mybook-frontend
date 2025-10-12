@@ -1,11 +1,8 @@
 "use client";
 
 import { Poppins, Montserrat, Urbanist, Baloo_2, Baloo_Bhai_2, Baloo_Bhaijaan_2, Noto_Sans_Bengali } from "next/font/google";
-import TopNavbar from "@/components/topNavbar";
-import LeftSidebar from "@/components/leftSidebar";
 import { usePathname } from "next/navigation";
 import { ToastContainer } from "react-toastify";
-import RightSidebar from "@/components/rightSidebar";
 import { CookiesProvider } from "react-cookie";
 
 const poppins = Poppins({
