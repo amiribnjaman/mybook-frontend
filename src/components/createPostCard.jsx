@@ -154,7 +154,9 @@ export default function CreatePostCard({
           <div className="md:px-4 px-2 flex flex-col">
             {/* Top */}
             <div className="md:flex justify-between items-center md:my-[8px]">
-              <h3 className="text-[20px] md:text-[24px] mb-[2px] md:mb-[0px]">Share your thougth by</h3>
+              <h3 className="text-[20px] md:text-[24px] mb-[2px] md:mb-[0px]">
+                Share your thougth by
+              </h3>
               <div className="flex gap-[4px] mb-[4px] md:mb-0 items-center">
                 {/*  Post category option */}
                 <button
@@ -275,8 +277,11 @@ export default function CreatePostCard({
               <button
                 type="submit"
                 className={`${
-                  loading ? "bg-[#f9f9f9] cursor-disable" : "bg-[#00CFFF] hover:bg-[#13BCE3]"
+                  loading
+                    ? "bg-[#f9f9f9] cursor-not-allowed"
+                    : "bg-[#00CFFF] hover:bg-[#13BCE3]"
                 } text-center text-white text-lg font-regular rounded-[4px] px-2 py-2 md:mt-6 mt-3 mb-2 md:mb-3 absolute bottom-[3px] md:bottom-[6px] left-2 right-2 md:left-4 md:right-4`}
+                disabled={loading}
               >
                 {loading ? <Spin /> : "Create Post"}
               </button>

@@ -1,9 +1,9 @@
-# MyBook [on vercel live](https://mybook-appifylab.vercel.app/) or [on netlify live](https://mybook-appifylab.netlify.app/)
+# Knect [on netlify live](https://knectt.netlify.app/)
 ### A social media FullStack application like
 
  
 
-**As simple as that- first of all user has to create an account using their First name, Surname, Email and Password**
+**As simple as that- first of all user has to create an account using their Fullname, Email and Password**
 **And then the user can log in using their email and password accurately**
 > User also can recover or reset their password if they forget!
 
