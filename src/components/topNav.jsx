@@ -2,47 +2,82 @@
 
 import { Exo_2 } from "next/font/google";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { SERVER_URL } from "../utilitis/SERVER_URL";
 
 const exo = Exo_2({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin", ],
+  subsets: ["latin"],
 });
 
 export default function TopNav({ createPostCard, setCreatePostCard }) {
   const [showLogout, setShowLogout] = useState(false);
-    const navigate = useRouter();
-    const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
+  const navigate = useRouter();
+  const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
+  const [userName, setUserName] = useState('')
+  const [userImg, setUserImg] = useState('')
 
-  
   let user;
-      // let userId;
-      // let userName;
-      // let userImg;
-  
-      /*
-       **
-       ** GETTING LOGEDIN USER-ID, USERNAME, USERIMG FROM LOCALSTORAGE
-       **
-       */
-      if (typeof window !== "undefined") {
-        user = JSON.parse(localStorage?.getItem("user"));
-        // userId = localStorage?.getItem("userId");
-        // userName = localStorage?.getItem("userName");
-        // userImg = localStorage?.getItem("userImg");
+  // let userId;
+  // let userName;
+  // let userImg;
 
-      }
-  
-    // Handle logout operation method
+  /*
+   **
+   ** GETTING LOGEDIN USER-ID
+   **
+   */
+  // if (typeof window !== "undefined") {
+
+  // userId = localStorage?.getItem("userId");
+  // userName = localStorage?.getItem("userName");
+  // userImg = localStorage?.getItem("userImg");
+  // }
+
+
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      user = JSON.parse(localStorage?.getItem("user"));
+    }
+
+    // CALL THE API THROUGH IIFE
+    (async () => {
+      await axios
+        .get(`${SERVER_URL}/user/getsingleuser/${user.id}`)
+        .then((res) => {
+          if (res.data.status == "200") {
+            setUserName(res.data.user.fullName);
+            setUserImg(res.data.user.imgUrl);
+            // console.log("top user name", userName, userImg);
+          } else {
+            console.log(res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })();
+  }, []);
+
+  // console.log(userName, userImg)
+
+
+  // Handle logout operation method
   const handleLogout = () => {
     // localStorage?.removeItem("userId");
     // localStorage?.removeItem("userName");
     // localStorage?.removeItem("userImg");
+
     navigate.push("/login");
-    localStorage.removeItem('user')
-    setCookie("Token", "");
+
+    setTimeout(() => {
+      localStorage.removeItem("user");
+      setCookie("Token", "");
+    }, 0);
   };
   return (
     <div>
@@ -72,7 +107,7 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
           </svg>
         </h6>
       </div>
-      <div className="w-[95%] mx-auto pb-8 pt-6 flex gap-12 items-center justify-between">
+      <div className="w-[95%] mx-auto md:pb-8 pb-6 pt-6 flex gap-12 items-center justify-between">
         {/* LOGO */}
         <div className="text-white font-bold text-lg">
           <Link href="/" className="flex items-center gap-[8px] ">
@@ -168,15 +203,15 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
 
           <div className=" h-[36px] md:h-[40px] bg-white rounded-full flex items-center justify-center gap-[10px] px-1 md:px-0 md:pl-[4px] md:pr-3">
             <div className="md:w-[32px] md:h-[32px] w-[28px] h-[28px] bg-[#f1f1f1] rounded-full">
-              {user?.img && (
+              {userImg && (
                 <img
                   className="md:w-[32px] md:h-[32px] w-[28px] h-[28px] rounded-full"
-                  src={user?.img}
+                  src={userImg}
                   alt=""
                 />
               )}
             </div>
-            <h4 className=" md:block hidden">{user?.name && user?.name}</h4>
+            <h4 className=" md:block hidden">{userName && userName}</h4>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -206,7 +241,7 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
         <div
           className={`${
             showLogout
-              ? " absolute top-[80px] md:top-[120px] right-[3%] bg-white w-[300px] h-auto shadow-lg rounded-[8px] border px-2 py-8"
+              ? " absolute top-[80px] md:top-[120px] right-[3%] bg-white w-[90%] md:w-[300px] h-auto shadow-lg rounded-[8px] border px-2 py-8"
               : "hidden"
           }`}
         >
@@ -350,7 +385,3 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
     </div>
   );
 }
-
-         
-         
-       
