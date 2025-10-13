@@ -128,7 +128,7 @@ export default function CreatePostCard({
       >
         <div>
           {/* Header with cancle button */}
-          <div className="flex justify-between items-center pt-0 pb-2 md:pt-0 md:pb-0 px-2 md:py-3 md:px-4">
+          <div className="flex justify-between items-center pt-0 pb-2 px-2 md:py-3 md:px-4">
             <h5 className="text-[14px] font-light">Create a new post</h5>
             {/* Card cancle button */}
             <button
