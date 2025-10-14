@@ -211,7 +211,7 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
                 />
               )}
             </div>
-            <h4 className=" md:block hidden">{userName && userName}</h4>
+            <h4 className=" md:block hidden capitalize">{userName && userName}</h4>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -241,7 +241,7 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
         <div
           className={`${
             showLogout
-              ? " absolute top-[80px] md:top-[120px] right-[3%] bg-white w-[90%] md:w-[300px] h-auto shadow-lg rounded-[8px] border px-2 py-8"
+              ? " absolute top-[80px] md:top-[120px] right-[3%] bg-white w-[90%] md:w-[300px] h-auto shadow-lg rounded-[8px] border px-2 pt-4 pb-5"
               : "hidden"
           }`}
         >

@@ -7,7 +7,7 @@ export default function SinglePostSkeleton() {
     <>
       <div className="flex w-[100%] mx-auto gap-10">
         {/*================================NEWS FEED========================*/}
-        <div className="mt-6 w-[95%] md:w-[55%] mx-auto md:mx-0 md:ml-auto mb-3 relative py-3 px-6 rounded-lg bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] mr-[2%] md:min-h-[900px]">
+        <div className="mt-6 w-[95%] md:w-[50%] mx-auto md:mx-0 md:ml-auto mb-3 relative py-4 px-6 rounded-lg bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] mr-[2%] md:min-h-[900px]">
           {/*----------------POST HEADEING------------*/}
           <div className="flex justify-between px-4">
             <div className="flex gap-3 post-user">
@@ -49,35 +49,44 @@ export default function SinglePostSkeleton() {
         {/* =============================LEFT NAVABR ============ */}
         <div className="mt-6 md:block hidden w-[35%] ml-[3%] mb-3 px-6 relative py-3 rounded-lg shadow bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] h-[900px]">
           {/*----------------POST HEADEING------------*/}
-          <div className="flex justify-between px-4">
+          <div className="flex justify-between px-2">
             <div className="flex flex-col gap-3 post-user">
               <Skeleton.Input
-                size={30}
-                className="w-full mt-[4px]"
-                block
-                active
-              />
-              <Skeleton.Input
-                size={30}
+                size={40}
                 className="w-full mt-[4px]"
                 width={700}
                 block
                 active
               />
               <Skeleton.Input
-                size={30}
+                size={40}
                 className="w-full mt-[4px]"
                 width={700}
                 block
                 active
               />
               <Skeleton.Input
-                size={30}
+                size={40}
                 className="w-full mt-[4px]"
                 width={700}
                 block
                 active
               />
+              <Skeleton.Input
+                size={40}
+                className="w-full mt-[4px]"
+                width={700}
+                block
+                active
+              />
+              <Skeleton.Input
+                size={40}
+                className="w-full mt-[4px]"
+                width={700}
+                block
+                active
+              />
+              
             </div>
             <div></div>
           </div>

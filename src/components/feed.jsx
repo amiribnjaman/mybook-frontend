@@ -382,7 +382,7 @@ export default function Feed() {
                           </div>
 
                           <div>
-                            <h3 className="text-[18px] font-regular cursor-pointer">
+                            <h3 className="text-[18px] font-regular cursor-pointer capitalize">
                               {post?.userName}
                             </h3>
                             <h5 className="text-[13px] font-light text-[#ddd]">
@@ -434,7 +434,7 @@ export default function Feed() {
                                 setShowSinglePost(!showSinglePost),
                                   setPostId(post.id);
                               }}
-                              className="text-[21px] font-regular line-clamp-1 cursor-pointer hover:text-[#00CFFF] transition"
+                              className="text-[21px] font-regular line-clamp-1 cursor-pointer hover:text-[#00CFFF] transition capitalize"
                             >
                               {/* onClick={() => {
                               setShowSinglePost(!showSinglePost),
@@ -545,6 +545,7 @@ export default function Feed() {
                             }}
                             className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex items-center justify-center cursor-pointer"
                           >
+                            <a href="#comment" />
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="24"
@@ -613,6 +614,9 @@ export default function Feed() {
             setShowSinglePost={setShowSinglePost}
             showSinglePost={showSinglePost}
             postId={postId}
+            userId={userId}
+            setPosts={setPosts}
+            bottomSheet
           />
         </div>
       )}
