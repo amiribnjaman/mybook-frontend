@@ -35,6 +35,7 @@ export default function Feed() {
   const navigate = useRouter();
   const [showSinglePost, setShowSinglePost] = useState(false);
   const [selectedPost, setSelectedPost] = useState({});
+  const [bottomSheet, setBottomSheet] = useState(false);
 
   const {
     register,
@@ -432,7 +433,8 @@ export default function Feed() {
                             <h2
                               onClick={() => {
                                 setShowSinglePost(!showSinglePost),
-                                  setPostId(post.id);
+                                setPostId(post.id);
+                                setBottomSheet(false);
                               }}
                               className="text-[21px] font-regular line-clamp-1 cursor-pointer hover:text-[#00CFFF] transition capitalize"
                             >
@@ -541,9 +543,10 @@ export default function Feed() {
                           <div
                             onClick={() => {
                               setShowSinglePost(!showSinglePost),
-                                setPostId(post.id);
+                              setPostId(post.id);
+                              setBottomSheet(true);
                             }}
-                            className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex items-center justify-center cursor-pointer"
+                            className="pl-2 pr-3 h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex gap-[8px] items-center justify-center cursor-pointer"
                           >
                             <a href="#comment" />
                             <svg
@@ -561,6 +564,17 @@ export default function Feed() {
                                 d="M3.464 16.828C2 15.657 2 14.771 2 11s0-5.657 1.464-6.828C4.93 3 7.286 3 12 3s7.071 0 8.535 1.172S22 7.229 22 11s0 4.657-1.465 5.828C19.072 18 16.714 18 12 18c-2.51 0-3.8 1.738-6 3v-3.212c-1.094-.163-1.899-.45-2.536-.96"
                               />
                             </svg>
+                            {post?.comments.length > 0 && (
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  animation: "popIn 0.3s ease-out",
+                                }}
+                                className="text-[16px] font-extralight pt-[2px] transition-all ease-out duration-300 transform"
+                              >
+                                {post?.comments.length}
+                              </span>
+                            )}
                           </div>
 
                           {/* share */}
@@ -616,7 +630,8 @@ export default function Feed() {
             postId={postId}
             userId={userId}
             setPosts={setPosts}
-            bottomSheet
+            bottomSheet={bottomSheet}
+            setBottomSheet={setBottomSheet}
           />
         </div>
       )}

@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
 import SinglePostSkeleton from "@/loadingComments/singlePostSkeleton";
 import handleUserPostInteraction from "@/utilitis/handleUserPostInteraction";
+import { useForm } from "react-hook-form";
 
 export default function singlePost({
   postId,
@@ -14,16 +15,27 @@ export default function singlePost({
   showSinglePost,
   setShowSinglePost,
   bottomSheet,
+  setBottomSheet
 }) {
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
   const [post, setPost] = useState({});
   const router = useRouter();
   const [reload, setReload] = useState(false);
+  const [reloadPost, setReloadPost] = useState(false);
   const isSinglePost = true;
   const cardRef = useRef(null);
+  const [comments, setComments] = useState([]);
 
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
+
+  
   useEffect(() => {
-    (async () => {
+     (async () => {
       await axios
         .get(`${SERVER_URL}/post/get-one/${postId}`, {
           headers: {
@@ -42,9 +54,13 @@ export default function singlePost({
         .catch((err) => {
           console.log(err);
         });
-    })();
 
-    if (bottomSheet) {
+    })();
+  }, [reloadPost])
+  
+
+  useLayoutEffect(() => {
+    if (bottomSheet === true) {
       setTimeout(() => {
         if (cardRef?.current) {
           console.log("first", cardRef?.current);
@@ -52,14 +68,46 @@ export default function singlePost({
             behavior: "smooth",
           });
         }
-      }, 100);
+      }, 500);
     }
-  }, [bottomSheet]);
+  }, [reload, bottomSheet]);
 
-  // console.log(post);
+
+  // COMMENT SUBMIT FUNCTION
+  const commentSubmit = async (data) => {
+    console.log(data);
+    await axios
+      .patch(
+        `${SERVER_URL}/post/createComment`,
+        { postId, userId, comment: data.comment },
+        {
+          headers: {
+            authorization: "Bearer " + cookies.Token,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        if (res.data.status == "200") {
+          setReloadPost(!reloadPost)
+        } else {
+          console.log(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    reset();
+  };
+
+  console.log(post);
 
   const liked = post?.likes?.includes(userId);
   const likeCount = post?.likes?.length || 0;
+  const sortedComments = post?.comments?.sort((a, b) => {b.createOn - a.createOn});
+              
 
   return (
     <div className={` fixed w-[90%] md:w-[80%] mx-auto text-white relative`}>
@@ -161,7 +209,6 @@ export default function singlePost({
                 </p>
               )}
             </div>
-
             {/* Interaction Buttons */}
             <div className="my-[24px]">
               <div className="flex gap-4 items-center mt-[12px] md:mt-[24px]">
@@ -176,7 +223,6 @@ export default function singlePost({
                       cookies.Token,
                       isSinglePost
                     );
-                    setReload(!reload);
                   }}
                   className="px-3 h-[44px] border border-[#203A43] hover:border-[#2c5364] bg-[#203A43] hover:bg-[#0f2027] rounded-[16px] flex gap-[6px] items-center justify-center cursor-pointer"
                 >
@@ -223,7 +269,10 @@ export default function singlePost({
                 </div>
 
                 {/* comment */}
-                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex items-center justify-center cursor-pointer">
+                <div onClick={()=> {
+                  setBottomSheet(true)
+                  setReload(!reload)}} className="pl-3 pr-3 h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex gap-[8px] items-center justify-center cursor-pointer">
+                  {/* <a href="#comment" /> */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -239,6 +288,17 @@ export default function singlePost({
                       d="M3.464 16.828C2 15.657 2 14.771 2 11s0-5.657 1.464-6.828C4.93 3 7.286 3 12 3s7.071 0 8.535 1.172S22 7.229 22 11s0 4.657-1.465 5.828C19.072 18 16.714 18 12 18c-2.51 0-3.8 1.738-6 3v-3.212c-1.094-.163-1.899-.45-2.536-.96"
                     />
                   </svg>
+                  {post?.comments.length > 0 && (
+                    <span
+                      style={{
+                        display: "inline-block",
+                        animation: "popIn 0.3s ease-out",
+                      }}
+                      className="text-[16px] font-extralight pt-[2px] transition-all ease-out duration-300 transform"
+                    >
+                      {post?.comments.length}
+                    </span>
+                  )}
                 </div>
 
                 {/* share */}
@@ -257,48 +317,70 @@ export default function singlePost({
                 </div>
               </div>
             </div>
+            {/* COMMENTS SHOWING AREA */}
+            <div className="mb-[28px] mt-[16px]">
+              <h4 className="text-[16px] mb-2">Comments</h4>
+              {post?.comments.length > 0 &&
+                sortedComments?.map((c) => {
+                  return (
+                    <div key={c.id} className="mt-[12px] mb-[28px]">
+                      {/* User info */}
+                      <div className="">
+                        <div className="flex justify-between gap-4 mt-[12px]">
+                          {/*  User image */}
+                          <div className="md:w-[32px] w-[32px] h-[32px] md:h-[32px] bg-[#f1f1f1] rounded-full">
+                            {c.userImg && (
+                              <img
+                                src={c.userImg}
+                                className="w-full h-full rounded-full"
+                                alt=""
+                              />
+                            )}
+                          </div>
 
+                          <div className="w-[90%] ml-auto">
+                            <h3 className="text-[16px] font-regular cursor-pointer capitalize">
+                              {c.userName ? c.userName : "User"}
+                            </h3>
+                            <h5 className="text-[13px] font-light text-[#ddd]">
+                              2 hours ago
+                            </h5>
+
+                            {/* Comments */}
+                            <div className="mt-2 w-">
+                              <p className="text-[14px] font-light text-[#ddd]">
+                                {c.comment}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
             {/* Comment box/form */}
             <div
               ref={cardRef}
               id="comment"
-              className="w-[100%] shadow relative"
+              className="w-[100%] relative"
             >
-              <form action="">
+              <form onSubmit={handleSubmit(commentSubmit)} className="">
                 <textarea
                   id="postContent"
-                  rows={1}
-                  className="rounded-[8px] px-[16px] py-3 block w-full mt-[4px] mb-[10px] md:mb-[16px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] border border-[#00CFFF] shadow-lg text-black placeholder:font-light outline-none resize-none"
+                  rows={2}
+                  {...register("comment", { required: true })}
+                  className="rounded-[8px] pl-[16px] py-3 block w-full mt-[4px] mb-[10px] md:mb-[16px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] border border-[#00CFFF] shadow-lg text-black placeholder:font-light outline-none resize-none pr-[54px]"
                   placeholder="write your comment..."
                 />
-
-                {/* <button
-                type="submit"
-                className="bg-[#00CFFF] text-center text-white text-lg font-regular rounded-[8px] px-4 py-2 md:mt-6 mt-3 mb-2 md:mb-3 absolute bottom-[3px] md:bottom-[0px] right-2 md:right-2"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="28"
-                  viewBox="0 0 24 24"
-                >
-                  <g fill="none">
-                    <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
-                    <path
-                      fill="currentColor"
-                      d="M20.235 5.686c.432-1.195-.726-2.353-1.921-1.92L3.709 9.048c-1.199.434-1.344 2.07-.241 2.709l4.662 2.699l4.163-4.163a1 1 0 0 1 1.414 1.414L9.544 15.87l2.7 4.662c.638 1.103 2.274.957 2.708-.241z"
-                    />
-                  </g>
-                </svg>
-              </button> */}
                 <button
                   type="submit"
-                  className="bg-[#f6f6f6] px-3 py-1 rounded-[8px] text-center text-white text-lg font-regular md:mt-6 mt-3 mb-2 md:mb-1 hover:bg-[#eee] absolute bottom-[3px] md:bottom-[0px] right-2 md:right-2"
+                  className="bg-[#f6f6f6] px-[10px] py-[10px] rounded-md text-center text-white text-lg font-regular md:mt-6 mt-3 mb-2 md:mb-1 hover:bg-[#eee] absolute bottom-[3px] md:bottom-[4px] right-2 md:right-2"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
+                    width="29"
+                    height="29"
                     viewBox="0 0 24 24"
                     className="text-[#00CFFF]"
                   >
