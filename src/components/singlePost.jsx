@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import SinglePostSkeleton from "@/loadingComments/singlePostSkeleton";
 import handleUserPostInteraction from "@/utilitis/handleUserPostInteraction";
 import { useForm } from "react-hook-form";
+import timeAgo from "@/utilitis/timeAgoFunction";
 
 export default function singlePost({
   postId,
@@ -63,13 +64,14 @@ export default function singlePost({
     if (bottomSheet === true) {
       setTimeout(() => {
         if (cardRef?.current) {
-          console.log("first", cardRef?.current);
           cardRef?.current?.scrollIntoView({
             behavior: "smooth",
           });
         }
-      }, 500);
+        // console.log(bottomSheet)
+      }, 1000);
     }
+
   }, [reload, bottomSheet]);
 
 
@@ -170,8 +172,8 @@ export default function singlePost({
                     <h3 className="text-[18px] font-regular cursor-pointer capitalize">
                       {post.userName}
                     </h3>
-                    <h5 className="text-[13px] font-light text-[#ddd]">
-                      2 hours ago
+                    <h5 className="text-[13px] font-light text-gray-200/90">
+                      {timeAgo(post?.createOn)}
                     </h5>
                   </div>
                 </div>
@@ -269,9 +271,13 @@ export default function singlePost({
                 </div>
 
                 {/* comment */}
-                <div onClick={()=> {
-                  setBottomSheet(true)
-                  setReload(!reload)}} className="pl-3 pr-3 h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex gap-[8px] items-center justify-center cursor-pointer">
+                <div
+                  onClick={() => {
+                    setBottomSheet(true);
+                    setReload(!reload);
+                  }}
+                  className="pl-3 pr-3 h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex gap-[8px] items-center justify-center cursor-pointer"
+                >
                   {/* <a href="#comment" /> */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -342,8 +348,8 @@ export default function singlePost({
                             <h3 className="text-[16px] font-regular cursor-pointer capitalize">
                               {c.userName ? c.userName : "User"}
                             </h3>
-                            <h5 className="text-[13px] font-light text-[#ddd]">
-                              2 hours ago
+                            <h5 className="text-[13px] font-light text-gray-300/80">
+                              {timeAgo(c?.createOn)}
                             </h5>
 
                             {/* Comments */}
@@ -360,11 +366,7 @@ export default function singlePost({
                 })}
             </div>
             {/* Comment box/form */}
-            <div
-              ref={cardRef}
-              id="comment"
-              className="w-[100%] relative"
-            >
+            <div ref={cardRef} id="comment" className="w-[100%] relative">
               <form onSubmit={handleSubmit(commentSubmit)} className="">
                 <textarea
                   id="postContent"

@@ -14,6 +14,7 @@ import TopNav from "./topNav";
 import LeftSidebar from "./leftSidebar";
 import { useRouter } from "next/navigation";
 import SinglePost from "./singlePost";
+import timeAgo from "@/utilitis/timeAgoFunction";
 
 export default function Feed() {
   const [createPostCard, setCreatePostCard] = useState(false);
@@ -386,8 +387,8 @@ export default function Feed() {
                             <h3 className="text-[18px] font-regular cursor-pointer capitalize">
                               {post?.userName}
                             </h3>
-                            <h5 className="text-[13px] font-light text-[#ddd]">
-                              2 hours ago
+                            <h5 className="text-[13px] font-light text-gray-200/90">
+                              {timeAgo(post?.createOn)}
                             </h5>
                           </div>
                         </div>
@@ -433,7 +434,7 @@ export default function Feed() {
                             <h2
                               onClick={() => {
                                 setShowSinglePost(!showSinglePost),
-                                setPostId(post.id);
+                                  setPostId(post.id);
                                 setBottomSheet(false);
                               }}
                               className="text-[21px] font-regular line-clamp-1 cursor-pointer hover:text-[#00CFFF] transition capitalize"
@@ -543,12 +544,12 @@ export default function Feed() {
                           <div
                             onClick={() => {
                               setShowSinglePost(!showSinglePost),
-                              setPostId(post.id);
+                                setPostId(post.id);
                               setBottomSheet(true);
                             }}
-                            className="pl-2 pr-3 h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex gap-[8px] items-center justify-center cursor-pointer"
+                            className="pl-3 pr-3 h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex gap-[8px] items-center justify-center cursor-pointer"
                           >
-                            <a href="#comment" />
+                            {/* <a href="#comment" /> */}
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="24"
