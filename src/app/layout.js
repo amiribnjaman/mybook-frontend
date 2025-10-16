@@ -7,12 +7,13 @@ export const metadata = {
   description: "K'nect is a social network application",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, modal }) {
 
   return (
     <html lang="bn">
       <body>
         <LayoutComponent>{children}</LayoutComponent>
+        {/* {modal ? modal : <></>} */}
       </body>
     </html>
   );

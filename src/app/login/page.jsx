@@ -59,9 +59,13 @@ export default function LoginPage() {
             // Redirect user to Home page
             console.log(res.data);
             // console.time('navigate')
+            //  setImmediate(() => navigate.push('/'))
             navigate.push("/");
             // console.timeEnd('navigate')
-            toast.success(res.data.message);
+            setTimeout(() => {
+              toast.success(res.data.message);
+              setLoading(false);
+            }, 0);
           } else if (res.data.status == "401" || res.data.status == "404") {
             toast.error(res.data.message);
             setLoading(false);

@@ -5,11 +5,11 @@ import SkeletonImage from "antd/es/skeleton/Image";
 export default function FeedSkeleton() {
   return (
     <>
-      <div className="flex w-[95%] mx-auto gap-10">
+      <div className="flex w-[95%] h-[60vh] mx-auto gap-10">
         {/* =============================LEFT NAVABR ============ */}
         <div
           style={{ width: "27%" }}
-          className="mt-6 md:block hidden max-w-[27%] ml-[3%] mb-3 px-6 relative py-3 rounded-lg shadow bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] h-[900px]"
+          className="mt-6 md:block hidden max-w-[27%] ml-[3%] mb-3 px-6 relative py-3 rounded-lg shadow bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364]"
         >
           {/*----------------POST HEADEING------------*/}
           <div className="flex justify-between px-4">
@@ -46,7 +46,7 @@ export default function FeedSkeleton() {
           </div>
         </div>
         {/*================================NEWS FEED========================*/}
-        <div className="mt-6 w-[95%] md:w-[70%] mx-auto md:mx-0 md:ml-auto mb-3 relative py-3 px-6 rounded-lg bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] mr-[2%] md:min-h-[900px]">
+        <div className="mt-6 w-[95%] md:w-[70%] mx-auto md:mx-0 md:ml-auto mb-3 relative py-3 px-6 rounded-lg bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] mr-[2%]">
           {/*----------------POST HEADEING------------*/}
           <div className="flex justify-between px-4">
             <div className="flex gap-3 post-user">

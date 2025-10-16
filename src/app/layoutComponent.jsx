@@ -25,7 +25,7 @@ const urbanist = Urbanist({
 
 
 
-export default function LayoutComponent({ children }) {
+export default function LayoutComponent({ children, modal }) {
   const pathname = usePathname();
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
 
@@ -55,7 +55,7 @@ export default function LayoutComponent({ children }) {
             </div>
           )} */}
 
-          <div className="w-full">{children}</div>
+          <div className="w-full">{children}{modal}</div>
           {/* {!authPath && (
             <div className="md:w-[20%] hidden lg:block">
               <RightSidebar />
