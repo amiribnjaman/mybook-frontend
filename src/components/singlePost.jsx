@@ -51,6 +51,7 @@ export default function SinglePost({
         .then((res) => {
           if (res.data.status == "200") {
             setPost(res.data.data);
+            setLoading(false);
             console.log("top user name", res.data.data);
           } else {
             console.log(res.data);
@@ -72,7 +73,7 @@ export default function SinglePost({
           });
         }
         // console.log(bottomSheet)
-      }, 1000);
+      }, 600);
     }
   }, [reload, bottomSheet]);
 
@@ -94,17 +95,17 @@ export default function SinglePost({
       .then((res) => {
         console.log(res);
         if (res.data.status == "200") {
-          setLoading(false);
           setReloadPost(!reloadPost);
         } else {
           console.log(res.data);
+          setLoading(false);
         }
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
 
-    setLoading(false);
     reset();
   };
 
@@ -120,7 +121,7 @@ export default function SinglePost({
     <div className={` fixed w-[95%] md:w-[80%] mx-auto text-white relative`}>
       {/* Home return button */}
       <button onClick={() => setShowSinglePost(!showSinglePost)}>
-        <div className="bg-[#203A43] w-[100px] h-[44px] flex justify-center items-center rounded-[8px] mb-2 md:mb-4 mt-[20px] md:mt-[30px]">
+        <div className="bg-[#203A43] w-[100px] h-[44px] flex justify-center items-center rounded-[8px] mb-2 md:mb-3 mt-[20px] md:mt-[30px]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -319,12 +320,12 @@ export default function SinglePost({
               </div>
             </div>
             {/* COMMENTS SHOWING AREA */}
-            <div className="mb-[28px] mt-[16px]">
-              <h4 className="text-[16px] mb-2">Comments</h4>
+            <h4 className="text-[16px] mb-2">Comments</h4>
+            <div className="comment-box mb-[28px] mt-[16px]  max-h-[400px] overflow-y-auto">
               {post?.comments.length > 0 ? (
                 sortedComments?.map((c) => {
                   return (
-                    <div key={c.id} className="mt-[12px] mb-[28px]">
+                    <div key={c.id} className="mt-[12px] mb-[28px] pr-2">
                       {/* User info */}
                       <div className="">
                         <div className="flex justify-between items-start gap-4 mt-[12px]">
@@ -354,8 +355,8 @@ export default function SinglePost({
                                 disable={userId != c?.userId}
                                 className={`${
                                   userId != c?.userId &&
-                                  "cursor-not-allowed bg-transparent hover:bg-transparent"
-                                } hover:bg-[#f1f1f1] text-[#eee] hover:text-[#8b0000] px-2 py-1.5 rounded`}
+                                  "cursor-not-allowed bg-transparent hover:bg-transparent text-gray-500 hover:text-gray-500"
+                                } hover:bg-[#f1f1f1] h-[36px] text-[#eee] px-2 py-1 rounded hover:text-[#8b0000]`}
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -404,13 +405,14 @@ export default function SinglePost({
                   No comments yet
                 </div>
               )}
-
-              {loading && (
-                <div className="flex items-center justify-center">
-                  <Spin />
-                </div>
-              )}
             </div>
+
+            {loading && (
+              <div className="flex items-center justify-center my-[16px]">
+                <Spin />
+              </div>
+            )}
+
             {/* Comment box/form */}
             <div ref={cardRef} id="comment" className="w-[100%] relative">
               <form onSubmit={handleSubmit(commentSubmit)} className="">

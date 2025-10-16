@@ -18,8 +18,26 @@
 
 *{
   scrollbar-width: thin;
-  scrollbar-color: #203A43 #f1f1f1;
+  scrollbar-color: #02181f #b3bdc0;
 }
+
+::-webkit-scrollbar-arrow-color{
+  color: #203A43;
+  background-color: #203A43;
+}
+::-webkit-scrollbar-button:single-button{
+  display: none;
+  background-color: #b3bdc0;
+  border-radius: 0px;
+  border: none;
+}
+
+.comment-box{
+scrollbar-width: thin;
+  scrollbar-color: #02181f #203A43;
+}
+
+
 
 body {
   color: rgb(var(--foreground-rgb));
