@@ -114,7 +114,7 @@ export default function CreatePostCard({
     setSelectedImg("");
     reset();
     setPostCategory('');
-    setLoading(false);
+    // setLoading(false);
   };
 
   return (
