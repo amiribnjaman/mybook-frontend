@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import timeAgo from "@/utilitis/timeAgoFunction";
 import { Flex, Spin } from "antd";
 
-export default function singlePost({
+export default function SinglePost({
   postId,
   userId,
   setPosts,
