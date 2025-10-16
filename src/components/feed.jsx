@@ -77,7 +77,7 @@ export default function Feed() {
         }
         console.log(err);
       });
-  }, []);
+  }, [reload]);
 
   /*
    **
