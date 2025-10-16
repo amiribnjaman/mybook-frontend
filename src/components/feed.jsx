@@ -37,6 +37,7 @@ export default function Feed() {
   const [showSinglePost, setShowSinglePost] = useState(false);
   const [selectedPost, setSelectedPost] = useState({});
   const [bottomSheet, setBottomSheet] = useState(false);
+  const [error, setError] = useState("");
 
   const {
     register,
@@ -69,6 +70,12 @@ export default function Feed() {
           console.log(posts);
           setPosts(data.data);
         }
+      })
+      .catch((err) => {
+        if (err.response) {
+          setError('Network error. please check your internet');
+        }
+        console.log(err);
       });
   }, []);
 
@@ -496,7 +503,7 @@ export default function Feed() {
                             onClick={() => {
                               handleUserPostInteraction(post?.id);
                             }}
-                            className="px-3 h-[44px] border border-[#203A43] hover:border-[#2c5364] bg-[#203A43] hover:bg-[#0f2027] rounded-[16px] flex gap-[6px] items-center justify-center cursor-pointer"
+                            className="px-3 h-[44px] border border-[#203A43] hover:border-[#2c5364] bg-[#203A43] hover:bg-[#0f2027] rounded-[14px] flex gap-[6px] items-center justify-center cursor-pointer"
                           >
                             {liked ? (
                               <svg
@@ -547,7 +554,7 @@ export default function Feed() {
                                 setPostId(post.id);
                               setBottomSheet(true);
                             }}
-                            className="pl-3 pr-3 h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex gap-[8px] items-center justify-center cursor-pointer"
+                            className="pl-3 pr-3 h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[14px] flex gap-[8px] items-center justify-center cursor-pointer"
                           >
                             {/* <a href="#comment" /> */}
                             <svg
@@ -579,7 +586,7 @@ export default function Feed() {
                           </div>
 
                           {/* share */}
-                          <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex pb-1 items-center justify-center cursor-pointer">
+                          <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[14px] flex pb-1 items-center justify-center cursor-pointer">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="24"
@@ -605,7 +612,7 @@ export default function Feed() {
             </div>
           ) : (
             <div className="md:mt-[160px] mt-[80px]">
-              <FeedSkeleton />
+              {error ? error :  <FeedSkeleton />}
             </div>
           )}
           {/* <FeedSkeleton /> */}

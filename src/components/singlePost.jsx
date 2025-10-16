@@ -8,6 +8,7 @@ import SinglePostSkeleton from "@/loadingComments/singlePostSkeleton";
 import handleUserPostInteraction from "@/utilitis/handleUserPostInteraction";
 import { useForm } from "react-hook-form";
 import timeAgo from "@/utilitis/timeAgoFunction";
+import { Flex, Spin } from "antd";
 
 export default function singlePost({
   postId,
@@ -16,7 +17,7 @@ export default function singlePost({
   showSinglePost,
   setShowSinglePost,
   bottomSheet,
-  setBottomSheet
+  setBottomSheet,
 }) {
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
   const [post, setPost] = useState({});
@@ -26,6 +27,7 @@ export default function singlePost({
   const isSinglePost = true;
   const cardRef = useRef(null);
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -34,9 +36,9 @@ export default function singlePost({
     reset,
   } = useForm();
 
-  
+  // GETTING/FETCHING SINGLE POST
   useEffect(() => {
-     (async () => {
+    (async () => {
       await axios
         .get(`${SERVER_URL}/post/get-one/${postId}`, {
           headers: {
@@ -47,7 +49,7 @@ export default function singlePost({
         .then((res) => {
           if (res.data.status == "200") {
             setPost(res.data.data);
-            // console.log("top user name", userName, userImg);
+            console.log("top user name", res.data.data);
           } else {
             console.log(res.data);
           }
@@ -55,11 +57,10 @@ export default function singlePost({
         .catch((err) => {
           console.log(err);
         });
-
     })();
-  }, [reloadPost])
-  
+  }, [reloadPost]);
 
+  // ANIMATE USER TO COMEMNT BOX
   useLayoutEffect(() => {
     if (bottomSheet === true) {
       setTimeout(() => {
@@ -71,12 +72,11 @@ export default function singlePost({
         // console.log(bottomSheet)
       }, 1000);
     }
-
   }, [reload, bottomSheet]);
-
 
   // COMMENT SUBMIT FUNCTION
   const commentSubmit = async (data) => {
+    setLoading(true);
     console.log(data);
     await axios
       .patch(
@@ -92,7 +92,8 @@ export default function singlePost({
       .then((res) => {
         console.log(res);
         if (res.data.status == "200") {
-          setReloadPost(!reloadPost)
+          setLoading(false);
+          setReloadPost(!reloadPost);
         } else {
           console.log(res.data);
         }
@@ -101,6 +102,7 @@ export default function singlePost({
         console.log(err);
       });
 
+    setLoading(false);
     reset();
   };
 
@@ -108,8 +110,9 @@ export default function singlePost({
 
   const liked = post?.likes?.includes(userId);
   const likeCount = post?.likes?.length || 0;
-  const sortedComments = post?.comments?.sort((a, b) => {b.createOn - a.createOn});
-              
+  const sortedComments = post?.comments?.sort((a, b) => {
+    b.createOn - a.createOn;
+  });
 
   return (
     <div className={` fixed w-[90%] md:w-[80%] mx-auto text-white relative`}>
@@ -177,6 +180,7 @@ export default function singlePost({
                     </h5>
                   </div>
                 </div>
+
                 <div className="w-[100px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition pl-1">
                   <span className="pl-1 text-center">Follow</span>
                   <svg
@@ -226,7 +230,7 @@ export default function singlePost({
                       isSinglePost
                     );
                   }}
-                  className="px-3 h-[44px] border border-[#203A43] hover:border-[#2c5364] bg-[#203A43] hover:bg-[#0f2027] rounded-[16px] flex gap-[6px] items-center justify-center cursor-pointer"
+                  className="px-3 h-[44px] border border-[#203A43] hover:border-[#2c5364] bg-[#203A43] hover:bg-[#0f2027] rounded-[14px] flex gap-[6px] items-center justify-center cursor-pointer"
                 >
                   {liked ? (
                     <svg
@@ -276,7 +280,7 @@ export default function singlePost({
                     setBottomSheet(true);
                     setReload(!reload);
                   }}
-                  className="pl-3 pr-3 h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex gap-[8px] items-center justify-center cursor-pointer"
+                  className="pl-3 pr-3 h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[14px] flex gap-[8px] items-center justify-center cursor-pointer"
                 >
                   {/* <a href="#comment" /> */}
                   <svg
@@ -308,7 +312,7 @@ export default function singlePost({
                 </div>
 
                 {/* share */}
-                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[16px] flex pb-1 items-center justify-center cursor-pointer">
+                <div className="w-[56px] h-[44px] border border-[#203A43] bg-[#203A43] hover:border-[#2c5364] hover:bg-[#0f2027] rounded-[14px] flex pb-1 items-center justify-center cursor-pointer">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -332,7 +336,7 @@ export default function singlePost({
                     <div key={c.id} className="mt-[12px] mb-[28px]">
                       {/* User info */}
                       <div className="">
-                        <div className="flex justify-between gap-4 mt-[12px]">
+                        <div className="flex justify-between items-start gap-4 mt-[12px]">
                           {/*  User image */}
                           <div className="md:w-[32px] w-[32px] h-[32px] md:h-[32px] bg-[#f1f1f1] rounded-full">
                             {c.userImg && (
@@ -343,8 +347,7 @@ export default function singlePost({
                               />
                             )}
                           </div>
-
-                          <div className="w-[90%] ml-auto">
+                          <div className="w-[90%] mx-auto items-start">
                             <h3 className="text-[16px] font-regular cursor-pointer capitalize">
                               {c.userName ? c.userName : "User"}
                             </h3>
@@ -359,11 +362,39 @@ export default function singlePost({
                               </p>
                             </div>
                           </div>
+
+                          {/* DELETE BUTTON */}
+                          <button
+                            disable={userId != c?.userId}
+                            className={`${
+                              userId != c?.userId &&
+                              "cursor-not-allowed bg-transparent hover:bg-transparent"
+                            } hover:bg-[#f1f1f1] text-[#eee] hover:text-[#8b0000] px-2 py-1.5 rounded`}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="18"
+                              height="18"
+                              viewBox="0 0 32 32"
+                              className=""
+                            >
+                              <path
+                                fill="currentColor"
+                                d="M14 12.5a.5.5 0 0 0-1 0v11a.5.5 0 0 0 1 0zm4.5-.5a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0v-11a.5.5 0 0 1 .5-.5m2-5.5V7h8a.5.5 0 0 1 0 1h-2.543l-1.628 17.907A4.5 4.5 0 0 1 19.847 30h-7.694a4.5 4.5 0 0 1-4.482-4.093L6.043 8H3.5a.5.5 0 0 1 0-1h8v-.5a4.5 4.5 0 1 1 9 0m-8 0V7h7v-.5a3.5 3.5 0 1 0-7 0M7.048 8l1.62 17.817A3.5 3.5 0 0 0 12.152 29h7.694a3.5 3.5 0 0 0 3.486-3.183L24.953 8z"
+                              />
+                            </svg>
+                          </button>
                         </div>
                       </div>
                     </div>
                   );
                 })}
+
+              {loading && (
+                <div className="flex items-center justify-center">
+                  <Spin />
+                </div>
+              )}
             </div>
             {/* Comment box/form */}
             <div ref={cardRef} id="comment" className="w-[100%] relative">
@@ -372,19 +403,25 @@ export default function singlePost({
                   id="postContent"
                   rows={2}
                   {...register("comment", { required: true })}
-                  className="rounded-[8px] pl-[16px] py-3 block w-full mt-[4px] mb-[10px] md:mb-[16px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] border border-[#00CFFF] shadow-lg text-black placeholder:font-light outline-none resize-none pr-[54px]"
+                  className={`${
+                    loading && "cursor-not-allowed bg-[#eee]"
+                  } rounded-[8px] bg-[#ddd pl-[16px] py-3 block w-full mt-[4px] mb-[10px] md:mb-[16px] focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF] border border-[#00CFFF] shadow-lg text-black placeholder:font-light outline-none resize-none pr-[54px]`}
                   placeholder="write your comment..."
+                  disabled={loading}
                 />
                 <button
                   type="submit"
-                  className="bg-[#f6f6f6] px-[10px] py-[10px] rounded-md text-center text-white text-lg font-regular md:mt-6 mt-3 mb-2 md:mb-1 hover:bg-[#eee] absolute bottom-[3px] md:bottom-[4px] right-2 md:right-2"
+                  className={`${
+                    loading && "cursor-not-allowed bg-[#ddd] hover:bg-[#f1f1f1]"
+                  } bg-[#e0f7ff] px-[10px] py-[10px] rounded-md text-center text-white text-lg font-regular md:mt-6 mt-3 mb-2 md:mb-1 hover:bg-[#b3eeff] absolute bottom-[3px] md:bottom-[4px] right-2 md:right-2 transition`}
+                  disabled={loading}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="29"
                     height="29"
                     viewBox="0 0 24 24"
-                    className="text-[#00CFFF]"
+                    className={`${loading ? "text-[#]" : "text-[#00CFFF]"} `}
                   >
                     <g fill="none">
                       <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
