@@ -7,7 +7,7 @@ export default function SinglePostSkeleton() {
     <>
       <div className="flex w-[100%] mx-auto gap-10">
         {/*================================NEWS FEED========================*/}
-        <div className="mt-6 w-[95%] md:w-[50%] mx-auto md:mx-0 md:ml-auto mb-3 relative py-4 px-6 rounded-lg bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] mr-[2%] md:min-h-[900px]">
+        <div className="mt-6 w-[100%] md:w-[50%] mx-auto md:mx-0 md:ml-auto mb-3 relative py-4 px-6 rounded-lg bg-gradient-to-br to-[#0f2027] from-[#203a43] shadow-lg border border-[#2c5364] mr-[2%] md:min-h-[900px]">
           {/*----------------POST HEADEING------------*/}
           <div className="flex justify-between px-4">
             <div className="flex gap-3 post-user">

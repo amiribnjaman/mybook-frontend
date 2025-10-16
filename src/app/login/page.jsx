@@ -60,9 +60,9 @@ export default function LoginPage() {
             console.log(res.data);
             // console.time('navigate')
             //  setImmediate(() => navigate.push('/'))
-            navigate.push("/");
             // console.timeEnd('navigate')
             setTimeout(() => {
+              navigate.push("/");
               toast.success(res.data.message);
               setLoading(false);
             }, 0);
@@ -77,6 +77,7 @@ export default function LoginPage() {
         });
     }
 
+    navigate.push("/");
     reset();
   };
 

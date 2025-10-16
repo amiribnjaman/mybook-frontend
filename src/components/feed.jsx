@@ -97,138 +97,6 @@ export default function Feed() {
 
   // console.log(posts);
 
-  /*
-   **
-   ** DELETE A SINGLE POST
-   **
-   */
-  const handleDeletePost = async () => {
-    // If userid and post id is available then hit the api
-    if (userId && postIdForMoreAction) {
-      await axios
-        .delete(
-          `${SERVER_URL}/post/deletePost/${userId}/${postIdForMoreAction}`,
-          {
-            headers: {
-              authorization: "Bearer " + cookies.Token,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          setReload(!reload);
-        });
-    }
-  };
-
-  /*
-   **
-   ** CREATE A NEW COMMENT
-   **
-   */
-  const createComment = async (d) => {
-    const data = {
-      comment: d.comment,
-      postId: postId,
-      userId: userId,
-    };
-
-    /*
-     **
-     ** IF COMMENT FIELD HAS VALUE THEN HIT THE API
-     **
-     */
-    if (d.comment) {
-      await axios
-        .patch(`${SERVER_URL}/post/createComment`, data, {
-          headers: {
-            authorization: "Bearer " + cookies.Token,
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          console.log(res.status);
-          setReload(!reload);
-
-          // PUSH NOTIFICATION FOR COMMENT
-          (async () => {
-            if (res.data.status == "200") {
-              // PUSH A NEW NOTIFICATION
-              await axios
-                .patch(
-                  `${SERVER_URL}/user/notification`,
-                  {
-                    userId,
-                    postId,
-                    type: "comment",
-                  },
-                  {
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                  }
-                )
-                .then((res) => {
-                  // console.log(res);
-                });
-            }
-          })();
-        });
-    }
-    reset();
-  };
-
-  /*
-   **
-   ** DELETE A SINGLE COMENT
-   **
-   */
-  const handleCommentDelete = async (postid, commentId) => {
-    if (userId) {
-      await axios
-        .delete(
-          `${SERVER_URL}/post/deleteComment/${userId}/${commentId}/${postid}`,
-          {
-            headers: {
-              authorization: "Bearer " + cookies.Token,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          setReload(!reload);
-        });
-    }
-  };
-
-  /*
-   **
-   ** A COMMON FUNCTION FOR ALL GENERAL EVENT HANDLER
-   ** OR TOGGLE SHOW HIDE ALL INTERACTION CARD/BUTTONS
-   ** FOLLOWING DRY PRINCIPLE
-   ** THIS FUNCTION EXPECT 6 PARAMETER
-   ** 1. ID- THIS MAYBE A POSTID OR COMMENT ID.
-   ** 2. IDSETTER- THIS IS A SETTER FUNCTION OR REACT STATE SETTER FUNCITON. THIS SETTER FUNCTION SET THE ID WHICH THE 1. PARAMETER ID RECIEVED.
-   ** 3. THIS IS ANOTHER ID- (OPTIONAL), FOR THOSE EVENT WHICH NEED TWO ID. FOR EXAMPLE, COMMENT OPERATION WE NEED 2 ID'S ONE ID FOR SPECIFIC POST AND ANOTHER ONE FOR COMMENT.
-   ** 4. ANOTHER ID SETTER- (OPTIONAL), IF 3. OR ANOTHER ID IS PRESENT THEN SET THE ID INTO THIS STATE SETTER FUNCTION
-   ** 5. STATE- THIS IS FOR GETTING THE CURRENT STATE OF THE CLICKED OR SELECTED CARD/BUTTON ETC.
-   ** 6. STATE SETTER FUNCTION- THIS TOGGLE (SET TRUE/FALSE) THE STATE WHICH ONE HAD CLICKED CARD/BUTTON
-   **
-   **
-   */
-
-  const handlerCommonFunction = (
-    id,
-    idSetter,
-    anotherId = "",
-    anotherIdSetter,
-    state,
-    stateSetter
-  ) => {
-    anotherIdSetter != "" && anotherIdSetter(anotherId);
-    idSetter(id);
-    stateSetter(!state);
-  };
 
   /*
    **
@@ -300,36 +168,6 @@ export default function Feed() {
       });
   };
 
-  const handlePostLike = (postId) => {
-    console.log(postId);
-  };
-
-  /*
-   **
-   ** HANDLE COMMENT LIKE
-   **
-   */
-  const handleCommentLikeSubmit = async (postId, commentId) => {
-    const data = {
-      likeType: "Like",
-      postId: postId,
-      userId: userId,
-      commentId: commentId,
-    };
-
-    if (commentId) {
-      await axios
-        .patch(`${SERVER_URL}/post/comment-likes`, data, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          setReload(!reload);
-        });
-    }
-  };
-
   return (
     <div className="relative">
       <div>
@@ -355,10 +193,6 @@ export default function Feed() {
             >
               {/* Feed left navbar */}
               <LeftSidebar />
-              {/* 
-        <div className="mb-8 mt-8 flex justify-center col-span-1">
-          <hr className="w-[.2px] min-h-[80vh] text-[#f4f4f9] bg-[#f4f4f9]" />
-        </div> */}
 
               {/* Main feed */}
               <div
@@ -402,19 +236,9 @@ export default function Feed() {
 
                         {/* Top right- follow & more btn */}
                         <div className="flex ga-3 md:gap-6 items-center justify-center ml-2">
-                          <div className="w-[100px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition pl-1">
-                            <span className="pl-1 text-center">Follow</span>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                fill="currentColor"
-                                d="M5 13v-1h6V6h1v6h6v1h-6v6h-1v-6z"
-                              />
-                            </svg>
+                          <div className="w-[92px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition">
+                            <span className="text-center">Follow</span>
+
                           </div>
 
                           {/* More icon */}
