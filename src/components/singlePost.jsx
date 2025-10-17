@@ -11,6 +11,7 @@ import handleUserPostInteraction from "@/utilitis/handleUserPostInteraction";
 import { useForm } from "react-hook-form";
 import timeAgo from "@/utilitis/timeAgoFunction";
 import { Flex, Spin } from "antd";
+import handleCommentDelete from "@/utilitis/handleCommentDelete";
 
 export default function SinglePost({
   postId,
@@ -109,7 +110,6 @@ export default function SinglePost({
     reset();
   };
 
-  console.log(post);
 
   const liked = post?.likes?.includes(userId);
   const likeCount = post?.likes?.length || 0;
@@ -351,26 +351,40 @@ export default function SinglePost({
                               </div>
 
                               {/* DELETE BUTTON */}
-                              <button
-                                disable={userId != c?.userId}
-                                className={`${
-                                  userId != c?.userId &&
-                                  "cursor-not-allowed bg-transparent hover:bg-transparent text-gray-500 hover:text-gray-500"
-                                } hover:bg-[#f1f1f1] h-[36px] text-[#eee] px-2 py-1 rounded hover:text-[#8b0000]`}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="18"
-                                  height="18"
-                                  viewBox="0 0 32 32"
-                                  className=""
+                              {userId == c?.userId && (
+                                <button
+                                  onClick={() =>
+                                    handleCommentDelete(
+                                      c?.userId,
+                                      userId,
+                                      post.id,
+                                      c.id,
+                                      cookies.Token,
+                                      setLoading,
+                                      setReloadPost,
+                                      reloadPost
+                                    )
+                                  }
+                                  // disable={userId != c?.userId}
+                                  className={`${
+                                    userId != c?.userId &&
+                                    "cursor-not-allowed bg-transparent hover:bg-transparent text-gray-500 hover:text-gray-500"
+                                  } hover:bg-[#f1f1f1] h-[36px] text-[#eee] px-2 py-1 rounded hover:text-[#8b0000]`}
                                 >
-                                  <path
-                                    fill="currentColor"
-                                    d="M14 12.5a.5.5 0 0 0-1 0v11a.5.5 0 0 0 1 0zm4.5-.5a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0v-11a.5.5 0 0 1 .5-.5m2-5.5V7h8a.5.5 0 0 1 0 1h-2.543l-1.628 17.907A4.5 4.5 0 0 1 19.847 30h-7.694a4.5 4.5 0 0 1-4.482-4.093L6.043 8H3.5a.5.5 0 0 1 0-1h8v-.5a4.5 4.5 0 1 1 9 0m-8 0V7h7v-.5a3.5 3.5 0 1 0-7 0M7.048 8l1.62 17.817A3.5 3.5 0 0 0 12.152 29h7.694a3.5 3.5 0 0 0 3.486-3.183L24.953 8z"
-                                  />
-                                </svg>
-                              </button>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 32 32"
+                                    className=""
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="M14 12.5a.5.5 0 0 0-1 0v11a.5.5 0 0 0 1 0zm4.5-.5a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0v-11a.5.5 0 0 1 .5-.5m2-5.5V7h8a.5.5 0 0 1 0 1h-2.543l-1.628 17.907A4.5 4.5 0 0 1 19.847 30h-7.694a4.5 4.5 0 0 1-4.482-4.093L6.043 8H3.5a.5.5 0 0 1 0-1h8v-.5a4.5 4.5 0 1 1 9 0m-8 0V7h7v-.5a3.5 3.5 0 1 0-7 0M7.048 8l1.62 17.817A3.5 3.5 0 0 0 12.152 29h7.694a3.5 3.5 0 0 0 3.486-3.183L24.953 8z"
+                                    />
+                                  </svg>
+                                </button>
+                              )}
                             </div>
 
                             {/* Comments */}

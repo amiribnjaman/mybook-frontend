@@ -15,7 +15,7 @@ import LeftSidebar from "./leftSidebar";
 import { useRouter } from "next/navigation";
 import SinglePost from "./singlePost";
 import timeAgo from "@/utilitis/timeAgoFunction";
-import handleFollowing from "@/utilitis/handleFollowing";
+// import handleFollowing from "@/utilitis/handleFollowing";
 
 export default function Feed() {
   const [createPostCard, setCreatePostCard] = useState(false);
@@ -39,6 +39,7 @@ export default function Feed() {
   const [selectedPost, setSelectedPost] = useState({});
   const [bottomSheet, setBottomSheet] = useState(false);
   const [error, setError] = useState("");
+  const [followingState, setFollowingState] = useState(false)
 
   const {
     register,
@@ -63,12 +64,11 @@ export default function Feed() {
    ** FETCHING ALL POST
    **
    */
-  console.log('user id', userId)
   useEffect(() => {
     fetch(`${SERVER_URL}/post/allpost/${userId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         if (data.status == 200) {
           console.log(posts);
           setPosts(data.data);
@@ -76,7 +76,9 @@ export default function Feed() {
       })
       .catch((err) => {
         if (err) {
-          setError("Network error. please check your internet connection & try again");
+          setError(
+            "Network error. please check your internet connection & try again"
+          );
         }
         console.log(err);
       });
@@ -170,6 +172,106 @@ export default function Feed() {
       });
   };
 
+  // TOGLE FOLLOW
+  const handleFollowing = async (targetFollowId) => {
+    console.log(posts);
+    // IMMEDIATE UI CHANGE FOR BETTER UX
+    // setPosts((prevPosts) => {
+    //   prevPosts?.map((post) => {
+    //     if (post?.userId == targetFollowId) {
+    //       return {
+    //         ...post,
+    //         user: {
+    //           ...post.user,
+    //           isFollowing: !post.user.isFollowing,
+    //         },
+    //       };
+    //     }
+    //     return post;
+    //   })
+    // })
+
+    setPosts((prevPost) =>
+      prevPost?.map((post) => {
+        if (post.user.id = targetFollowId) {
+          return  {
+                ...post,
+                user: {
+                  ...post?.user,
+                  isFollowing: !post?.user?.isFollowing,
+                },
+              } 
+        }
+        return post
+      }
+      )
+    )
+
+    // SERVER/API OPERATION
+    await axios
+      .patch(
+        `${SERVER_URL}/user/toggle-follow`,
+        { userId, targetFollowId },
+        {
+          headers: {
+            authorization: "Bearer " + cookies.Token,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        if (res.data.status == 200) {
+          // setPosts((prevPost) =>
+          //   prevPost?.map((post) => {
+          //     if ((post.user.id = targetFollowId)) {
+          //       return {
+          //         ...post,
+          //         user: {
+          //           ...post?.user,
+          //           isFollowing: !post?.user?.isFollowing,
+          //         },
+          //       };
+          //     }
+          //     return post;
+          //   })
+          // );
+          // setPosts((prevPost) =>
+          //   prevPost?.map((post) =>
+          //     post?.user?.id == targetFollowId
+          //       ? {
+          //           ...post,
+          //           user: {
+          //             ...post?.user,
+          //             isFollowing: !post?.user?.isFollowing,
+          //           },
+          //         }
+          //       : post
+          //   )
+          // );
+          console.log("res", res.data);
+        }
+      })
+      .catch((err) => {
+        console.log("error", err);
+        // REVERT UI IF FAIL
+        setPosts((prevPost) =>
+          prevPost?.map((post) => {
+            if ((post.user.id = targetFollowId)) {
+              return {
+                ...post,
+                user: {
+                  ...post?.user,
+                  isFollowing: !post?.user?.isFollowing,
+                },
+              };
+            }
+            return post;
+          })
+        );
+      });
+  };
+
   return (
     <div className="relative">
       <div>
@@ -239,30 +341,23 @@ export default function Feed() {
 
                         {/* Top right- follow & more btn */}
                         <div className="flex ga-3 md:gap-6 items-center justify-center ml-2">
-                          {userId !== post?.userId && (isFollowed ? (
-                            <span onClick={() =>
-                                handleFollowing(
-                                  userId,
-                                  post.userId,
-                                  cookies.Token
-                                )
-                              } className="text-center text-[#00CFFF] cursor-pointer">
-                              Following
-                            </span>
-                          ) : (
+                          {userId !== post?.userId && (
                             <div
-                              onClick={() =>
-                                handleFollowing(
-                                  userId,
-                                  post.userId,
-                                  cookies.Token
-                                )
-                              }
-                              className="w-[92px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition"
+                              onClick={() => {
+                                handleFollowing(post?.userId);
+                              }}
                             >
-                              <span className="text-center">Follow</span>
+                              {post?.user?.isfollowing ? (
+                                <span className="text-center text-[#00CFFF] cursor-pointer">
+                                  Following
+                                </span>
+                              ) : (
+                                <span className="w-[92px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition text-center">
+                                  Follow
+                                </span>
+                              )}
                             </div>
-                          ) )}
+                          )}
 
                           {/* More icon */}
                           <div className="cursor-pointer hover:bg-[#0f2027] h-[36px] w-[36px] rounded-lg flex items-center justify-center hover:opacity-90 transition">
@@ -463,7 +558,10 @@ export default function Feed() {
                 <div className="flex items-center justify-center mt-[200px] text-white gap-2">
                   {error}
 
-                  <button className="underline text-blue-400" onClick={() => window.location.reload()}>
+                  <button
+                    className="underline text-blue-400"
+                    onClick={() => window.location.reload()}
+                  >
                     Reload
                   </button>
                 </div>

@@ -2,12 +2,33 @@ import { SERVER_URL } from "@/utilitis/SERVER_URL";
 import axios from "axios";
 
 export default async function handleFollowing(
+  posts,
+  setPosts,
   userId,
   targetFollowId,
   Token
 ) {
-  console.log("token", userId, targetFollowId);
 
+
+  console.log(posts)
+  // IMMEDIATE UI CHANGE FOR BETTER UX
+  setPosts((prevPosts) => {
+    prevPosts.map((post) => {
+      if (post?.userId == targetFollowId) {
+        return {
+          ...post,
+          user: {
+            ...post.user,
+            isFollowing: !post.user.isFollowing,
+          },
+        };
+      }
+      return post;
+    }
+    )
+  })
+
+  // SERVER/API OPERATION
   await axios
     .patch(
       `${SERVER_URL}/user/toggle-follow`,
@@ -27,6 +48,18 @@ export default async function handleFollowing(
     })
     .catch((err) => {
       console.log("error", err);
+      // REVERT UI IF FAIL
+  setPosts(prevPosts => {
+    prevPosts.map(post => 
+      post.user.id == targetFollowId ? {
+        ...post, 
+        user: {
+          ...post.user,
+          isFollowing: !post.user.isFollowing
+        }
+      } : post
+    )
+  })
     });
 
   // Immadiate UI Update
