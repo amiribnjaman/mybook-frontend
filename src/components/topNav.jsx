@@ -7,6 +7,7 @@ import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { SERVER_URL } from "../utilitis/SERVER_URL";
+import { useForm } from "react-hook-form";
 
 const exo = Exo_2({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -32,10 +33,12 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
    */
   // if (typeof window !== "undefined") {
 
-  // userId = localStorage?.getItem("userId");
-  // userName = localStorage?.getItem("userName");
-  // userImg = localStorage?.getItem("userImg");
-  // }
+   const {
+     register,
+     formState: { errors },
+     handleSubmit,
+     reset,
+   } = useForm();
 
 
 
@@ -63,14 +66,17 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
     })();
   }, []);
 
+
+// HANDLE SEARCH SUBMIT FUNCTION
+  const handleSearchSubmit = (data) => {
+    console.log(data);
+  };
+
   // console.log(userName, userImg)
 
 
   // Handle logout operation method
   const handleLogout = () => {
-    // localStorage?.removeItem("userId");
-    // localStorage?.removeItem("userName");
-    // localStorage?.removeItem("userImg");
 
     navigate.push("/login");
 
@@ -124,11 +130,11 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
 
         {/* Search & create button */}
         <div className=" flex gap-3">
-          <div className="relative hidden md:flex items-center gap-3 w-[340px] h-[40px] bg-[#F4F4F9] rounded-full px-4 focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF]">
+          <div className="relative hidden md:flex items-center gap-1 w-[340px] h-[40px] bg-[#F4F4F9] rounded-full px-4 focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="26"
+              height="26"
               viewBox="0 0 24 24"
               className="asbolute z-10 text-[#666A71]"
             >
@@ -137,11 +143,14 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
                 d="M20.031 20.79c.46.46 1.17-.25.71-.7l-3.75-3.76a7.9 7.9 0 0 0 2.04-5.31c0-4.39-3.57-7.96-7.96-7.96s-7.96 3.57-7.96 7.96s3.57 7.96 7.96 7.96c1.98 0 3.81-.73 5.21-1.94zM4.11 11.02c0-3.84 3.13-6.96 6.96-6.96c3.84 0 6.96 3.12 6.96 6.96s-3.12 6.96-6.96 6.96c-3.83 0-6.96-3.12-6.96-6.96"
               />
             </svg>
-            <input
-              className="w-[340px] h-[40px] bg-[#F4F4F9] rounded-full pl-1 pr-4 text-dark placeholder:text-[#666A71] placeholder:font-light  outline-none"
-              type="text"
-              placeholder="Search here.."
-            />
+            <form onSubmit={handleSubmit(handleSearchSubmit)}>
+              <input
+                className="w-[280px] h-[40px] bg-[#F4F4F9] rounded-full pl-1 pr-4 text-dark placeholder:text-[#666A71] placeholder:font-light  outline-none"
+                type="text"
+                {...register("search", { required: false })}
+                placeholder="Search post here.."
+              />
+            </form>
           </div>
 
           {/* Create button */}
@@ -211,7 +220,9 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
                 />
               )}
             </div>
-            <h4 className=" md:block hidden capitalize">{userName && userName}</h4>
+            <h4 className=" md:block hidden capitalize">
+              {userName && userName}
+            </h4>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"

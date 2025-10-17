@@ -15,6 +15,7 @@ import LeftSidebar from "./leftSidebar";
 import { useRouter } from "next/navigation";
 import SinglePost from "./singlePost";
 import timeAgo from "@/utilitis/timeAgoFunction";
+import handleFollowing from "@/utilitis/handleFollowing";
 
 export default function Feed() {
   const [createPostCard, setCreatePostCard] = useState(false);
@@ -62,18 +63,20 @@ export default function Feed() {
    ** FETCHING ALL POST
    **
    */
+  console.log('user id', userId)
   useEffect(() => {
-    fetch(`${SERVER_URL}/post/allpost`)
+    fetch(`${SERVER_URL}/post/allpost/${userId}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data)
         if (data.status == 200) {
           console.log(posts);
           setPosts(data.data);
         }
       })
       .catch((err) => {
-        if (err.response) {
-          setError('Network error. please check your internet');
+        if (err) {
+          setError("Network error. please check your internet connection & try again");
         }
         console.log(err);
       });
@@ -96,7 +99,6 @@ export default function Feed() {
   }, [showSinglePost]);
 
   // console.log(posts);
-
 
   /*
    **
@@ -204,6 +206,7 @@ export default function Feed() {
                 {posts?.map((post) => {
                   const liked = post?.likes?.includes(userId);
                   const likeCount = post?.likes?.length || 0;
+                  const isFollowed = post?.user?.isfollowing;
                   return (
                     <div
                       key={post?.id}
@@ -236,10 +239,30 @@ export default function Feed() {
 
                         {/* Top right- follow & more btn */}
                         <div className="flex ga-3 md:gap-6 items-center justify-center ml-2">
-                          <div className="w-[92px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition">
-                            <span className="text-center">Follow</span>
-
-                          </div>
+                          {userId !== post?.userId && (isFollowed ? (
+                            <span onClick={() =>
+                                handleFollowing(
+                                  userId,
+                                  post.userId,
+                                  cookies.Token
+                                )
+                              } className="text-center text-[#00CFFF] cursor-pointer">
+                              Following
+                            </span>
+                          ) : (
+                            <div
+                              onClick={() =>
+                                handleFollowing(
+                                  userId,
+                                  post.userId,
+                                  cookies.Token
+                                )
+                              }
+                              className="w-[92px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition"
+                            >
+                              <span className="text-center">Follow</span>
+                            </div>
+                          ) )}
 
                           {/* More icon */}
                           <div className="cursor-pointer hover:bg-[#0f2027] h-[36px] w-[36px] rounded-lg flex items-center justify-center hover:opacity-90 transition">
@@ -396,7 +419,7 @@ export default function Feed() {
                                 d="M3.464 16.828C2 15.657 2 14.771 2 11s0-5.657 1.464-6.828C4.93 3 7.286 3 12 3s7.071 0 8.535 1.172S22 7.229 22 11s0 4.657-1.465 5.828C19.072 18 16.714 18 12 18c-2.51 0-3.8 1.738-6 3v-3.212c-1.094-.163-1.899-.45-2.536-.96"
                               />
                             </svg>
-                            {post?.comments.length > 0 && (
+                            {post?.comments?.length > 0 && (
                               <span
                                 style={{
                                   display: "inline-block",
@@ -404,7 +427,7 @@ export default function Feed() {
                                 }}
                                 className="text-[16px] font-extralight pt-[2px] transition-all ease-out duration-300 transform"
                               >
-                                {post?.comments.length}
+                                {post?.comments?.length}
                               </span>
                             )}
                           </div>
@@ -436,7 +459,17 @@ export default function Feed() {
             </div>
           ) : (
             <div className="md:mt-[160px] mt-[80px]">
-              {error ? error :  <FeedSkeleton />}
+              {error ? (
+                <div className="flex items-center justify-center mt-[200px] text-white gap-2">
+                  {error}
+
+                  <button className="underline text-blue-400" onClick={() => window.location.reload()}>
+                    Reload
+                  </button>
+                </div>
+              ) : (
+                <FeedSkeleton />
+              )}
             </div>
           )}
           {/* <FeedSkeleton /> */}

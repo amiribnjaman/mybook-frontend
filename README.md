@@ -1,4 +1,4 @@
-# Knect [on netlify live](https://knectt.netlify.app/)
+# Knect (Formerly know as Mybook) [on netlify live](https://knectt.netlify.app/)
 ### A social media FullStack application like
 
  

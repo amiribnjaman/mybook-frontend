@@ -1,5 +1,5 @@
 export default function timeAgo(createdTime) {
-    console.log(createdTime)
+    // console.log(createdTime)
     const date = new Date(createdTime);
     const now = new Date();
     const diffMS = now.getTime() - date.getTime(); // difference in milliseconds
