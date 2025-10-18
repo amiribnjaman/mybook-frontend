@@ -2,31 +2,28 @@ import { SERVER_URL } from "@/utilitis/SERVER_URL";
 import axios from "axios";
 
 export default async function handleFollowing(
-  posts,
-  setPosts,
   userId,
   targetFollowId,
-  Token
+  Token,
+  followingState, 
+  setFollowingState
 ) {
+  setFollowingState({ isloading: true, state: "" });
 
-
-  console.log(posts)
-  // IMMEDIATE UI CHANGE FOR BETTER UX
-  setPosts((prevPosts) => {
-    prevPosts.map((post) => {
-      if (post?.userId == targetFollowId) {
-        return {
-          ...post,
-          user: {
-            ...post.user,
-            isFollowing: !post.user.isFollowing,
-          },
-        };
-      }
-      return post;
-    }
-    )
-  })
+  // setPost((prevPost) =>
+  //   prevPost?.map((post) => {
+  //     if ((post.user.id = targetFollowId)) {
+  //       return {
+  //         ...post,
+  //         user: {
+  //           ...post?.user,
+  //           isFollowing: !post?.user?.isFollowing,
+  //         },
+  //       };
+  //     }
+  //     return post;
+  //   })
+  // );
 
   // SERVER/API OPERATION
   await axios
@@ -44,39 +41,30 @@ export default async function handleFollowing(
       console.log(res);
       if (res.data.status == 200) {
         console.log("res", res.data);
+        if (res?.data?.message?.includes("Followed")) {
+          setFollowingState({ isloading: false, state: "following" });
+        } else {
+          console.log('ok')
+          setFollowingState({ isloading: false, state: "unfollow" });
+        }
       }
     })
     .catch((err) => {
       console.log("error", err);
       // REVERT UI IF FAIL
-  setPosts(prevPosts => {
-    prevPosts.map(post => 
-      post.user.id == targetFollowId ? {
-        ...post, 
-        user: {
-          ...post.user,
-          isFollowing: !post.user.isFollowing
-        }
-      } : post
-    )
-  })
+      // setPost((prevPost) =>
+      //   prevPost?.map((post) => {
+      //     if ((post.user.id = targetFollowId)) {
+      //       return {
+      //         ...post,
+      //         user: {
+      //           ...post?.user,
+      //           isFollowing: !post?.user?.isFollowing,
+      //         },
+      //       };
+      //     }
+      //     return post;
+      //   })
+      // );
     });
-
-  // Immadiate UI Update
-  // setPosts((prevPosts) =>
-  //   prevPosts.map((post) => {
-
-  //     if (post.id === postId) {
-  //       const isFollowing = post.followers.includes(currentUserId);
-  //       let updatedFollowers;
-  //       if (isFollowing) {
-  //         updatedFollowers = post.followers.filter((id) => id !== currentUserId);
-  //       } else {
-  //         updatedFollowers = [...post.followers, currentUserId];
-  //       }
-  //       return { ...post, followers: updatedFollowers };
-  //     }
-  //     return post;
-  //   })
-  // );
 }

@@ -15,6 +15,7 @@ import LeftSidebar from "./leftSidebar";
 import { useRouter } from "next/navigation";
 import SinglePost from "./singlePost";
 import timeAgo from "@/utilitis/timeAgoFunction";
+import handleFollowing from "@/utilitis/handleFollowing";
 // import handleFollowing from "@/utilitis/handleFollowing";
 
 export default function Feed() {
@@ -39,7 +40,10 @@ export default function Feed() {
   const [selectedPost, setSelectedPost] = useState({});
   const [bottomSheet, setBottomSheet] = useState(false);
   const [error, setError] = useState("");
-  const [followingState, setFollowingState] = useState({isloading: false, state: ''})
+  const [followingState, setFollowingState] = useState({
+    isloading: false,
+    state: "",
+  });
 
   const {
     register,
@@ -173,110 +177,95 @@ export default function Feed() {
   };
 
   // TOGLE FOLLOW
-  const handleFollowing = async (targetFollowId) => {
-    setFollowingState({ isloading: true, state: "" });
-    console.log(posts);
-    // IMMEDIATE UI CHANGE FOR BETTER UX
-    // setPosts((prevPosts) => {
-    //   prevPosts?.map((post) => {
-    //     if (post?.userId == targetFollowId) {
-    //       return {
-    //         ...post,
-    //         user: {
-    //           ...post.user,
-    //           isFollowing: !post.user.isFollowing,
-    //         },
-    //       };
-    //     }
-    //     return post;
-    //   })
-    // })
+  // const handleFollowing = async (targetFollowId) => {
+  //   setFollowingState({ isloading: true, state: "" });
+  //   console.log(posts);
 
-    setPosts((prevPost) =>
-      prevPost?.map((post) => {
-        if (post.user.id = targetFollowId) {
-          return  {
-                ...post,
-                user: {
-                  ...post?.user,
-                  isFollowing: !post?.user?.isFollowing,
-                },
-              } 
-        }
-        return post
-      }
-      )
-    )
+  //   setPosts((prevPost) =>
+  //     prevPost?.map((post) => {
+  //       if (post.user.id = targetFollowId) {
+  //         return  {
+  //               ...post,
+  //               user: {
+  //                 ...post?.user,
+  //                 isFollowing: !post?.user?.isFollowing,
+  //               },
+  //             }
+  //       }
+  //       return post
+  //     }
+  //     )
+  //   )
 
-    // SERVER/API OPERATION
-    await axios
-      .patch(
-        `${SERVER_URL}/user/toggle-follow`,
-        { userId, targetFollowId },
-        {
-          headers: {
-            authorization: "Bearer " + cookies.Token,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        if (res.data.status == 200) {
-          // setPosts((prevPost) =>
-          //   prevPost?.map((post) => {
-          //     if ((post.user.id = targetFollowId)) {
-          //       return {
-          //         ...post,
-          //         user: {
-          //           ...post?.user,
-          //           isFollowing: !post?.user?.isFollowing,
-          //         },
-          //       };
-          //     }
-          //     return post;
-          //   })
-          // );
-          // setPosts((prevPost) =>
-          //   prevPost?.map((post) =>
-          //     post?.user?.id == targetFollowId
-          //       ? {
-          //           ...post,
-          //           user: {
-          //             ...post?.user,
-          //             isFollowing: !post?.user?.isFollowing,
-          //           },
-          //         }
-          //       : post
-          //   )
-          // );
-          console.log("res", res.data);
-          if (res?.data?.message?.includes('Followed')) {
-            setFollowingState({ isloading: false, state: "following" })
-          } else if (res?.data?.message.includes("Unfollowed")) {
-            setFollowingState({ isloading: false, state: "unfollow" });
-          }
-        }
-      })
-      .catch((err) => {
-        console.log("error", err);
-        // REVERT UI IF FAIL
-        setPosts((prevPost) =>
-          prevPost?.map((post) => {
-            if ((post.user.id = targetFollowId)) {
-              return {
-                ...post,
-                user: {
-                  ...post?.user,
-                  isFollowing: !post?.user?.isFollowing,
-                },
-              };
-            }
-            return post;
-          })
-        );
-      });
-  };
+  //   // SERVER/API OPERATION
+  //   await axios
+  //     .patch(
+  //       `${SERVER_URL}/user/toggle-follow`,
+  //       { userId, targetFollowId },
+  //       {
+  //         headers: {
+  //           authorization: "Bearer " + cookies.Token,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       console.log(res);
+  //       if (res.data.status == 200) {
+  //         // setPosts((prevPost) =>
+  //         //   prevPost?.map((post) => {
+  //         //     if ((post.user.id = targetFollowId)) {
+  //         //       return {
+  //         //         ...post,
+  //         //         user: {
+  //         //           ...post?.user,
+  //         //           isFollowing: !post?.user?.isFollowing,
+  //         //         },
+  //         //       };
+  //         //     }
+  //         //     return post;
+  //         //   })
+  //         // );
+  //         // setPosts((prevPost) =>
+  //         //   prevPost?.map((post) =>
+  //         //     post?.user?.id == targetFollowId
+  //         //       ? {
+  //         //           ...post,
+  //         //           user: {
+  //         //             ...post?.user,
+  //         //             isFollowing: !post?.user?.isFollowing,
+  //         //           },
+  //         //         }
+  //         //       : post
+  //         //   )
+  //         // );
+  //         console.log("res", res.data);
+  //         if (res?.data?.message?.includes('Followed')) {
+  //           setFollowingState({ isloading: false, state: "following" })
+  //         } else if (res?.data?.message.includes("Unfollowed")) {
+  //           setFollowingState({ isloading: false, state: "unfollow" });
+  //         }
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log("error", err);
+  //       // REVERT UI IF FAIL
+  //       setPosts((prevPost) =>
+  //         prevPost?.map((post) => {
+  //           if ((post.user.id = targetFollowId)) {
+  //             return {
+  //               ...post,
+  //               user: {
+  //                 ...post?.user,
+  //                 isFollowing: !post?.user?.isFollowing,
+  //               },
+  //             };
+  //           }
+  //           return post;
+  //         })
+  //       );
+  //     });
+  // };
 
   return (
     <div className="relative">
@@ -347,10 +336,17 @@ export default function Feed() {
 
                         {/* Top right- follow & more btn */}
                         <div className="flex ga-3 md:gap-6 items-center justify-center ml-2">
+                          {/* FOLLOWING WITH TOGGLE */}
                           {userId !== post?.userId && (
                             <div
                               onClick={() => {
-                                handleFollowing(post?.userId);
+                                handleFollowing(
+                                  userId,
+                                  post?.userId,
+                                  cookies.Token,
+                                  followingState,
+                                  setFollowingState
+                                );
                               }}
                             >
                               {post?.user?.isfollowing ||
@@ -613,6 +609,8 @@ export default function Feed() {
             setPosts={setPosts}
             bottomSheet={bottomSheet}
             setBottomSheet={setBottomSheet}
+            followingState={followingState}
+            setFollowingState={setFollowingState}
           />
         </div>
       )}

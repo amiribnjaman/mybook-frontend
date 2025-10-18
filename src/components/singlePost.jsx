@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import timeAgo from "@/utilitis/timeAgoFunction";
 import { Flex, Spin } from "antd";
 import handleCommentDelete from "@/utilitis/handleCommentDelete";
+import handleFollowing from "@/utilitis/handleFollowing";
 
 export default function SinglePost({
   postId,
@@ -21,6 +22,8 @@ export default function SinglePost({
   setShowSinglePost,
   bottomSheet,
   setBottomSheet,
+  followingState,
+  setFollowingState
 }) {
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
   const [post, setPost] = useState({});
@@ -43,7 +46,7 @@ export default function SinglePost({
   useEffect(() => {
     (async () => {
       await axios
-        .get(`${SERVER_URL}/post/get-one/${postId}`, {
+        .get(`${SERVER_URL}/post/get-one/${userId}/${postId}`, {
           headers: {
             authorization: "Bearer " + cookies.Token,
             "Content-Type": "application/json",
@@ -110,12 +113,12 @@ export default function SinglePost({
     reset();
   };
 
-
   const liked = post?.likes?.includes(userId);
   const likeCount = post?.likes?.length || 0;
   const sortedComments = post?.comments?.sort((a, b) => {
     b.createOn - a.createOn;
   });
+ console.log(followingState?.state);
 
   return (
     <div className={` fixed w-[95%] md:w-[80%] mx-auto text-white relative`}>
@@ -184,9 +187,66 @@ export default function SinglePost({
                   </div>
                 </div>
 
-                <div className="w-[92px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition">
-                  <span className="text-center">Follow</span>
-                </div>
+                {/* FOLLOWING WITH TOGGLE */}
+                {userId !== post?.userId && (
+                  <div
+                    onClick={() => {
+                      handleFollowing(
+                        userId,
+                        post?.userId,
+                        cookies.Token,
+                        followingState,
+                        setFollowingState
+                      );
+                    }}
+                  >
+                    {
+                    post?.user?.isfollowing ||
+                    followingState.state == "following" ? (
+                      <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                        {followingState.isloading ? (
+                          <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="28"
+                              height="28"
+                              viewBox="0 0 256 256"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="M140 128a12 12 0 1 1-12-12a12 12 0 0 1 12 12m56-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m-136 0a12 12 0 1 0 12 12a12 12 0 0 0-12-12"
+                              />
+                            </svg>
+                          </span>
+                        ) : (
+                          "Following"
+                        )}
+                      </span>
+                    ) : (
+                      <span className="">
+                        {followingState.isloading ? (
+                          <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="28"
+                              height="28"
+                              viewBox="0 0 256 256"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="M140 128a12 12 0 1 1-12-12a12 12 0 0 1 12 12m56-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m-136 0a12 12 0 1 0 12 12a12 12 0 0 0-12-12"
+                              />
+                            </svg>
+                          </span>
+                        ) : (
+                          <span className="w-[92px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition text-center">
+                            Follow
+                          </span>
+                        )}
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Post Image */}
@@ -290,7 +350,7 @@ export default function SinglePost({
                       d="M3.464 16.828C2 15.657 2 14.771 2 11s0-5.657 1.464-6.828C4.93 3 7.286 3 12 3s7.071 0 8.535 1.172S22 7.229 22 11s0 4.657-1.465 5.828C19.072 18 16.714 18 12 18c-2.51 0-3.8 1.738-6 3v-3.212c-1.094-.163-1.899-.45-2.536-.96"
                     />
                   </svg>
-                  {post?.comments.length > 0 && (
+                  {post?.comments?.length > 0 && (
                     <span
                       style={{
                         display: "inline-block",
@@ -298,7 +358,7 @@ export default function SinglePost({
                       }}
                       className="text-[16px] font-extralight pt-[2px] transition-all ease-out duration-300 transform"
                     >
-                      {post?.comments.length}
+                      {post?.comments?.length}
                     </span>
                   )}
                 </div>
@@ -322,7 +382,7 @@ export default function SinglePost({
             {/* COMMENTS SHOWING AREA */}
             <h4 className="text-[16px] mb-2">Comments</h4>
             <div className="comment-box mb-[28px] mt-[16px]  max-h-[400px] overflow-y-auto">
-              {post?.comments.length > 0 ? (
+              {post?.comments?.length > 0 ? (
                 sortedComments?.map((c) => {
                   return (
                     <div key={c.id} className="mt-[12px] mb-[28px] pr-2">
@@ -390,7 +450,6 @@ export default function SinglePost({
                             {/* Comments */}
                             <div className="mt-2 w-">
                               <p className="text-[14px] font-light text-[#ddd]">
-                                
                                 {c.comment}
                               </p>
                             </div>
