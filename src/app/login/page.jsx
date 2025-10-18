@@ -60,9 +60,9 @@ export default function LoginPage() {
             console.log(res.data);
             // console.time('navigate')
             //  setImmediate(() => navigate.push('/'))
-            navigate.push("/");
             // console.timeEnd('navigate')
             setTimeout(() => {
+              navigate.push("/");
               toast.success(res.data.message);
               setLoading(false);
             }, 0);
@@ -77,6 +77,7 @@ export default function LoginPage() {
         });
     }
 
+    navigate.push("/");
     reset();
   };
 
@@ -137,7 +138,7 @@ export default function LoginPage() {
                     </h1>
                   </div>
 
-                  <div className="md:mt-[24px] mb-6 py-3 w-[100%] md:w-[460px]">
+                  <div className="md:mt-[20px] mb-6 py-3 w-[100%] md:w-[460px]">
                     <div className="">
                       <form
                         onSubmit={handleSubmit(loginSubmit)}

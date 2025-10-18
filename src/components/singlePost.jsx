@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import axios from "axios";
 import Link from "next/link";
@@ -11,6 +11,8 @@ import handleUserPostInteraction from "@/utilitis/handleUserPostInteraction";
 import { useForm } from "react-hook-form";
 import timeAgo from "@/utilitis/timeAgoFunction";
 import { Flex, Spin } from "antd";
+import handleCommentDelete from "@/utilitis/handleCommentDelete";
+import handleFollowing from "@/utilitis/handleFollowing";
 
 export default function SinglePost({
   postId,
@@ -20,6 +22,8 @@ export default function SinglePost({
   setShowSinglePost,
   bottomSheet,
   setBottomSheet,
+  followingState,
+  setFollowingState
 }) {
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
   const [post, setPost] = useState({});
@@ -42,7 +46,7 @@ export default function SinglePost({
   useEffect(() => {
     (async () => {
       await axios
-        .get(`${SERVER_URL}/post/get-one/${postId}`, {
+        .get(`${SERVER_URL}/post/get-one/${userId}/${postId}`, {
           headers: {
             authorization: "Bearer " + cookies.Token,
             "Content-Type": "application/json",
@@ -51,6 +55,7 @@ export default function SinglePost({
         .then((res) => {
           if (res.data.status == "200") {
             setPost(res.data.data);
+            setLoading(false);
             console.log("top user name", res.data.data);
           } else {
             console.log(res.data);
@@ -72,7 +77,7 @@ export default function SinglePost({
           });
         }
         // console.log(bottomSheet)
-      }, 1000);
+      }, 600);
     }
   }, [reload, bottomSheet]);
 
@@ -94,33 +99,32 @@ export default function SinglePost({
       .then((res) => {
         console.log(res);
         if (res.data.status == "200") {
-          setLoading(false);
           setReloadPost(!reloadPost);
         } else {
           console.log(res.data);
+          setLoading(false);
         }
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
 
-    setLoading(false);
     reset();
   };
-
-  console.log(post);
 
   const liked = post?.likes?.includes(userId);
   const likeCount = post?.likes?.length || 0;
   const sortedComments = post?.comments?.sort((a, b) => {
     b.createOn - a.createOn;
   });
+ console.log(followingState?.state);
 
   return (
-    <div className={` fixed w-[90%] md:w-[80%] mx-auto text-white relative`}>
+    <div className={` fixed w-[95%] md:w-[80%] mx-auto text-white relative`}>
       {/* Home return button */}
       <button onClick={() => setShowSinglePost(!showSinglePost)}>
-        <div className="bg-[#203A43] w-[100px] h-[44px] flex justify-center items-center rounded-[8px] mb-4 mt-[30px]">
+        <div className="bg-[#203A43] w-[100px] h-[44px] flex justify-center items-center rounded-[8px] mb-2 md:mb-3 mt-[20px] md:mt-[30px]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -142,19 +146,19 @@ export default function SinglePost({
       </button>
       {/* Body */}
       {Object.keys(post).length > 0 ? (
-        <div className="flex gap-[40px] relative">
+        <div className="md:flex gap-[40px] relative">
           {/* Single Post Content */}
           {/* {(() => {
             const liked = post?.likes?.includes(userId);
             const likeCount = post?.likes?.length || 0;
 
             return ( */}
-          <div className="w-[60%] mt-[12px] bg-[#203a43] border border-[#2c5364] px-[20px] pt-[24px] pb-[16px] mb-[20px] rounded-[16px]">
+          <div className="md:w-[60%] mt-[12px] bg-[#203a43] border border-[#2c5364] px-[20px] pt-[24px] pb-[16px] mb-[20px] rounded-[16px]">
             {/* Post content */}
             <div>
               {/* POST HEADING */}
               {post?.postTitle && (
-                <h1 className="text-[24px] mb-[16px] font-regular capitalize">
+                <h1 className="text-[20px] md:text-[24px] mb-[16px] font-regular capitalize">
                   {post?.postTitle}
                 </h1>
               )}
@@ -183,20 +187,66 @@ export default function SinglePost({
                   </div>
                 </div>
 
-                <div className="w-[100px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition pl-1">
-                  <span className="pl-1 text-center">Follow</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
+                {/* FOLLOWING WITH TOGGLE */}
+                {userId !== post?.userId && (
+                  <div
+                    onClick={() => {
+                      handleFollowing(
+                        userId,
+                        post?.userId,
+                        cookies.Token,
+                        followingState,
+                        setFollowingState
+                      );
+                    }}
                   >
-                    <path
-                      fill="currentColor"
-                      d="M5 13v-1h6V6h1v6h6v1h-6v6h-1v-6z"
-                    />
-                  </svg>
-                </div>
+                    {
+                    post?.user?.isfollowing ||
+                    followingState.state == "following" ? (
+                      <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                        {followingState.isloading ? (
+                          <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="28"
+                              height="28"
+                              viewBox="0 0 256 256"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="M140 128a12 12 0 1 1-12-12a12 12 0 0 1 12 12m56-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m-136 0a12 12 0 1 0 12 12a12 12 0 0 0-12-12"
+                              />
+                            </svg>
+                          </span>
+                        ) : (
+                          "Following"
+                        )}
+                      </span>
+                    ) : (
+                      <span className="">
+                        {followingState.isloading ? (
+                          <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="28"
+                              height="28"
+                              viewBox="0 0 256 256"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="M140 128a12 12 0 1 1-12-12a12 12 0 0 1 12 12m56-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m-136 0a12 12 0 1 0 12 12a12 12 0 0 0-12-12"
+                              />
+                            </svg>
+                          </span>
+                        ) : (
+                          <span className="w-[92px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition text-center">
+                            Follow
+                          </span>
+                        )}
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Post Image */}
@@ -212,13 +262,13 @@ export default function SinglePost({
 
               {/* Post Description */}
               {post?.postContent && (
-                <p className="md:mt-[28px] mt-[20px] text-[18px] font-regular text-[#ddd]">
+                <p className="md:mt-[28px] mt-[20px] text-[16px] md:text-[18px] font-regular text-[#ddd]">
                   {post?.postContent}
                 </p>
               )}
             </div>
             {/* Interaction Buttons */}
-            <div className="my-[24px]">
+            <div className="my-[20px] md:my-[24px]">
               <div className="flex gap-4 items-center mt-[12px] md:mt-[24px]">
                 {/* Love */}
                 <div
@@ -300,7 +350,7 @@ export default function SinglePost({
                       d="M3.464 16.828C2 15.657 2 14.771 2 11s0-5.657 1.464-6.828C4.93 3 7.286 3 12 3s7.071 0 8.535 1.172S22 7.229 22 11s0 4.657-1.465 5.828C19.072 18 16.714 18 12 18c-2.51 0-3.8 1.738-6 3v-3.212c-1.094-.163-1.899-.45-2.536-.96"
                     />
                   </svg>
-                  {post?.comments.length > 0 && (
+                  {post?.comments?.length > 0 && (
                     <span
                       style={{
                         display: "inline-block",
@@ -308,7 +358,7 @@ export default function SinglePost({
                       }}
                       className="text-[16px] font-extralight pt-[2px] transition-all ease-out duration-300 transform"
                     >
-                      {post?.comments.length}
+                      {post?.comments?.length}
                     </span>
                   )}
                 </div>
@@ -330,17 +380,17 @@ export default function SinglePost({
               </div>
             </div>
             {/* COMMENTS SHOWING AREA */}
-            <div className="mb-[28px] mt-[16px]">
-              <h4 className="text-[16px] mb-2">Comments</h4>
-              {post?.comments.length > 0 &&
+            <h4 className="text-[16px] mb-2">Comments</h4>
+            <div className="comment-box mb-[28px] mt-[16px]  max-h-[400px] overflow-y-auto">
+              {post?.comments?.length > 0 ? (
                 sortedComments?.map((c) => {
                   return (
-                    <div key={c.id} className="mt-[12px] mb-[28px]">
+                    <div key={c.id} className="mt-[12px] mb-[28px] pr-2">
                       {/* User info */}
                       <div className="">
                         <div className="flex justify-between items-start gap-4 mt-[12px]">
                           {/*  User image */}
-                          <div className="md:w-[32px] w-[32px] h-[32px] md:h-[32px] bg-[#f1f1f1] rounded-full">
+                          <div className="md:w-[32px] w-[30px] h-[30px] md:h-[32px] bg-[#f1f1f1] rounded-full">
                             {c.userImg && (
                               <img
                                 src={c.userImg}
@@ -350,12 +400,52 @@ export default function SinglePost({
                             )}
                           </div>
                           <div className="w-[90%] mx-auto items-start">
-                            <h3 className="text-[16px] font-regular cursor-pointer capitalize">
-                              {c.userName ? c.userName : "User"}
-                            </h3>
-                            <h5 className="text-[13px] font-light text-gray-300/80">
-                              {timeAgo(c?.createOn)}
-                            </h5>
+                            <div className="flex justify-between">
+                              <div>
+                                <h3 className="text-[16px] font-regular cursor-pointer capitalize">
+                                  {c.userName ? c.userName : "User"}
+                                </h3>
+                                <h5 className="text-[13px] font-light text-gray-300/80">
+                                  {timeAgo(c?.createOn)}
+                                </h5>
+                              </div>
+
+                              {/* DELETE BUTTON */}
+                              {userId == c?.userId && (
+                                <button
+                                  onClick={() =>
+                                    handleCommentDelete(
+                                      c?.userId,
+                                      userId,
+                                      post.id,
+                                      c.id,
+                                      cookies.Token,
+                                      setLoading,
+                                      setReloadPost,
+                                      reloadPost
+                                    )
+                                  }
+                                  // disable={userId != c?.userId}
+                                  className={`${
+                                    userId != c?.userId &&
+                                    "cursor-not-allowed bg-transparent hover:bg-transparent text-gray-500 hover:text-gray-500"
+                                  } hover:bg-[#f1f1f1] h-[36px] text-[#eee] px-2 py-1 rounded hover:text-[#8b0000]`}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 32 32"
+                                    className=""
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="M14 12.5a.5.5 0 0 0-1 0v11a.5.5 0 0 0 1 0zm4.5-.5a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0v-11a.5.5 0 0 1 .5-.5m2-5.5V7h8a.5.5 0 0 1 0 1h-2.543l-1.628 17.907A4.5 4.5 0 0 1 19.847 30h-7.694a4.5 4.5 0 0 1-4.482-4.093L6.043 8H3.5a.5.5 0 0 1 0-1h8v-.5a4.5 4.5 0 1 1 9 0m-8 0V7h7v-.5a3.5 3.5 0 1 0-7 0M7.048 8l1.62 17.817A3.5 3.5 0 0 0 12.152 29h7.694a3.5 3.5 0 0 0 3.486-3.183L24.953 8z"
+                                    />
+                                  </svg>
+                                </button>
+                              )}
+                            </div>
 
                             {/* Comments */}
                             <div className="mt-2 w-">
@@ -364,40 +454,39 @@ export default function SinglePost({
                               </p>
                             </div>
                           </div>
-
-                          {/* DELETE BUTTON */}
-                          <button
-                            disable={userId != c?.userId}
-                            className={`${
-                              userId != c?.userId &&
-                              "cursor-not-allowed bg-transparent hover:bg-transparent"
-                            } hover:bg-[#f1f1f1] text-[#eee] hover:text-[#8b0000] px-2 py-1.5 rounded`}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="18"
-                              height="18"
-                              viewBox="0 0 32 32"
-                              className=""
-                            >
-                              <path
-                                fill="currentColor"
-                                d="M14 12.5a.5.5 0 0 0-1 0v11a.5.5 0 0 0 1 0zm4.5-.5a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0v-11a.5.5 0 0 1 .5-.5m2-5.5V7h8a.5.5 0 0 1 0 1h-2.543l-1.628 17.907A4.5 4.5 0 0 1 19.847 30h-7.694a4.5 4.5 0 0 1-4.482-4.093L6.043 8H3.5a.5.5 0 0 1 0-1h8v-.5a4.5 4.5 0 1 1 9 0m-8 0V7h7v-.5a3.5 3.5 0 1 0-7 0M7.048 8l1.62 17.817A3.5 3.5 0 0 0 12.152 29h7.694a3.5 3.5 0 0 0 3.486-3.183L24.953 8z"
-                              />
-                            </svg>
-                          </button>
                         </div>
                       </div>
                     </div>
                   );
-                })}
-
-              {loading && (
-                <div className="flex items-center justify-center">
-                  <Spin />
+                })
+              ) : (
+                <div className="flex flex-col mt-[20px] justify-center items-center text-[16px] font-light text-gray-300">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="36"
+                    height="36"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="white"
+                      stroke="whtie"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M3.464 16.828C2 15.657 2 14.771 2 11s0-5.657 1.464-6.828C4.93 3 7.286 3 12 3s7.071 0 8.535 1.172S22 7.229 22 11s0 4.657-1.465 5.828C19.072 18 16.714 18 12 18c-2.51 0-3.8 1.738-6 3v-3.212c-1.094-.163-1.899-.45-2.536-.96"
+                    />
+                  </svg>
+                  No comments yet
                 </div>
               )}
             </div>
+
+            {loading && (
+              <div className="flex items-center justify-center my-[16px]">
+                <Spin />
+              </div>
+            )}
+
             {/* Comment box/form */}
             <div ref={cardRef} id="comment" className="w-[100%] relative">
               <form onSubmit={handleSubmit(commentSubmit)} className="">
@@ -415,7 +504,7 @@ export default function SinglePost({
                   type="submit"
                   className={`${
                     loading && "cursor-not-allowed bg-[#ddd] hover:bg-[#f1f1f1]"
-                  } bg-[#e0f7ff] px-[10px] py-[10px] rounded-md text-center text-white text-lg font-regular md:mt-6 mt-3 mb-2 md:mb-1 hover:bg-[#b3eeff] absolute bottom-[3px] md:bottom-[4px] right-2 md:right-2 transition`}
+                  } bg-[#e0f7ff] px-[4px] py-[3px] md:px-[8px] md:py-[7px] rounded-md text-center text-white text-lg font-regular md:mt-6 mt-3 mb-2 md:mb-1 hover:bg-[#b3eeff] absolute bottom-[3px] md:bottom-[4px] right-2 md:right-2 transition`}
                   disabled={loading}
                 >
                   <svg
@@ -441,7 +530,7 @@ export default function SinglePost({
           })()} */}
 
           {/* Left similar post suggestion */}
-          <div className="w-[30%] mt-[16px] px-[16px] ml-auto py-[20px] rounded-[16px] fixed right-[10%] bg-[#203a43] border border-[#2c5364] overflow-y-auto h-[80vh]">
+          <div className="w-[30%] hidden md:block mt-[16px] px-[16px] ml-auto py-[20px] rounded-[16px] fixed right-[10%] bg-[#203a43] border border-[#2c5364] overflow-y-auto h-[80vh]">
             <h2 className="text-[18px] font-semibold">You may also like it</h2>
             <ul className="list-inside mt-[16px]">
               <li>

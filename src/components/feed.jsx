@@ -15,6 +15,8 @@ import LeftSidebar from "./leftSidebar";
 import { useRouter } from "next/navigation";
 import SinglePost from "./singlePost";
 import timeAgo from "@/utilitis/timeAgoFunction";
+import handleFollowing from "@/utilitis/handleFollowing";
+// import handleFollowing from "@/utilitis/handleFollowing";
 
 export default function Feed() {
   const [createPostCard, setCreatePostCard] = useState(false);
@@ -38,6 +40,10 @@ export default function Feed() {
   const [selectedPost, setSelectedPost] = useState({});
   const [bottomSheet, setBottomSheet] = useState(false);
   const [error, setError] = useState("");
+  const [followingState, setFollowingState] = useState({
+    isloading: false,
+    state: "",
+  });
 
   const {
     register,
@@ -63,17 +69,20 @@ export default function Feed() {
    **
    */
   useEffect(() => {
-    fetch(`${SERVER_URL}/post/allpost`)
+    fetch(`${SERVER_URL}/post/allpost/${userId}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (data.status == 200) {
           console.log(posts);
           setPosts(data.data);
         }
       })
       .catch((err) => {
-        if (err.response) {
-          setError('Network error. please check your internet');
+        if (err) {
+          setError(
+            "Network error. please check your internet connection & try again"
+          );
         }
         console.log(err);
       });
@@ -85,150 +94,17 @@ export default function Feed() {
    **
    */
   useEffect(() => {
-    if (showSinglePost) {
+    if (showSinglePost || createPostCard) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
+    // return () => {
+    //   document.body.style.overflow = "auto";
+    // };
   }, [showSinglePost]);
 
   // console.log(posts);
-
-  /*
-   **
-   ** DELETE A SINGLE POST
-   **
-   */
-  const handleDeletePost = async () => {
-    // If userid and post id is available then hit the api
-    if (userId && postIdForMoreAction) {
-      await axios
-        .delete(
-          `${SERVER_URL}/post/deletePost/${userId}/${postIdForMoreAction}`,
-          {
-            headers: {
-              authorization: "Bearer " + cookies.Token,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          setReload(!reload);
-        });
-    }
-  };
-
-  /*
-   **
-   ** CREATE A NEW COMMENT
-   **
-   */
-  const createComment = async (d) => {
-    const data = {
-      comment: d.comment,
-      postId: postId,
-      userId: userId,
-    };
-
-    /*
-     **
-     ** IF COMMENT FIELD HAS VALUE THEN HIT THE API
-     **
-     */
-    if (d.comment) {
-      await axios
-        .patch(`${SERVER_URL}/post/createComment`, data, {
-          headers: {
-            authorization: "Bearer " + cookies.Token,
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          console.log(res.status);
-          setReload(!reload);
-
-          // PUSH NOTIFICATION FOR COMMENT
-          (async () => {
-            if (res.data.status == "200") {
-              // PUSH A NEW NOTIFICATION
-              await axios
-                .patch(
-                  `${SERVER_URL}/user/notification`,
-                  {
-                    userId,
-                    postId,
-                    type: "comment",
-                  },
-                  {
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                  }
-                )
-                .then((res) => {
-                  // console.log(res);
-                });
-            }
-          })();
-        });
-    }
-    reset();
-  };
-
-  /*
-   **
-   ** DELETE A SINGLE COMENT
-   **
-   */
-  const handleCommentDelete = async (postid, commentId) => {
-    if (userId) {
-      await axios
-        .delete(
-          `${SERVER_URL}/post/deleteComment/${userId}/${commentId}/${postid}`,
-          {
-            headers: {
-              authorization: "Bearer " + cookies.Token,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          setReload(!reload);
-        });
-    }
-  };
-
-  /*
-   **
-   ** A COMMON FUNCTION FOR ALL GENERAL EVENT HANDLER
-   ** OR TOGGLE SHOW HIDE ALL INTERACTION CARD/BUTTONS
-   ** FOLLOWING DRY PRINCIPLE
-   ** THIS FUNCTION EXPECT 6 PARAMETER
-   ** 1. ID- THIS MAYBE A POSTID OR COMMENT ID.
-   ** 2. IDSETTER- THIS IS A SETTER FUNCTION OR REACT STATE SETTER FUNCITON. THIS SETTER FUNCTION SET THE ID WHICH THE 1. PARAMETER ID RECIEVED.
-   ** 3. THIS IS ANOTHER ID- (OPTIONAL), FOR THOSE EVENT WHICH NEED TWO ID. FOR EXAMPLE, COMMENT OPERATION WE NEED 2 ID'S ONE ID FOR SPECIFIC POST AND ANOTHER ONE FOR COMMENT.
-   ** 4. ANOTHER ID SETTER- (OPTIONAL), IF 3. OR ANOTHER ID IS PRESENT THEN SET THE ID INTO THIS STATE SETTER FUNCTION
-   ** 5. STATE- THIS IS FOR GETTING THE CURRENT STATE OF THE CLICKED OR SELECTED CARD/BUTTON ETC.
-   ** 6. STATE SETTER FUNCTION- THIS TOGGLE (SET TRUE/FALSE) THE STATE WHICH ONE HAD CLICKED CARD/BUTTON
-   **
-   **
-   */
-
-  const handlerCommonFunction = (
-    id,
-    idSetter,
-    anotherId = "",
-    anotherIdSetter,
-    state,
-    stateSetter
-  ) => {
-    anotherIdSetter != "" && anotherIdSetter(anotherId);
-    idSetter(id);
-    stateSetter(!state);
-  };
 
   /*
    **
@@ -300,35 +176,96 @@ export default function Feed() {
       });
   };
 
-  const handlePostLike = (postId) => {
-    console.log(postId);
-  };
+  // TOGLE FOLLOW
+  // const handleFollowing = async (targetFollowId) => {
+  //   setFollowingState({ isloading: true, state: "" });
+  //   console.log(posts);
 
-  /*
-   **
-   ** HANDLE COMMENT LIKE
-   **
-   */
-  const handleCommentLikeSubmit = async (postId, commentId) => {
-    const data = {
-      likeType: "Like",
-      postId: postId,
-      userId: userId,
-      commentId: commentId,
-    };
+  //   setPosts((prevPost) =>
+  //     prevPost?.map((post) => {
+  //       if (post.user.id = targetFollowId) {
+  //         return  {
+  //               ...post,
+  //               user: {
+  //                 ...post?.user,
+  //                 isFollowing: !post?.user?.isFollowing,
+  //               },
+  //             }
+  //       }
+  //       return post
+  //     }
+  //     )
+  //   )
 
-    if (commentId) {
-      await axios
-        .patch(`${SERVER_URL}/post/comment-likes`, data, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          setReload(!reload);
-        });
-    }
-  };
+  //   // SERVER/API OPERATION
+  //   await axios
+  //     .patch(
+  //       `${SERVER_URL}/user/toggle-follow`,
+  //       { userId, targetFollowId },
+  //       {
+  //         headers: {
+  //           authorization: "Bearer " + cookies.Token,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       console.log(res);
+  //       if (res.data.status == 200) {
+  //         // setPosts((prevPost) =>
+  //         //   prevPost?.map((post) => {
+  //         //     if ((post.user.id = targetFollowId)) {
+  //         //       return {
+  //         //         ...post,
+  //         //         user: {
+  //         //           ...post?.user,
+  //         //           isFollowing: !post?.user?.isFollowing,
+  //         //         },
+  //         //       };
+  //         //     }
+  //         //     return post;
+  //         //   })
+  //         // );
+  //         // setPosts((prevPost) =>
+  //         //   prevPost?.map((post) =>
+  //         //     post?.user?.id == targetFollowId
+  //         //       ? {
+  //         //           ...post,
+  //         //           user: {
+  //         //             ...post?.user,
+  //         //             isFollowing: !post?.user?.isFollowing,
+  //         //           },
+  //         //         }
+  //         //       : post
+  //         //   )
+  //         // );
+  //         console.log("res", res.data);
+  //         if (res?.data?.message?.includes('Followed')) {
+  //           setFollowingState({ isloading: false, state: "following" })
+  //         } else if (res?.data?.message.includes("Unfollowed")) {
+  //           setFollowingState({ isloading: false, state: "unfollow" });
+  //         }
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log("error", err);
+  //       // REVERT UI IF FAIL
+  //       setPosts((prevPost) =>
+  //         prevPost?.map((post) => {
+  //           if ((post.user.id = targetFollowId)) {
+  //             return {
+  //               ...post,
+  //               user: {
+  //                 ...post?.user,
+  //                 isFollowing: !post?.user?.isFollowing,
+  //               },
+  //             };
+  //           }
+  //           return post;
+  //         })
+  //       );
+  //     });
+  // };
 
   return (
     <div className="relative">
@@ -355,10 +292,6 @@ export default function Feed() {
             >
               {/* Feed left navbar */}
               <LeftSidebar />
-              {/* 
-        <div className="mb-8 mt-8 flex justify-center col-span-1">
-          <hr className="w-[.2px] min-h-[80vh] text-[#f4f4f9] bg-[#f4f4f9]" />
-        </div> */}
 
               {/* Main feed */}
               <div
@@ -370,6 +303,7 @@ export default function Feed() {
                 {posts?.map((post) => {
                   const liked = post?.likes?.includes(userId);
                   const likeCount = post?.likes?.length || 0;
+                  const isFollowed = post?.user?.isfollowing;
                   return (
                     <div
                       key={post?.id}
@@ -402,20 +336,65 @@ export default function Feed() {
 
                         {/* Top right- follow & more btn */}
                         <div className="flex ga-3 md:gap-6 items-center justify-center ml-2">
-                          <div className="w-[100px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition pl-1">
-                            <span className="pl-1 text-center">Follow</span>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
+                          {/* FOLLOWING WITH TOGGLE */}
+                          {userId !== post?.userId && (
+                            <div
+                              onClick={() => {
+                                handleFollowing(
+                                  userId,
+                                  post?.userId,
+                                  cookies.Token,
+                                  followingState,
+                                  setFollowingState
+                                );
+                              }}
                             >
-                              <path
-                                fill="currentColor"
-                                d="M5 13v-1h6V6h1v6h6v1h-6v6h-1v-6z"
-                              />
-                            </svg>
-                          </div>
+                              {post?.user?.isfollowing ||
+                              followingState.state == "following" ? (
+                                <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                                  {followingState.isloading ? (
+                                    <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="28"
+                                        height="28"
+                                        viewBox="0 0 256 256"
+                                      >
+                                        <path
+                                          fill="currentColor"
+                                          d="M140 128a12 12 0 1 1-12-12a12 12 0 0 1 12 12m56-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m-136 0a12 12 0 1 0 12 12a12 12 0 0 0-12-12"
+                                        />
+                                      </svg>
+                                    </span>
+                                  ) : (
+                                    "Following"
+                                  )}
+                                </span>
+                              ) : (
+                                <span className="">
+                                  {followingState.isloading ? (
+                                    <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="28"
+                                        height="28"
+                                        viewBox="0 0 256 256"
+                                      >
+                                        <path
+                                          fill="currentColor"
+                                          d="M140 128a12 12 0 1 1-12-12a12 12 0 0 1 12 12m56-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m-136 0a12 12 0 1 0 12 12a12 12 0 0 0-12-12"
+                                        />
+                                      </svg>
+                                    </span>
+                                  ) : (
+                                    <span className="w-[92px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition text-center">
+                                      Follow
+                                    </span>
+                                  )}
+                                </span>
+                              )}
+                            </div>
+                          )}
 
                           {/* More icon */}
                           <div className="cursor-pointer hover:bg-[#0f2027] h-[36px] w-[36px] rounded-lg flex items-center justify-center hover:opacity-90 transition">
@@ -446,32 +425,9 @@ export default function Feed() {
                               }}
                               className="text-[21px] font-regular line-clamp-1 cursor-pointer hover:text-[#00CFFF] transition capitalize"
                             >
-                              {/* onClick={() => {
-                              setShowSinglePost(!showSinglePost),
-                                   setSelectedPost(post)
-                                }} */}
                               {post?.postTitle}
                               {/* Single post component */}
-
-                              {/* {post?.postTitle.split(/\s+/).slice(0,8).join(' ')}
-                      {post?.postTitle.split(/\s+/).length >8 && '...'} */}
                             </h2>
-
-                            {/* Post category tag */}
-                            {/* <div
-                      className={`${
-                        post?.postCategory == "Post" &&
-                        "bg-[#00CFFF] text-[white]"
-                      } ${
-                        post?.postCategory == "Article" &&
-                        "bg-[#8E56F7] text-white "
-                      } ${
-                        post?.postCategory == "News" &&
-                        "bg-[#FF7A7A] text-white"
-                      }  w-[52px] px-2 py-1 h-[28px] text-[12px] bg-[#00CFFF] text-[white] rounded-[24px] flex mt-[4px] items-center text-center justify-center mb-[8px]`}
-                    >
-                      {post?.postCategory ? post?.postCategory : "Post"}
-                    </div> */}
 
                             <p className="md:mt-[24px] mt-[12px] text-[16px] font-light text-[#ddd] line-clamp-4">
                               {post?.postContent}
@@ -572,7 +528,7 @@ export default function Feed() {
                                 d="M3.464 16.828C2 15.657 2 14.771 2 11s0-5.657 1.464-6.828C4.93 3 7.286 3 12 3s7.071 0 8.535 1.172S22 7.229 22 11s0 4.657-1.465 5.828C19.072 18 16.714 18 12 18c-2.51 0-3.8 1.738-6 3v-3.212c-1.094-.163-1.899-.45-2.536-.96"
                               />
                             </svg>
-                            {post?.comments.length > 0 && (
+                            {post?.comments?.length > 0 && (
                               <span
                                 style={{
                                   display: "inline-block",
@@ -580,7 +536,7 @@ export default function Feed() {
                                 }}
                                 className="text-[16px] font-extralight pt-[2px] transition-all ease-out duration-300 transform"
                               >
-                                {post?.comments.length}
+                                {post?.comments?.length}
                               </span>
                             )}
                           </div>
@@ -612,7 +568,20 @@ export default function Feed() {
             </div>
           ) : (
             <div className="md:mt-[160px] mt-[80px]">
-              {error ? error :  <FeedSkeleton />}
+              {error ? (
+                <div className="flex items-center justify-center mt-[200px] text-white gap-2">
+                  {error}
+
+                  <button
+                    className="underline text-blue-400"
+                    onClick={() => window.location.reload()}
+                  >
+                    Reload
+                  </button>
+                </div>
+              ) : (
+                <FeedSkeleton />
+              )}
             </div>
           )}
           {/* <FeedSkeleton /> */}
@@ -640,6 +609,8 @@ export default function Feed() {
             setPosts={setPosts}
             bottomSheet={bottomSheet}
             setBottomSheet={setBottomSheet}
+            followingState={followingState}
+            setFollowingState={setFollowingState}
           />
         </div>
       )}
