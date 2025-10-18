@@ -39,7 +39,7 @@ export default function Feed() {
   const [selectedPost, setSelectedPost] = useState({});
   const [bottomSheet, setBottomSheet] = useState(false);
   const [error, setError] = useState("");
-  const [followingState, setFollowingState] = useState(false)
+  const [followingState, setFollowingState] = useState({isloading: false, state: ''})
 
   const {
     register,
@@ -90,14 +90,14 @@ export default function Feed() {
    **
    */
   useEffect(() => {
-    if (showSinglePost) {
+    if (showSinglePost || createPostCard) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
+    // return () => {
+    //   document.body.style.overflow = "auto";
+    // };
   }, [showSinglePost]);
 
   // console.log(posts);
@@ -174,6 +174,7 @@ export default function Feed() {
 
   // TOGLE FOLLOW
   const handleFollowing = async (targetFollowId) => {
+    setFollowingState({ isloading: true, state: "" });
     console.log(posts);
     // IMMEDIATE UI CHANGE FOR BETTER UX
     // setPosts((prevPosts) => {
@@ -250,6 +251,11 @@ export default function Feed() {
           //   )
           // );
           console.log("res", res.data);
+          if (res?.data?.message?.includes('Followed')) {
+            setFollowingState({ isloading: false, state: "following" })
+          } else if (res?.data?.message.includes("Unfollowed")) {
+            setFollowingState({ isloading: false, state: "unfollow" });
+          }
         }
       })
       .catch((err) => {
@@ -347,13 +353,48 @@ export default function Feed() {
                                 handleFollowing(post?.userId);
                               }}
                             >
-                              {post?.user?.isfollowing ? (
-                                <span className="text-center text-[#00CFFF] cursor-pointer">
-                                  Following
+                              {post?.user?.isfollowing ||
+                              followingState.state == "following" ? (
+                                <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                                  {followingState.isloading ? (
+                                    <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="28"
+                                        height="28"
+                                        viewBox="0 0 256 256"
+                                      >
+                                        <path
+                                          fill="currentColor"
+                                          d="M140 128a12 12 0 1 1-12-12a12 12 0 0 1 12 12m56-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m-136 0a12 12 0 1 0 12 12a12 12 0 0 0-12-12"
+                                        />
+                                      </svg>
+                                    </span>
+                                  ) : (
+                                    "Following"
+                                  )}
                                 </span>
                               ) : (
-                                <span className="w-[92px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition text-center">
-                                  Follow
+                                <span className="">
+                                  {followingState.isloading ? (
+                                    <span className="text-center text-[#00CFFF] cursor-pointer text-[16px] flex items-center">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="28"
+                                        height="28"
+                                        viewBox="0 0 256 256"
+                                      >
+                                        <path
+                                          fill="currentColor"
+                                          d="M140 128a12 12 0 1 1-12-12a12 12 0 0 1 12 12m56-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m-136 0a12 12 0 1 0 12 12a12 12 0 0 0-12-12"
+                                        />
+                                      </svg>
+                                    </span>
+                                  ) : (
+                                    <span className="w-[92px] h-[36px] bg-[#00CFFF] rounded-full text-white text-center flex gap-1 md:gap-2 items-center justify-center cursor-pointer hover:opacity-90 transition text-center">
+                                      Follow
+                                    </span>
+                                  )}
                                 </span>
                               )}
                             </div>
@@ -388,32 +429,9 @@ export default function Feed() {
                               }}
                               className="text-[21px] font-regular line-clamp-1 cursor-pointer hover:text-[#00CFFF] transition capitalize"
                             >
-                              {/* onClick={() => {
-                              setShowSinglePost(!showSinglePost),
-                                   setSelectedPost(post)
-                                }} */}
                               {post?.postTitle}
                               {/* Single post component */}
-
-                              {/* {post?.postTitle.split(/\s+/).slice(0,8).join(' ')}
-                      {post?.postTitle.split(/\s+/).length >8 && '...'} */}
                             </h2>
-
-                            {/* Post category tag */}
-                            {/* <div
-                      className={`${
-                        post?.postCategory == "Post" &&
-                        "bg-[#00CFFF] text-[white]"
-                      } ${
-                        post?.postCategory == "Article" &&
-                        "bg-[#8E56F7] text-white "
-                      } ${
-                        post?.postCategory == "News" &&
-                        "bg-[#FF7A7A] text-white"
-                      }  w-[52px] px-2 py-1 h-[28px] text-[12px] bg-[#00CFFF] text-[white] rounded-[24px] flex mt-[4px] items-center text-center justify-center mb-[8px]`}
-                    >
-                      {post?.postCategory ? post?.postCategory : "Post"}
-                    </div> */}
 
                             <p className="md:mt-[24px] mt-[12px] text-[16px] font-light text-[#ddd] line-clamp-4">
                               {post?.postContent}

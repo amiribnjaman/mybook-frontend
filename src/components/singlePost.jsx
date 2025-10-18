@@ -390,6 +390,7 @@ export default function SinglePost({
                             {/* Comments */}
                             <div className="mt-2 w-">
                               <p className="text-[14px] font-light text-[#ddd]">
+                                
                                 {c.comment}
                               </p>
                             </div>

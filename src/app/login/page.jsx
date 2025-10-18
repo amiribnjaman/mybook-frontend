@@ -138,7 +138,7 @@ export default function LoginPage() {
                     </h1>
                   </div>
 
-                  <div className="md:mt-[24px] mb-6 py-3 w-[100%] md:w-[460px]">
+                  <div className="md:mt-[20px] mb-6 py-3 w-[100%] md:w-[460px]">
                     <div className="">
                       <form
                         onSubmit={handleSubmit(loginSubmit)}

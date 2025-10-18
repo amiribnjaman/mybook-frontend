@@ -133,8 +133,8 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
           <div className="relative hidden md:flex items-center gap-1 w-[340px] h-[40px] bg-[#F4F4F9] rounded-full px-4 focus:border-[#00CFFF] focus:ring-1 focus:ring-[#00CFFF]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="26"
-              height="26"
+              width="24"
+              height="24"
               viewBox="0 0 24 24"
               className="asbolute z-10 text-[#666A71]"
             >
