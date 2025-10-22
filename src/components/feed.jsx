@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import SinglePost from "./singlePost";
 import timeAgo from "@/utilitis/timeAgoFunction";
 import handleFollowing from "@/utilitis/handleFollowing";
+import ChatCard from "./chatCard";
 // import handleFollowing from "@/utilitis/handleFollowing";
 
 export default function Feed() {
@@ -40,6 +41,7 @@ export default function Feed() {
   const [selectedPost, setSelectedPost] = useState({});
   const [bottomSheet, setBottomSheet] = useState(false);
   const [error, setError] = useState("");
+  const [showChatCard, setShowChatCard] = useState(false)
   const [followingState, setFollowingState] = useState({
     isloading: false,
     state: "",
@@ -275,14 +277,12 @@ export default function Feed() {
             <TopNav
               createPostCard={createPostCard}
               setCreatePostCard={setCreatePostCard}
+              showChatCard={showChatCard}
+              setShowChatCard={setShowChatCard}
             />
           </div>
-          {/* <hr className="w-[95%] mx-auto mt-[16px] mb-[20px] h-[.5px] text-[#203A43] bg-[#203A43]" /> */}
-          {/* <div className="pt-[120px] mb-8 mt-8 flex justify-center">
-        <hr className="w-[95%] min-h-[.5px] text-[#203A43] bg-[#203A43]" />
-      </div> */}
-          {/* feed */}
 
+          {/*==============FEED POSTS SHOWING=============== */}
           {posts?.length > 0 ? (
             <div
               className={`${
@@ -587,7 +587,17 @@ export default function Feed() {
           {/* <FeedSkeleton /> */}
         </div>
 
-        {/* CREATE POST CARD */}
+        {/*================TOGGLE MESSAGE/CHAT CARD==================*/}
+        {showChatCard && (
+          <div className="fixed bottom-4 right-8">
+            <ChatCard
+              showChatCard={showChatCard}
+              setShowChatCard={setShowChatCard} 
+              />
+          </div>
+        )}
+
+        {/*================TOGGLE CREATE POST CARD==================*/}
         {createPostCard && (
           <CreatePostCard
             setReload={setReload}
@@ -598,7 +608,7 @@ export default function Feed() {
         )}
       </div>
 
-      {/* SHOW SINGLE POST CARD */}
+      {/*====================SHOW SINGLE POST CARD================*/}
       {showSinglePost && (
         <div className="w-[100%] inset-0 bg-gradient-to-b from-[#2c5364] via-[#203a43] to-[#0f2027] fixed top-0 z-[100] min-h-screen overflow-y-auto">
           <SinglePost

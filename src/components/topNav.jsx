@@ -14,7 +14,7 @@ const exo = Exo_2({
   subsets: ["latin"],
 });
 
-export default function TopNav({ createPostCard, setCreatePostCard }) {
+export default function TopNav({ createPostCard, setCreatePostCard, showChatCard, setShowChatCard }) {
   const [showLogout, setShowLogout] = useState(false);
   const navigate = useRouter();
   const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
@@ -174,13 +174,14 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
 
         {/* USER OPTIONS */}
         <div
-          onClick={() => setShowLogout(!showLogout)}
+          
           className="flex relative  gap-[12px] md:gap-[28px] items-center justify-center cursor-pointer"
         >
+          {/* NOTIFICATION */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="26"
+            height="26"
             viewBox="0 0 24 24"
             className="text-white cursor-pointer hover:opacity-90 transition"
           >
@@ -193,11 +194,14 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
               d="M15.5 18a3.5 3.5 0 1 1-7 0m10.731 0H4.77a1.769 1.769 0 0 1-1.25-3.02l.602-.603A3 3 0 0 0 5 12.256V9.5a7 7 0 0 1 14 0v2.756a3 3 0 0 0 .879 2.121l.603.603a1.77 1.77 0 0 1-1.25 3.02"
             />
           </svg>
+
+          {/* CHAT */}
           <svg
+            onClick={()=> setShowChatCard(!showChatCard)}
             className="text-white cursor-pointer hover:opacity-90 transition"
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="26"
+            height="26"
             viewBox="0 0 24 24"
           >
             <path
@@ -210,7 +214,7 @@ export default function TopNav({ createPostCard, setCreatePostCard }) {
             />
           </svg>
 
-          <div className=" h-[36px] md:h-[40px] bg-white rounded-full flex items-center justify-center gap-[10px] px-1 md:px-0 md:pl-[4px] md:pr-3">
+          <div onClick={() => setShowLogout(!showLogout)} className=" h-[36px] md:h-[40px] bg-white rounded-full flex items-center justify-center gap-[10px] px-1 md:px-0 md:pl-[4px] md:pr-3">
             <div className="md:w-[32px] md:h-[32px] w-[28px] h-[28px] bg-[#f1f1f1] rounded-full">
               {userImg && (
                 <img
